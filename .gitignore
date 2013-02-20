@@ -10,6 +10,7 @@
 bin/
 lib/
 so/
+build/
 src/ptypes_test
 src/ptypesn_test
 wshare/wshare
@@ -32,3 +33,8 @@ Thumbs.db
 *.iso
 *.tar
 *.zip
+
+# IDE generated stuff #
+#######################
+PTypes.xcodeproj/project.xcworkspace
+PTypes.xcodeproj/xcuserdata/
