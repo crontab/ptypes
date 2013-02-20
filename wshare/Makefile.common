@@ -7,7 +7,7 @@
 
 DDEBUG      = -DDEBUG
 INCDIR      = ../include
-CXXOPTS     = $(OS_CXXOPTS) $(DDEBUG) -I$(INCDIR) -O2
+CXXOPTS     = $(OS_CXXOPTS) $(DDEBUG) -I$(INCDIR) -O2 -Werror
 LDLIBS      = $(OS_LDLIBS)
 
 BINDEST     = ../bin

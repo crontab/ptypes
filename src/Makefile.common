@@ -10,7 +10,7 @@ RANLIB          = ranlib
 
 DDEBUG          = -DDEBUG
 INCDIR          = ../include
-CXXOPTS         = $(OS_CXXOPTS) $(DDEBUG) -I$(INCDIR) -O2
+CXXOPTS         = $(OS_CXXOPTS) $(DDEBUG) -I$(INCDIR) -O2 -Werror
 LDLIBS          = $(OS_LDLIBS)
 
 CXXOPTS_ST      = -DPTYPES_ST $(OS_CXXOPTS_ST) $(DDEBUG) -I$(INCDIR) -O2
