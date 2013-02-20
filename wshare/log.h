@@ -3,8 +3,8 @@
 #define W_LOG_H
 
 
-#include <ptypes.h>
-#include <pinet.h>
+#include "ptypes.h"
+#include "pinet.h"
 
 
 USING_PTYPES

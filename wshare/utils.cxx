@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <ptypes.h>
-#include <ptime.h>
+#include "ptypes.h"
+#include "ptime.h"
 
 #include "config.h"
 #include "sysutils.h"

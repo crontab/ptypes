@@ -4,8 +4,8 @@
 #define W_URLUTILS_H
 
 
-#include <pport.h>
-#include <ptypes.h>
+#include "pport.h"
+#include "ptypes.h"
 
 
 USING_PTYPES

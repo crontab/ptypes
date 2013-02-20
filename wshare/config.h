@@ -3,7 +3,7 @@
 #define W_CONFIG_H
 
 
-#include <ptypes.h>
+#include "ptypes.h"
 
 
 USING_PTYPES

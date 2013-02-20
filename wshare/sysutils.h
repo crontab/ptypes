@@ -7,9 +7,9 @@
 #  include <unistd.h>
 #endif
 
-#include <pport.h>
-#include <ptypes.h>
-#include <ptime.h>
+#include "pport.h"
+#include "ptypes.h"
+#include "ptime.h"
 
 
 USING_PTYPES

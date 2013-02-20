@@ -1,8 +1,8 @@
 
 #include <stdlib.h>
 
-#include <ptypes.h>
-#include <pinet.h>
+#include "ptypes.h"
+#include "pinet.h"
 
 #include "urlutils.h"
 

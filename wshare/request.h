@@ -4,9 +4,9 @@
 #define W_REQUEST_H
 
 
-#include <ptypes.h>
-#include <pstreams.h>
-#include <pinet.h>
+#include "ptypes.h"
+#include "pstreams.h"
+#include "pinet.h"
 
 #include "sysutils.h"
 #include "urlutils.h"

@@ -7,8 +7,8 @@
 #  include <syslog.h>
 #endif
 
-#include <ptime.h>
-#include <pasync.h>
+#include "ptime.h"
+#include "pasync.h"
 
 #include "config.h"
 #include "log.h"

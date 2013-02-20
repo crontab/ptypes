@@ -19,7 +19,7 @@
 #  include <grp.h>
 #endif
 
-#include <pport.h>
+#include "pport.h"
 
 #include "sysutils.h"
 #include "utils.h"

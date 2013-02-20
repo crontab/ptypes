@@ -3,9 +3,9 @@
 #ifndef W_UTILS_H
 #define W_UTILS_H
 
-#include <ptypes.h>
-#include <pstreams.h>
-#include <ptime.h>
+#include "ptypes.h"
+#include "pstreams.h"
+#include "ptime.h"
 
 
 #ifndef W_SYSUTILS_H
