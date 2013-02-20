@@ -309,10 +309,12 @@ void iobase::doclose()
 void iobase::set_active(bool newval) 
 {
     if (newval != active)
+    {
         if (newval)
             open();
         else
             close();
+    }
 }
 
 

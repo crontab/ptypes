@@ -254,8 +254,8 @@ typedef outstm* poutstm;
 
 
 // %t and %T formats
-ptpublic extern char* shorttimefmt;  // "%d-%b-%Y %X"
-ptpublic extern char* longtimefmt;   // "%a %b %d %X %Y"
+ptpublic extern const char* shorttimefmt;  // "%d-%b-%Y %X"
+ptpublic extern const char* longtimefmt;   // "%a %b %d %X %Y"
 
 
 //

@@ -18,8 +18,8 @@ PTYPES_BEGIN
 
 
 // %t and %T formats
-char* shorttimefmt = "%d-%b-%Y %X";
-char* longtimefmt = "%a %b %d %X %Y";
+const char* shorttimefmt = "%d-%b-%Y %X";
+const char* longtimefmt = "%a %b %d %X %Y";
 
 
 static cset fmtopts = " #+~-0-9.";
@@ -221,7 +221,7 @@ void outstm::vputf(const char* fmt, va_list va)
         case FMT_TIME:
         case FMT_LONGTIME:
             {
-                char* fmt = fmt_type == FMT_TIME ? shorttimefmt : longtimefmt;
+                const char* fmt = fmt_type == FMT_TIME ? shorttimefmt : longtimefmt;
                 struct tm t;
                 datetime dt = va_arg(va,large);
                 if (dt < 0)

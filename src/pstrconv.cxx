@@ -38,7 +38,7 @@ static char* _itobase(large value, char* buf, int base, int& len, bool _signed)
         if (large(v) < 0)   // the LLONG_MIN negated results in the same value
         {
             len = 20;
-            return "-9223372036854775808";
+            return (pchar)"-9223372036854775808";
         }
         neg = true;
     }
