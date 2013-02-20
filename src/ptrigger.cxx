@@ -15,7 +15,7 @@ PTYPES_BEGIN
 
 static void trig_fail()
 {
-    fatal(CRIT_FIRST + 41, "Trigger failed");
+	fatal(CRIT_FIRST + 41, "Trigger failed");
 }
 
 
@@ -25,9 +25,9 @@ static void trig_fail()
 
 trigger::trigger(bool autoreset, bool state)
 {
-    handle = CreateEvent(0, !autoreset, state, 0);
-    if (handle == 0)
-        trig_fail();
+	handle = CreateEvent(0, !autoreset, state, 0);
+	if (handle == 0)
+		trig_fail();
 }
 
 
@@ -36,52 +36,52 @@ trigger::trigger(bool autoreset, bool state)
 
 inline void trig_syscheck(int r)
 {
-    if (r != 0)
-        trig_fail();
+	if (r != 0)
+		trig_fail();
 }
 
 
 trigger::trigger(bool iautoreset, bool istate)
-    : state(int(istate)), autoreset(iautoreset)
+	: state(int(istate)), autoreset(iautoreset)
 {
-    trig_syscheck(pthread_mutex_init(&mtx, 0));
-    trig_syscheck(pthread_cond_init(&cond, 0));
+	trig_syscheck(pthread_mutex_init(&mtx, 0));
+	trig_syscheck(pthread_cond_init(&cond, 0));
 }
 
 
 trigger::~trigger()
 {
-    pthread_cond_destroy(&cond);
-    pthread_mutex_destroy(&mtx);
+	pthread_cond_destroy(&cond);
+	pthread_mutex_destroy(&mtx);
 }
 
 
 void trigger::wait()
 {
-    pthread_mutex_lock(&mtx);
-    while (state == 0)
-        pthread_cond_wait(&cond, &mtx);
-    if (autoreset)
+	pthread_mutex_lock(&mtx);
+	while (state == 0)
+		pthread_cond_wait(&cond, &mtx);
+	if (autoreset)
 	state = 0;
-    pthread_mutex_unlock(&mtx);
+	pthread_mutex_unlock(&mtx);
 } 
 
 
 void trigger::post()
 {
-    pthread_mutex_lock(&mtx);
-    state = 1;
-    if (autoreset)
-        pthread_cond_signal(&cond);
-    else
-        pthread_cond_broadcast(&cond);
-    pthread_mutex_unlock(&mtx);
+	pthread_mutex_lock(&mtx);
+	state = 1;
+	if (autoreset)
+		pthread_cond_signal(&cond);
+	else
+		pthread_cond_broadcast(&cond);
+	pthread_mutex_unlock(&mtx);
 }
 
 
 void trigger::reset()
 {
-    state = 0;
+	state = 0;
 }
 
 

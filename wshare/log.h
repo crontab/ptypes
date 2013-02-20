@@ -13,8 +13,8 @@ USING_PTYPES
 enum log_severity_t {SYSLOG_FATAL, SYSLOG_ERROR, SYSLOG_WARNING, SYSLOG_INFO};
 
 
-extern compref<logfile> htlog;     // perr by default
-extern compref<logfile> errlog;    // perr, until daemonized
+extern compref<logfile> htlog;	   // perr by default
+extern compref<logfile> errlog;	   // perr, until daemonized
 
 
 void log_init();

@@ -13,11 +13,11 @@
 #  include <time.h>
 #endif
 
-#include <stdio.h>  // for snprintf
+#include <stdio.h>	// for snprintf
 
 #include "pinet.h"
 #ifndef PTYPES_ST
-#  include "pasync.h"   // for mutex
+#  include "pasync.h"	// for mutex
 #endif
 
 
@@ -31,15 +31,15 @@ PTYPES_BEGIN
 #  define USE_GETHOSTBY
 #else
 #  if defined(WIN32) || defined(__hpux)
-#    define USE_GETHOSTBY
+#	 define USE_GETHOSTBY
 #  elif defined(__FreeBSD__) || defined(__DARWIN__)
-#    define USE_GETIPNODEBY
+#	 define USE_GETIPNODEBY
 #  elif defined(linux)
-#    define USE_GETHOSTBY_R6
+#	 define USE_GETHOSTBY_R6
 #  elif defined(__NetBSD__) || defined(__OpenBSD__) || defined(__CYGWIN__)
-#    define USE_LOCKED_GETHOSTBY
-#  else  // hopefully the Sun-style call will work on all other systems as well
-#    define USE_GETHOSTBY_R5
+#	 define USE_LOCKED_GETHOSTBY
+#  else	 // hopefully the Sun-style call will work on all other systems as well
+#	 define USE_GETHOSTBY_R5
 #  endif
 #endif
 
@@ -59,31 +59,31 @@ PTYPES_BEGIN
 static class _sock_init
 {
 public:
-    _sock_init();
-    ~_sock_init();
+	_sock_init();
+	~_sock_init();
 } _init;
 
 
 _sock_init::_sock_init()
 {
-    WORD wVersionRequested;
-    WSADATA wsaData;
-    int err;
+	WORD wVersionRequested;
+	WSADATA wsaData;
+	int err;
 
-    wVersionRequested = MAKEWORD(2, 0);
+	wVersionRequested = MAKEWORD(2, 0);
 
-    err = WSAStartup(wVersionRequested, &wsaData);
-    if ( err != 0 )
-        fatal(CRIT_FIRST + 50, "WinSock initialization failure");
+	err = WSAStartup(wVersionRequested, &wsaData);
+	if ( err != 0 )
+		fatal(CRIT_FIRST + 50, "WinSock initialization failure");
 
-    if ( LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 0 )
-        fatal(CRIT_FIRST + 51, "WinSock version mismatch (2.0 or compatible required)");
+	if ( LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 0 )
+		fatal(CRIT_FIRST + 51, "WinSock version mismatch (2.0 or compatible required)");
 }
 
 
 _sock_init::~_sock_init()
 {
-    WSACleanup();
+	WSACleanup();
 }
 
 #endif
@@ -102,10 +102,10 @@ ipaddress ipbcast = INADDR_BROADCAST;
 
 ipaddress::ipaddress(int a, int b, int c, int d)
 {
-    data[0] = uchar(a);
-    data[1] = uchar(b);
-    data[2] = uchar(c);
-    data[3] = uchar(d);
+	data[0] = uchar(a);
+	data[1] = uchar(b);
+	data[2] = uchar(c);
+	data[3] = uchar(d);
 }
 
 
@@ -115,67 +115,67 @@ ipaddress::ipaddress(int a, int b, int c, int d)
 
 
 ippeerinfo::ippeerinfo()
-    : ip(ipnone), host(), port(0)
+	: ip(ipnone), host(), port(0)
 {
 }
 
 
 ippeerinfo::ippeerinfo(ipaddress iip, const string& ihost, int iport)
-    : ip(iip), host(ihost), port(iport)
+	: ip(iip), host(ihost), port(iport)
 {
 }
 
 
 ipaddress ippeerinfo::get_ip()
 {
-    if (ip == ipnone && !isempty(host))
-    {
-        ip = ulong(phostbyname(host));
-        if (ip == ipnone)
-            notfound();
-    }
-    return ip;
+	if (ip == ipnone && !isempty(host))
+	{
+		ip = ulong(phostbyname(host));
+		if (ip == ipnone)
+			notfound();
+	}
+	return ip;
 }
 
 
 string ippeerinfo::get_host()
 {
-    if (!isempty(host))
-        return host;
+	if (!isempty(host))
+		return host;
 
-    if (ip == ipnone || ip == ipany || ip == ipbcast)
-        return nullstring;
+	if (ip == ipnone || ip == ipany || ip == ipbcast)
+		return nullstring;
 
-    host = phostbyaddr(ip);
-    if (isempty(host))
-        notfound();
+	host = phostbyaddr(ip);
+	if (isempty(host))
+		notfound();
 
-    return host;
+	return host;
 }
 
 
 void ippeerinfo::clear()
 {
-    ip = ipnone;
-    PTYPES_NAMESPACE::clear(host);
-    port = 0;
+	ip = ipnone;
+	PTYPES_NAMESPACE::clear(host);
+	port = 0;
 }
 
 
 string ippeerinfo::asstring(bool showport) const
 {
-    string t;
-    if (!isempty(host))
-        t = host;
-    else if (ip == ipany)
-        t = '*';
-    else if (ip == ipnone)
-        t = '-';
-    else
-        t = iptostring(ip);
-    if (showport && port != 0)
-        t += ':' + itostring(port);
-    return t;
+	string t;
+	if (!isempty(host))
+		t = host;
+	else if (ip == ipany)
+		t = '*';
+	else if (ip == ipnone)
+		t = '-';
+	else
+		t = iptostring(ip);
+	if (showport && port != 0)
+		t += ':' + itostring(port);
+	return t;
 }
 
 
@@ -186,47 +186,47 @@ string ippeerinfo::asstring(bool showport) const
 int ptdecl usockerrno()
 {
 #ifdef WIN32
-    return WSAGetLastError();
+	return WSAGetLastError();
 #else
-    return errno;
+	return errno;
 #endif
 }
 
 
 const char* ptdecl usockerrmsg(int code)
 {
-    switch(code)
-    {
-    // only minimal set of most frequent/expressive errors; others go as "I/O error"
-    case ENOTSOCK:          return "Invalid socket descriptor";
-    case EMSGSIZE:          return "Message too long";
-    case ENOPROTOOPT:
-    case EPROTONOSUPPORT:
-    case EPFNOSUPPORT:
-    case EAFNOSUPPORT:      return "Protocol or address family not supported";
-    case EADDRINUSE:        return "Address already in use";
-    case EADDRNOTAVAIL:     return "Address not available";
-    case ENETDOWN:          return "Network is down";
-    case ENETUNREACH:       return "Network is unreachable";
-    case ECONNRESET:        return "Connection reset by peer";
-    case ETIMEDOUT:         return "Operation timed out";
-    case ECONNREFUSED:      return "Connection refused";
-    case EHOSTDOWN:         return "Host is down";
-    case EHOSTUNREACH:      return "No route to host";
+	switch(code)
+	{
+	// only minimal set of most frequent/expressive errors; others go as "I/O error"
+	case ENOTSOCK:			return "Invalid socket descriptor";
+	case EMSGSIZE:			return "Message too long";
+	case ENOPROTOOPT:
+	case EPROTONOSUPPORT:
+	case EPFNOSUPPORT:
+	case EAFNOSUPPORT:		return "Protocol or address family not supported";
+	case EADDRINUSE:		return "Address already in use";
+	case EADDRNOTAVAIL:		return "Address not available";
+	case ENETDOWN:			return "Network is down";
+	case ENETUNREACH:		return "Network is unreachable";
+	case ECONNRESET:		return "Connection reset by peer";
+	case ETIMEDOUT:			return "Operation timed out";
+	case ECONNREFUSED:		return "Connection refused";
+	case EHOSTDOWN:			return "Host is down";
+	case EHOSTUNREACH:		return "No route to host";
 
-    // we always translate h_errno to ENOENT and simply show "host not found"
-    case ENOENT:            return "Host not found";
-    default: return unixerrmsg(code);
-    }
+	// we always translate h_errno to ENOENT and simply show "host not found"
+	case ENOENT:			return "Host not found";
+	default: return unixerrmsg(code);
+	}
 }
 
 
 string ptdecl iptostring(ipaddress ip)
 {
-    char buf[16];
-    snprintf(buf, sizeof(buf), "%d.%d.%d.%d",
-        uint(ip[0]), uint(ip[1]), uint(ip[2]), uint(ip[3]));
-    return string(buf);
+	char buf[16];
+	snprintf(buf, sizeof(buf), "%d.%d.%d.%d",
+		uint(ip[0]), uint(ip[1]), uint(ip[2]), uint(ip[3]));
+	return string(buf);
 }
 
 
@@ -237,124 +237,124 @@ static mutex hplock;
 
 ipaddress ptdecl phostbyname(const char* name)
 {
-    ipaddress ip;
-    hostent* hp;
+	ipaddress ip;
+	hostent* hp;
 
-    if ((ip = ::inet_addr(name)) != ipnone)
-    {
-        if (ip[3] == 0) // network address?
-            return ipnone;
-    }
-    else
-    {
+	if ((ip = ::inet_addr(name)) != ipnone)
+	{
+		if (ip[3] == 0) // network address?
+			return ipnone;
+	}
+	else
+	{
 #if defined(USE_GETHOSTBY)
-        if ((hp = ::gethostbyname(name)) != nil)
+		if ((hp = ::gethostbyname(name)) != nil)
 #elif defined(USE_LOCKED_GETHOSTBY)
-        hplock.enter();
-        if ((hp = ::gethostbyname(name)) != nil)
+		hplock.enter();
+		if ((hp = ::gethostbyname(name)) != nil)
 #elif defined(USE_GETIPNODEBY)
-        int herrno;
-        if ((hp = ::getipnodebyname(name, AF_INET, 0, &herrno)) != nil)
+		int herrno;
+		if ((hp = ::getipnodebyname(name, AF_INET, 0, &herrno)) != nil)
 #elif defined(USE_GETHOSTBY_R6)
-        int herrno;
-        hostent result;
-        char buf[GETHOSTBY_BUF_SIZE];
-        if ((::gethostbyname_r(name, &result, buf, sizeof(buf), &hp, &herrno) == 0) && hp)
+		int herrno;
+		hostent result;
+		char buf[GETHOSTBY_BUF_SIZE];
+		if ((::gethostbyname_r(name, &result, buf, sizeof(buf), &hp, &herrno) == 0) && hp)
 #elif defined(USE_GETHOSTBY_R5)
-        int herrno;
-        hostent result;
-        char buf[GETHOSTBY_BUF_SIZE];
-        if ((hp = ::gethostbyname_r(name, &result, buf, sizeof(buf), &herrno)) != nil)
+		int herrno;
+		hostent result;
+		char buf[GETHOSTBY_BUF_SIZE];
+		if ((hp = ::gethostbyname_r(name, &result, buf, sizeof(buf), &herrno)) != nil)
 #endif
-        {
-            if (hp->h_addrtype == AF_INET)
-                memcpy(ip.data, hp->h_addr, sizeof(ip.data));
+		{
+			if (hp->h_addrtype == AF_INET)
+				memcpy(ip.data, hp->h_addr, sizeof(ip.data));
 #ifdef USE_GETIPNODEBY
-            freehostent(hp);
+			freehostent(hp);
 #endif
-        }
+		}
 #if defined(USE_LOCKED_GETHOSTBY)
-        hplock.leave();
+		hplock.leave();
 #endif
-    }
+	}
 
-    return ip;
+	return ip;
 }
 
 
 string ptdecl phostbyaddr(ipaddress ip)
 {
-    hostent* hp;
-    string r;
+	hostent* hp;
+	string r;
 
 #if defined(USE_GETHOSTBY)
-    if ((hp = ::gethostbyaddr(pconst(ip.data), sizeof(ip.data), AF_INET)) != nil)
+	if ((hp = ::gethostbyaddr(pconst(ip.data), sizeof(ip.data), AF_INET)) != nil)
 #elif defined(USE_LOCKED_GETHOSTBY)
-    hplock.enter();
-    if ((hp = ::gethostbyaddr(pconst(ip.data), sizeof(ip.data), AF_INET)) != nil)
+	hplock.enter();
+	if ((hp = ::gethostbyaddr(pconst(ip.data), sizeof(ip.data), AF_INET)) != nil)
 #elif defined(USE_GETIPNODEBY)
-    int herrno;
-    if ((hp = ::getipnodebyaddr(pconst(ip.data), sizeof(ip.data), AF_INET, &herrno)) != nil)
+	int herrno;
+	if ((hp = ::getipnodebyaddr(pconst(ip.data), sizeof(ip.data), AF_INET, &herrno)) != nil)
 #elif defined(USE_GETHOSTBY_R6)
-    int herrno;
-    hostent result;
-    char buf[GETHOSTBY_BUF_SIZE];
-    if ((::gethostbyaddr_r(pconst(ip.data), sizeof(ip.data), AF_INET, &result, buf, sizeof(buf), &hp, &herrno) == 0) && hp)
+	int herrno;
+	hostent result;
+	char buf[GETHOSTBY_BUF_SIZE];
+	if ((::gethostbyaddr_r(pconst(ip.data), sizeof(ip.data), AF_INET, &result, buf, sizeof(buf), &hp, &herrno) == 0) && hp)
 #elif defined(USE_GETHOSTBY_R5)
-    int herrno;
-    hostent result;
-    char buf[GETHOSTBY_BUF_SIZE];
-    if ((hp = ::gethostbyaddr_r(pconst(ip.data), sizeof(ip.data), AF_INET, &result, buf, sizeof(buf), &herrno)) != nil)
+	int herrno;
+	hostent result;
+	char buf[GETHOSTBY_BUF_SIZE];
+	if ((hp = ::gethostbyaddr_r(pconst(ip.data), sizeof(ip.data), AF_INET, &result, buf, sizeof(buf), &herrno)) != nil)
 #endif
-    {
-        r = hp->h_name;
+	{
+		r = hp->h_name;
 #ifdef USE_GETIPNODEBY
-        freehostent(hp);
+		freehostent(hp);
 #endif
-    }
+	}
 #if defined(USE_LOCKED_GETHOSTBY)
-    hplock.leave();
+	hplock.leave();
 #endif
 
-    return r;
+	return r;
 }
 
 
 string ptdecl phostcname(const char* name)
 {
-    hostent* hp;
-    string r;
+	hostent* hp;
+	string r;
 
 #if defined(USE_GETHOSTBY)
-    if ((hp = ::gethostbyname(name)) != nil)
+	if ((hp = ::gethostbyname(name)) != nil)
 #elif defined(USE_LOCKED_GETHOSTBY)
-    hplock.enter();
-    if ((hp = ::gethostbyname(name)) != nil)
+	hplock.enter();
+	if ((hp = ::gethostbyname(name)) != nil)
 #elif defined(USE_GETIPNODEBY)
-    int herrno;
-    if ((hp = ::getipnodebyname(name, AF_INET, 0, &herrno)) != nil)
+	int herrno;
+	if ((hp = ::getipnodebyname(name, AF_INET, 0, &herrno)) != nil)
 #elif defined(USE_GETHOSTBY_R6)
-    int herrno;
-    hostent result;
-    char buf[GETHOSTBY_BUF_SIZE];
-    if ((::gethostbyname_r(name, &result, buf, sizeof(buf), &hp, &herrno) == 0) && hp)
+	int herrno;
+	hostent result;
+	char buf[GETHOSTBY_BUF_SIZE];
+	if ((::gethostbyname_r(name, &result, buf, sizeof(buf), &hp, &herrno) == 0) && hp)
 #elif defined(USE_GETHOSTBY_R5)
-    int herrno;
-    hostent result;
-    char buf[GETHOSTBY_BUF_SIZE];
-    if ((hp = ::gethostbyname_r(name, &result, buf, sizeof(buf), &herrno)) != nil)
+	int herrno;
+	hostent result;
+	char buf[GETHOSTBY_BUF_SIZE];
+	if ((hp = ::gethostbyname_r(name, &result, buf, sizeof(buf), &herrno)) != nil)
 #endif
-    {
-        r = hp->h_name;
+	{
+		r = hp->h_name;
 #ifdef USE_GETIPNODEBY
-        freehostent(hp);
+		freehostent(hp);
 #endif
-    }
+	}
 #if defined(USE_LOCKED_GETHOSTBY)
-    hplock.leave();
+	hplock.leave();
 #endif
 
-    return r;
+	return r;
 }
 
 
@@ -364,30 +364,30 @@ bool ptdecl psockwait(int handle, int timeout)
 // disable "condition always true" warning caused by Microsoft's FD_SET macro
 #  pragma warning (disable: 4127)
 #endif
-    if (handle < 0)
-        return false;
-    fd_set readfds;
-    FD_ZERO(&readfds);
-    FD_SET((uint)handle, &readfds);
-    timeval t;
-    t.tv_sec = timeout / 1000;
-    t.tv_usec = (timeout % 1000) * 1000;
-    return ::select(FD_SETSIZE, &readfds, nil, nil, (timeout < 0) ? nil : &t) > 0;
+	if (handle < 0)
+		return false;
+	fd_set readfds;
+	FD_ZERO(&readfds);
+	FD_SET((uint)handle, &readfds);
+	timeval t;
+	t.tv_sec = timeout / 1000;
+	t.tv_usec = (timeout % 1000) * 1000;
+	return ::select(FD_SETSIZE, &readfds, nil, nil, (timeout < 0) ? nil : &t) > 0;
 }
 
 
 bool ptdecl psockname(int handle, ippeerinfo& p)
 {
-    sockaddr_in sa;
-    memset(&sa, 0, sizeof(sa));
-    psocklen addrlen = sizeof(sa);
-    if (getsockname(handle, (sockaddr*)&sa, &addrlen) != 0)
-        return false;
-    if (sa.sin_family != AF_INET)
-        return false;
-    p.ip = sa.sin_addr.s_addr;
-    p.port = ntohs(sa.sin_port);
-    return true;
+	sockaddr_in sa;
+	memset(&sa, 0, sizeof(sa));
+	psocklen addrlen = sizeof(sa);
+	if (getsockname(handle, (sockaddr*)&sa, &addrlen) != 0)
+		return false;
+	if (sa.sin_family != AF_INET)
+		return false;
+	p.ip = sa.sin_addr.s_addr;
+	p.port = ntohs(sa.sin_port);
+	return true;
 }
 
 
@@ -398,8 +398,8 @@ bool ptdecl psockname(int handle, ippeerinfo& p)
 
 void ippeerinfo::notfound()
 {
-    string t = usockerrmsg(ENOENT);
-    throw new estream(nil, ENOENT, t + " [" + asstring(false) + ']');
+	string t = usockerrmsg(ENOENT);
+	throw new estream(nil, ENOENT, t + " [" + asstring(false) + ']');
 }
 
 

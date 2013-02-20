@@ -4,7 +4,7 @@
 #endif
 
 #include "ptypes.h"
-#include "pasync.h"     // for pmemlock*
+#include "pasync.h"		// for pmemlock*
 
 
 PTYPES_BEGIN
@@ -16,29 +16,29 @@ PTYPES_BEGIN
 
 int __PFASTCALL pexchange(int* target, int value)
 {
-    int r = *target;
-    *target = value;
-    return r;
+	int r = *target;
+	*target = value;
+	return r;
 }
 
 
 void* __PFASTCALL pexchange(void** target, void* value)
 {
-    void* r = *target;
-    *target = value;
-    return r;
+	void* r = *target;
+	*target = value;
+	return r;
 }
 
 
 int __PFASTCALL pincrement(int* target)
 {
-    return ++(*target);
+	return ++(*target);
 }
 
 
 int __PFASTCALL pdecrement(int* target)
 {
-    return --(*target);
+	return --(*target);
 }
 
 
@@ -80,59 +80,59 @@ int __PFASTCALL pdecrement(int* target)
 
 int __PFASTCALL pincrement(int*)
 {
-    __asm
-    {
+	__asm
+	{
 #ifdef BCC_i386
-        mov         ecx,eax
+		mov			ecx,eax
 #endif
-        mov         eax,1;
-        lock xadd   [ecx],eax;
-        inc         eax
-    }
+		mov			eax,1;
+		lock xadd	[ecx],eax;
+		inc			eax
+	}
 }
 
 
 int __PFASTCALL pdecrement(int*)
 {
-    __asm
-    {
+	__asm
+	{
 #ifdef BCC_i386
-        mov         ecx,eax
+		mov			ecx,eax
 #endif
-        mov         eax,-1;
-        lock xadd   [ecx],eax;
-        dec         eax
-    }
+		mov			eax,-1;
+		lock xadd	[ecx],eax;
+		dec			eax
+	}
 }
 
 
 int __PFASTCALL pexchange(int*, int)
 {
-    __asm
-    {
+	__asm
+	{
 #ifdef BCC_i386
-        xchg        eax,edx;
-        lock xchg   eax,[edx];
+		xchg		eax,edx;
+		lock xchg	eax,[edx];
 #else
-        mov         eax,edx;
-        lock xchg   eax,[ecx];
+		mov			eax,edx;
+		lock xchg	eax,[ecx];
 #endif
-    }
+	}
 }
 
 
 void* __PFASTCALL pexchange(void**, void*)
 {
-    __asm
-    {
+	__asm
+	{
 #ifdef BCC_i386
-        xchg        eax,edx;
-        lock xchg   eax,[edx];
+		xchg		eax,edx;
+		lock xchg	eax,[edx];
 #else
-        mov         eax,edx;
-        lock xchg   eax,[ecx];
+		mov			eax,edx;
+		lock xchg	eax,[ecx];
 #endif
-    }
+	}
 }
 
 
@@ -144,31 +144,31 @@ void* __PFASTCALL pexchange(void**, void*)
 
 int pexchange(int* target, int value)
 {
-    __asm__ __volatile ("lock ; xchgl (%1),%0" : "+r" (value) : "r" (target));
-    return value;
+	__asm__ __volatile ("lock ; xchgl (%1),%0" : "+r" (value) : "r" (target));
+	return value;
 }
 
 
 void* pexchange(void** target, void* value)
 {
-    __asm__ __volatile ("lock ; xchgl (%1),%0" : "+r" (value) : "r" (target));
-    return value;
+	__asm__ __volatile ("lock ; xchgl (%1),%0" : "+r" (value) : "r" (target));
+	return value;
 }
 
 
 int pincrement(int* target)
 {
-    int temp = 1;
-    __asm__ __volatile ("lock ; xaddl %0,(%1)" : "+r" (temp) : "r" (target));
-    return temp + 1;
+	int temp = 1;
+	__asm__ __volatile ("lock ; xaddl %0,(%1)" : "+r" (temp) : "r" (target));
+	return temp + 1;
 }
 
 
 int pdecrement(int* target)
 {
-    int temp = -1;
-    __asm__ __volatile ("lock ; xaddl %0,(%1)" : "+r" (temp) : "r" (target));
-    return temp - 1;
+	int temp = -1;
+	__asm__ __volatile ("lock ; xaddl %0,(%1)" : "+r" (temp) : "r" (target));
+	return temp - 1;
 }
 
 
@@ -180,8 +180,8 @@ int pdecrement(int* target)
 
 int pexchange(int* target, int value)
 {
-    int temp;
-    __asm__ __volatile (
+	int temp;
+	__asm__ __volatile (
 "1: lwarx  %0,0,%1\n\
 	stwcx. %2,0,%1\n\
 	bne-   1b\n\
@@ -190,14 +190,14 @@ int pexchange(int* target, int value)
 	: "r" (target), "r" (value)
 	: "cc", "memory"
 	);
-    return temp;
+	return temp;
 }
 
 
 void* pexchange(void** target, void* value)
 {
-    void* temp;
-    __asm__ __volatile (
+	void* temp;
+	__asm__ __volatile (
 "1: lwarx  %0,0,%1\n\
 	stwcx. %2,0,%1\n\
 	bne-   1b\n\
@@ -206,14 +206,14 @@ void* pexchange(void** target, void* value)
 	: "r" (target), "r" (value)
 	: "cc", "memory"
 	);
-    return temp;
+	return temp;
 }
 
 
 int pincrement(int* target)
 {
-    int temp;
-    __asm__ __volatile (
+	int temp;
+	__asm__ __volatile (
 "1: lwarx  %0,0,%1\n\
 	addic  %0,%0,1\n\
 	stwcx. %0,0,%1\n\
@@ -223,14 +223,14 @@ int pincrement(int* target)
 	: "r" (target)
 	: "cc", "memory"
 	);
-    return temp;
+	return temp;
 }
 
 
 int pdecrement(int* target)
 {
-    int temp;
-    __asm__ __volatile (
+	int temp;
+	__asm__ __volatile (
 "1: lwarx  %0,0,%1\n\
 	addic  %0,%0,-1\n\
 	stwcx. %0,0,%1\n\
@@ -240,7 +240,7 @@ int pdecrement(int* target)
 	: "r" (target)
 	: "cc", "memory"
 	);
-    return temp;
+	return temp;
 }
 
 
@@ -253,36 +253,36 @@ int pdecrement(int* target)
 // assembly routines defined in patomic.sparc.s
 // we currently don't use CAS in the library, but let it be there
 extern "C" {
-    int __patomic_add(volatile int* __mem, int __val);
-    int __patomic_swap(volatile int* __mem, int __val);
-    int __patomic_cas(volatile int* __mem, int __expected, int __newval);
+	int __patomic_add(volatile int* __mem, int __val);
+	int __patomic_swap(volatile int* __mem, int __val);
+	int __patomic_cas(volatile int* __mem, int __expected, int __newval);
 }
 
 #define __patomic_swap_p(mem,val) \
-    (void*)(__patomic_swap((int*)(mem), (int)(val)))
+	(void*)(__patomic_swap((int*)(mem), (int)(val)))
 
 
 int pexchange(int* target, int value)
 {
-    return __patomic_swap(target, value);
+	return __patomic_swap(target, value);
 }
 
 
 void* pexchange(void** target, void* value)
 {
-    return __patomic_swap_p(target, value);
+	return __patomic_swap_p(target, value);
 }
 
 
 int pincrement(int* target)
 {
-    return __patomic_add(target, 1);
+	return __patomic_add(target, 1);
 }
 
 
 int pdecrement(int* target)
 {
-    return __patomic_add(target, -1);
+	return __patomic_add(target, -1);
 }
 
 
@@ -296,43 +296,43 @@ int pdecrement(int* target)
 
 int pexchange(int* target, int value)
 {
-    pmemlock* m = pgetmemlock(target);
-    pmementer(m);
-    int r = *target;
-    *target = value;
-    pmemleave(m);
-    return r;
+	pmemlock* m = pgetmemlock(target);
+	pmementer(m);
+	int r = *target;
+	*target = value;
+	pmemleave(m);
+	return r;
 }
 
 
 void* pexchange(void** target, void* value)
 {
-    pmemlock* m = pgetmemlock(target);
-    pmementer(m);
-    void* r = *target;
-    *target = value;
-    pmemleave(m);
-    return r;
+	pmemlock* m = pgetmemlock(target);
+	pmementer(m);
+	void* r = *target;
+	*target = value;
+	pmemleave(m);
+	return r;
 }
 
 
 int pincrement(int* target)
 {
-    pmemlock* m = pgetmemlock(target);
-    pmementer(m);
-    int r = ++(*target);
-    pmemleave(m);
-    return r;
+	pmemlock* m = pgetmemlock(target);
+	pmementer(m);
+	int r = ++(*target);
+	pmemleave(m);
+	return r;
 }
 
 
 int pdecrement(int* target)
 {
-    pmemlock* m = pgetmemlock(target);
-    pmementer(m);
-    int r = --(*target);
-    pmemleave(m);
-    return r;
+	pmemlock* m = pgetmemlock(target);
+	pmementer(m);
+	int r = --(*target);
+	pmemleave(m);
+	return r;
 }
 
 #endif

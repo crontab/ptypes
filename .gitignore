@@ -13,6 +13,7 @@ so/
 build/
 src/ptypes_test
 src/ptypesn_test
+src/stmtest.txt
 wshare/wshare
 
 # OS generated waste #

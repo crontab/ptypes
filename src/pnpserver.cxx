@@ -16,25 +16,25 @@ PTYPES_BEGIN
 
 
 npserver::npserver(const string& ipipename)
-    : pipename(), handle(invhandle), active(false)
+	: pipename(), handle(invhandle), active(false)
 {
-    pipename = namedpipe::realpipename(ipipename);
+	pipename = namedpipe::realpipename(ipipename);
 }
 
 
 npserver::~npserver()
 {
-    close();
+	close();
 }
 
 
 void npserver::error(int code, const char* defmsg)
 {
-    string msg = unixerrmsg(code);
-    if (isempty(msg))
-        msg = defmsg;
-    msg += " [" + pipename + ']';
-    throw new estream(nil, code, msg);
+	string msg = unixerrmsg(code);
+	if (isempty(msg))
+		msg = defmsg;
+	msg += " [" + pipename + ']';
+	throw new estream(nil, code, msg);
 }
 
 
@@ -42,28 +42,28 @@ void npserver::error(int code, const char* defmsg)
 
 void npserver::openinst()
 {
-    // called once at startup and then again, after 
-    // each client connection. strange logic, to say the least...
-    SECURITY_ATTRIBUTES sa;
-    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-    sa.lpSecurityDescriptor = NULL;
-    sa.bInheritHandle = TRUE;
+	// called once at startup and then again, after 
+	// each client connection. strange logic, to say the least...
+	SECURITY_ATTRIBUTES sa;
+	sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+	sa.lpSecurityDescriptor = NULL;
+	sa.bInheritHandle = TRUE;
 
-    handle = (int)CreateNamedPipe(pipename, 
-        PIPE_ACCESS_DUPLEX | FILE_FLAG_OVERLAPPED,
-        PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
-        PIPE_UNLIMITED_INSTANCES, 
-        DEF_PIPE_SYSTEM_BUF_SIZE, DEF_PIPE_SYSTEM_BUF_SIZE,
-        DEF_PIPE_TIMEOUT, &sa);
-    
-    if (handle == invhandle)
-        error(unixerrno(), "Couldn't create");
+	handle = (int)CreateNamedPipe(pipename, 
+		PIPE_ACCESS_DUPLEX | FILE_FLAG_OVERLAPPED,
+		PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
+		PIPE_UNLIMITED_INSTANCES, 
+		DEF_PIPE_SYSTEM_BUF_SIZE, DEF_PIPE_SYSTEM_BUF_SIZE,
+		DEF_PIPE_TIMEOUT, &sa);
+	
+	if (handle == invhandle)
+		error(unixerrno(), "Couldn't create");
 }
 
 
 void npserver::closeinst()
 {
-    CloseHandle(HANDLE(pexchange(&handle, invhandle)));
+	CloseHandle(HANDLE(pexchange(&handle, invhandle)));
 }
 
 #endif
@@ -71,102 +71,102 @@ void npserver::closeinst()
 
 void npserver::open()
 {
-    close();
+	close();
 
 #ifdef WIN32
 
-    openinst();
+	openinst();
 
 #else
 
-    sockaddr_un sa;
-    if (!namedpipe::setupsockaddr(pipename, &sa))
-        error(ERANGE, "Socket name too long");
+	sockaddr_un sa;
+	if (!namedpipe::setupsockaddr(pipename, &sa))
+		error(ERANGE, "Socket name too long");
 
-    if ((handle = ::socket(sa.sun_family, SOCK_STREAM, 0)) < 0)
-        error(unixerrno(), "Couldn't create local socket");
+	if ((handle = ::socket(sa.sun_family, SOCK_STREAM, 0)) < 0)
+		error(unixerrno(), "Couldn't create local socket");
 
-    unlink(pipename);
-    if (::bind(handle, (sockaddr*)&sa, sizeof(sa)) != 0)
-        error(unixerrno(), "Couldn't bind local socket");
-    
-    if (::listen(handle, SOMAXCONN) != 0)
-        error(unixerrno(), "Couldn't listen on local socket");
+	unlink(pipename);
+	if (::bind(handle, (sockaddr*)&sa, sizeof(sa)) != 0)
+		error(unixerrno(), "Couldn't bind local socket");
+	
+	if (::listen(handle, SOMAXCONN) != 0)
+		error(unixerrno(), "Couldn't listen on local socket");
 
 #endif
 
-    active = true;
+	active = true;
 }
 
 
 void npserver::close()
 {
-    if (active)
-    {
-        active = false;
+	if (active)
+	{
+		active = false;
 #ifdef WIN32
-        closeinst();
+		closeinst();
 #else
-        ::close(pexchange(&handle, invhandle));
-        unlink(pipename);
+		::close(pexchange(&handle, invhandle));
+		unlink(pipename);
 #endif
-    }
+	}
 }
 
 
 bool npserver::serve(namedpipe& client, int timeout)
 {
-    if (!active)
-        open();
+	if (!active)
+		open();
 
-    client.cancel();
+	client.cancel();
 
 #ifdef WIN32
 
-    client.ovr.Offset = 0;
-    client.ovr.OffsetHigh = 0;
-    bool result = ConnectNamedPipe(HANDLE(handle), &client.ovr) ?
-        true : (GetLastError() == ERROR_PIPE_CONNECTED);
+	client.ovr.Offset = 0;
+	client.ovr.OffsetHigh = 0;
+	bool result = ConnectNamedPipe(HANDLE(handle), &client.ovr) ?
+		true : (GetLastError() == ERROR_PIPE_CONNECTED);
 
-    if (!result && GetLastError() == ERROR_IO_PENDING)
-    {
-        if (WaitForSingleObject(client.ovr.hEvent, timeout) == WAIT_TIMEOUT)
-            return false;
-        unsigned long ret;
-        if (!GetOverlappedResult(HANDLE(handle), &client.ovr, &ret, false))
-            error(unixerrno(), "Couldn't read");
-        result = true;
-    }
+	if (!result && GetLastError() == ERROR_IO_PENDING)
+	{
+		if (WaitForSingleObject(client.ovr.hEvent, timeout) == WAIT_TIMEOUT)
+			return false;
+		unsigned long ret;
+		if (!GetOverlappedResult(HANDLE(handle), &client.ovr, &ret, false))
+			error(unixerrno(), "Couldn't read");
+		result = true;
+	}
 
-    if (result)
-    {
-        client.svhandle = handle;
-        client.pipename = pipename;
-        openinst();
-        client.open();
-        return true;
-    }
-    else
-        error(unixerrno(), "Couldn't connect to client");
+	if (result)
+	{
+		client.svhandle = handle;
+		client.pipename = pipename;
+		openinst();
+		client.open();
+		return true;
+	}
+	else
+		error(unixerrno(), "Couldn't connect to client");
 
-    return false;
+	return false;
 
 #else
 
-    fd_set set;
-    FD_ZERO(&set);
-    FD_SET((uint)handle, &set);
-    timeval t;
-    t.tv_sec = timeout / 1000;
-    t.tv_usec = (timeout % 1000) * 1000;
-    if (::select(FD_SETSIZE, &set, nil, nil, (timeout < 0) ? nil : &t) > 0)
-    {
-        client.svhandle = handle;
-        client.pipename = pipename;
-        client.open();
-        return true;
-    }
-    return false;
+	fd_set set;
+	FD_ZERO(&set);
+	FD_SET((uint)handle, &set);
+	timeval t;
+	t.tv_sec = timeout / 1000;
+	t.tv_usec = (timeout % 1000) * 1000;
+	if (::select(FD_SETSIZE, &set, nil, nil, (timeout < 0) ? nil : &t) > 0)
+	{
+		client.svhandle = handle;
+		client.pipename = pipename;
+		client.open();
+		return true;
+	}
+	return false;
 
 #endif
 }

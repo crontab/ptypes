@@ -13,14 +13,14 @@ PTYPES_BEGIN
 
 static void rwlock_fail()
 {
-    fatal(CRIT_FIRST + 41, "rwlock failed");
+	fatal(CRIT_FIRST + 41, "rwlock failed");
 }
 
 
 inline void rwlock_syscheck(int r)
 {
-    if (r != 0)
-        rwlock_fail();
+	if (r != 0)
+		rwlock_fail();
 }
 
 
@@ -37,54 +37,54 @@ inline void rwlock_syscheck(int r)
 // 
 
 rwlock::rwlock()
-    : mutex(), readcnt(-1), writecnt(0)
+	: mutex(), readcnt(-1), writecnt(0)
 {
-    reading = CreateEvent(0, true, false, 0);
-    finished = CreateEvent(0, false, true, 0);
-    if (reading == 0 || finished == 0)
-        rwlock_fail();
+	reading = CreateEvent(0, true, false, 0);
+	finished = CreateEvent(0, false, true, 0);
+	if (reading == 0 || finished == 0)
+		rwlock_fail();
 }
 
 
 rwlock::~rwlock()
 {
-    CloseHandle(reading);
-    CloseHandle(finished);
+	CloseHandle(reading);
+	CloseHandle(finished);
 }
 
 
 void rwlock::rdlock()
 {
-    if (pincrement(&readcnt) == 0) 
-    {
-        WaitForSingleObject(finished, INFINITE);
-        SetEvent(reading);
-    }
-    WaitForSingleObject(reading, INFINITE);
+	if (pincrement(&readcnt) == 0)
+	{
+		WaitForSingleObject(finished, INFINITE);
+		SetEvent(reading);
+	}
+	WaitForSingleObject(reading, INFINITE);
 }
 
 
 void rwlock::wrlock()
 {
-    mutex::enter();
-    WaitForSingleObject(finished, INFINITE);
-    writecnt++;
+	mutex::enter();
+	WaitForSingleObject(finished, INFINITE);
+	writecnt++;
 }
 
 
 void rwlock::unlock()
 {
-    if (writecnt != 0) 
-    {
-        writecnt--;
-        SetEvent(finished);
-        mutex::leave();
-    } 
-    else if (pdecrement(&readcnt) < 0) 
-    {
-        ResetEvent(reading);
-        SetEvent(finished);
-    } 
+	if (writecnt != 0)
+	{
+		writecnt--;
+		SetEvent(finished);
+		mutex::leave();
+	} 
+	else if (pdecrement(&readcnt) < 0)
+	{
+		ResetEvent(reading);
+		SetEvent(finished);
+	} 
 }
 
 
@@ -99,68 +99,68 @@ void rwlock::unlock()
 
 
 rwlock::rwlock()
-    : locks(0), writers(0), readers(0)
+	: locks(0), writers(0), readers(0)
 {
-    rwlock_syscheck(pthread_mutex_init(&mtx, 0));
-    rwlock_syscheck(pthread_cond_init(&readcond, 0));
-    rwlock_syscheck(pthread_cond_init(&writecond, 0));
+	rwlock_syscheck(pthread_mutex_init(&mtx, 0));
+	rwlock_syscheck(pthread_cond_init(&readcond, 0));
+	rwlock_syscheck(pthread_cond_init(&writecond, 0));
 }
 
 
 rwlock::~rwlock()
 {
-    pthread_cond_destroy(&writecond);
-    pthread_cond_destroy(&readcond);
-    pthread_mutex_destroy(&mtx);
+	pthread_cond_destroy(&writecond);
+	pthread_cond_destroy(&readcond);
+	pthread_mutex_destroy(&mtx);
 }
 
 
 void rwlock::rdlock()
 {
-    pthread_mutex_lock(&mtx);
-    readers++;
-    while (locks < 0)
-        pthread_cond_wait(&readcond, &mtx);
-    readers--;
-    locks++;
-    pthread_mutex_unlock(&mtx);
+	pthread_mutex_lock(&mtx);
+	readers++;
+	while (locks < 0)
+		pthread_cond_wait(&readcond, &mtx);
+	readers--;
+	locks++;
+	pthread_mutex_unlock(&mtx);
 }
 
 
 void rwlock::wrlock()
 {
-    pthread_mutex_lock(&mtx);
-    writers++;
-    while (locks != 0)
-        pthread_cond_wait(&writecond, &mtx);
-    locks = -1;
-    writers--;
-    pthread_mutex_unlock(&mtx);
+	pthread_mutex_lock(&mtx);
+	writers++;
+	while (locks != 0)
+		pthread_cond_wait(&writecond, &mtx);
+	locks = -1;
+	writers--;
+	pthread_mutex_unlock(&mtx);
 }
 
 
 void rwlock::unlock()
 {
-    pthread_mutex_lock(&mtx);
-    if (locks > 0)
-    {
-        locks--;
-        if (locks == 0)
-            pthread_cond_signal(&writecond);
-    }
-    else
-    {
-        locks = 0;
-        if (readers != 0)
-            pthread_cond_broadcast(&readcond);
-        else
-            pthread_cond_signal(&writecond);
-    }
-    pthread_mutex_unlock(&mtx);
+	pthread_mutex_lock(&mtx);
+	if (locks > 0)
+	{
+		locks--;
+		if (locks == 0)
+			pthread_cond_signal(&writecond);
+	}
+	else
+	{
+		locks = 0;
+		if (readers != 0)
+			pthread_cond_broadcast(&readcond);
+		else
+			pthread_cond_signal(&writecond);
+	}
+	pthread_mutex_unlock(&mtx);
 }
 
 
-#  endif    // !defined(WIN32)
+#  endif	// !defined(WIN32)
 
 
 #else	// !defined(__PTYPES_RWLOCK__)
@@ -172,7 +172,7 @@ void rwlock::unlock()
 
 rwlock::rwlock()
 {
-    rwlock_syscheck(pthread_rwlock_init(&rw, 0));
+	rwlock_syscheck(pthread_rwlock_init(&rw, 0));
 }
 
 

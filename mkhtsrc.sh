@@ -8,12 +8,12 @@
 
 webcpp=`which webcpp`
 if [ ! -x "$webcpp" ] ; then
-    echo
-    echo "**************************************************************"
-    echo "*** ERROR: webcpp does not exist, can't build html sources ***"
-    echo "**************************************************************"
-    echo
-    exit 2
+	echo
+	echo "**************************************************************"
+	echo "*** ERROR: webcpp does not exist, can't build html sources ***"
+	echo "**************************************************************"
+	echo
+	exit 2
 fi
 
 htsrc="doc"
@@ -29,16 +29,16 @@ webcpp_scheme="/usr/local/share/webcpp/ide-msvcpp.Scs2"
 # webcpp_scheme="ide-msvcpp.Scs2"
 
 for i in $htlist ; do
-    src="$i"
-    dest="$htsrc/$i.html"
-    temp="$dest".tmp
-    webcpp $src - -c="$webcpp_scheme" \
+	src="$i"
+	dest="$htsrc/$i.html"
+	temp="$dest".tmp
+	webcpp $src - -c="$webcpp_scheme" \
 	| sed "$sedprg1;$sedprg2;$sedprg3;$sedprg4" > "$temp"
-    diff "$dest" "$temp" > /dev/null
+	diff "$dest" "$temp" > /dev/null
 	if [ "$?" != "0" ] ; then
-        cp "$temp" "$dest"
-        echo "$src > $dest"
-    fi
-    rm "$temp"
+		cp "$temp" "$dest"
+		echo "$src > $dest"
+	fi
+	rm "$temp"
 done
 

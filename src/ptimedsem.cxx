@@ -15,7 +15,7 @@ PTYPES_BEGIN
 
 static void tsem_fail()
 {
-    fatal(CRIT_FIRST + 41, "Timed semaphore failed");
+	fatal(CRIT_FIRST + 41, "Timed semaphore failed");
 }
 
 
@@ -24,31 +24,31 @@ static void tsem_fail()
 
 timedsem::timedsem(int initvalue)
 {
-    handle = CreateSemaphore(nil, initvalue, 65535, nil);
-    if (handle == 0)
-        tsem_fail();
+	handle = CreateSemaphore(nil, initvalue, 65535, nil);
+	if (handle == 0)
+		tsem_fail();
 }
 
 
-timedsem::~timedsem() 
+timedsem::~timedsem()
 {
-    CloseHandle(handle);
+	CloseHandle(handle);
 }
 
 
 bool timedsem::wait(int timeout)
 {
-    uint r = WaitForSingleObject(handle, timeout);
-    if (r == WAIT_FAILED)
-        tsem_fail();
-    return r != WAIT_TIMEOUT;
+	uint r = WaitForSingleObject(handle, timeout);
+	if (r == WAIT_FAILED)
+		tsem_fail();
+	return r != WAIT_TIMEOUT;
 }
 
 
 void timedsem::post()
 {
-    if (ReleaseSemaphore(handle, 1, nil) == 0)
-        tsem_fail();
+	if (ReleaseSemaphore(handle, 1, nil) == 0)
+		tsem_fail();
 }
 
 
@@ -57,60 +57,61 @@ void timedsem::post()
 
 inline void tsem_syscheck(int r)
 {
-    if (r != 0)
-        tsem_fail();
+	if (r != 0)
+		tsem_fail();
 }
 
 
 timedsem::timedsem(int initvalue)
-    : unknown(), count(initvalue)
+	: unknown(), count(initvalue)
 {
-    tsem_syscheck(pthread_mutex_init(&mtx, 0));
-    tsem_syscheck(pthread_cond_init(&cond, 0));
+	tsem_syscheck(pthread_mutex_init(&mtx, 0));
+	tsem_syscheck(pthread_cond_init(&cond, 0));
 }
 
 
 timedsem::~timedsem()
 {
-    pthread_cond_destroy(&cond);
-    pthread_mutex_destroy(&mtx);
+	pthread_cond_destroy(&cond);
+	pthread_mutex_destroy(&mtx);
 }
 
 
 bool timedsem::wait(int timeout)
 {
-    pthread_mutex_lock(&mtx);
-    while (count <= 0)
-    { 
-        if (timeout >= 0)
-        {
-            timespec abs_ts; 
-            timeval cur_tv;
-            gettimeofday(&cur_tv, NULL);
-            abs_ts.tv_sec = cur_tv.tv_sec + timeout / 1000; 
-            abs_ts.tv_nsec = cur_tv.tv_usec * 1000
-                + (timeout % 1000) * 1000000;
-            int rc = pthread_cond_timedwait(&cond, &mtx, &abs_ts);
-            if (rc == ETIMEDOUT) { 
-                pthread_mutex_unlock(&mtx);
-                return false;
-            }
-        }
-        else
-            pthread_cond_wait(&cond, &mtx);
-    } 
-    count--;
-    pthread_mutex_unlock(&mtx);
-    return true;
+	pthread_mutex_lock(&mtx);
+	while (count <= 0)
+	{ 
+		if (timeout >= 0)
+		{
+			timespec abs_ts; 
+			timeval cur_tv;
+			gettimeofday(&cur_tv, NULL);
+			abs_ts.tv_sec = cur_tv.tv_sec + timeout / 1000;
+			abs_ts.tv_nsec = cur_tv.tv_usec * 1000
+				+ (timeout % 1000) * 1000000;
+			int rc = pthread_cond_timedwait(&cond, &mtx, &abs_ts);
+			if (rc == ETIMEDOUT)
+			{
+				pthread_mutex_unlock(&mtx);
+				return false;
+			}
+		}
+		else
+			pthread_cond_wait(&cond, &mtx);
+	} 
+	count--;
+	pthread_mutex_unlock(&mtx);
+	return true;
 } 
 
 
 void timedsem::post()
 {
-    pthread_mutex_lock(&mtx);
-    count++; 
-    pthread_cond_signal(&cond);
-    pthread_mutex_unlock(&mtx);
+	pthread_mutex_lock(&mtx);
+	count++; 
+	pthread_cond_signal(&cond);
+	pthread_mutex_unlock(&mtx);
 }
 
 

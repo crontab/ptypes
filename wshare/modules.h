@@ -30,44 +30,44 @@ USING_PTYPES
 
 // there are three types of handlers:
 
-//   method handlers are called whenever an unknown HTTP method is found
-//   in the request line. the rest of input data must be processed by this
-//   handler. you can call request_rec::parse_XXX if the request is 
-//   HTTP/1.1-like. default methods can be overridden.
+//	 method handlers are called whenever an unknown HTTP method is found
+//	 in the request line. the rest of input data must be processed by this
+//	 handler. you can call request_rec::parse_XXX if the request is 
+//	 HTTP/1.1-like. default methods can be overridden.
 
-#define ADD_METHOD_HANDLER(method,callback)   \
-    extern void callback(request_rec&);       \
-    add_method_handler(method, callback);
-
-
-//   path handlers are called when the request-URI matches the path for a
-//   registered handler. the request-URI path is checked one path_part at
-//   a time against the paths given here. the longest match wins:
-//   ex.: consider the uri path "/stuff/things/widget" matched against
-//   this handler list:
-//      "/"                     --> matches, but not the longest
-//      "/stuff"                --> matches, but not the longest
-//      "/stuff/things"         --> matches, the longest match
-//      "/stuff/things/gizmo    --> doesn't match
-//      "/stuff/thin"           --> doesn't match (partial parts are not matched)
-//   all request_rec fields up to `parts_used' inclusive contain valid values
-//   which can be used by this handler.  It is also up to the handler to check
-//   that it can deal with the requested method (GET/HEAD/POST)
-//   the path parameter must contain the leading slash, and must not
-//   contain the trailing slash.
-
-#define ADD_PATH_HANDLER(path,callback)       \
-    extern void callback(request_rec&);       \
-    add_path_handler(path, callback);
+#define ADD_METHOD_HANDLER(method,callback)	  \
+	extern void callback(request_rec&);		  \
+	add_method_handler(method, callback);
 
 
-//   file handlers are called for specific file extensions for
-//   existing files. the ext paramter is the extension this handler
-//   wishes to handle. the ext parameter must contain the leading dot.
+//	 path handlers are called when the request-URI matches the path for a
+//	 registered handler. the request-URI path is checked one path_part at
+//	 a time against the paths given here. the longest match wins:
+//	 ex.: consider the uri path "/stuff/things/widget" matched against
+//	 this handler list:
+//		"/"						--> matches, but not the longest
+//		"/stuff"				--> matches, but not the longest
+//		"/stuff/things"			--> matches, the longest match
+//		"/stuff/things/gizmo	--> doesn't match
+//		"/stuff/thin"			--> doesn't match (partial parts are not matched)
+//	 all request_rec fields up to `parts_used' inclusive contain valid values
+//	 which can be used by this handler.	 It is also up to the handler to check
+//	 that it can deal with the requested method (GET/HEAD/POST)
+//	 the path parameter must contain the leading slash, and must not
+//	 contain the trailing slash.
 
-#define ADD_FILE_HANDLER(ext,callback)        \
-    extern void callback(request_rec&);       \
-    add_file_handler(ext, callback);
+#define ADD_PATH_HANDLER(path,callback)		  \
+	extern void callback(request_rec&);		  \
+	add_path_handler(path, callback);
+
+
+//	 file handlers are called for specific file extensions for
+//	 existing files. the ext paramter is the extension this handler
+//	 wishes to handle. the ext parameter must contain the leading dot.
+
+#define ADD_FILE_HANDLER(ext,callback)		  \
+	extern void callback(request_rec&);		  \
+	add_file_handler(ext, callback);
 
 
 // all handler functions must be of the following types (depending on the
@@ -85,11 +85,11 @@ typedef void (*file_callback)(request_rec& req, file_request_rec& freq);
 
 struct handler_info
 {
-    handler_info* next;
-    void* callback;
-    string param;
+	handler_info* next;
+	void* callback;
+	string param;
 
-    handler_info(handler_info*, void*, const string&);
+	handler_info(handler_info*, void*, const string&);
 };
 
 

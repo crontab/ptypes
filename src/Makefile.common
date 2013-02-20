@@ -5,29 +5,29 @@
 
 .SUFFIXES:	.cxx .o
 
-AR              = ar cru
-RANLIB          = ranlib
+AR				= ar cru
+RANLIB			= ranlib
 
-DDEBUG          = -DDEBUG
-INCDIR          = ../include
-CXXOPTS         = $(OS_CXXOPTS) $(DDEBUG) -I$(INCDIR) -O2 -Werror
-LDLIBS          = $(OS_LDLIBS)
+DDEBUG			= -DDEBUG
+INCDIR			= ../include
+CXXOPTS			= $(OS_CXXOPTS) $(DDEBUG) -I$(INCDIR) -O2 -Werror
+LDLIBS			= $(OS_LDLIBS)
 
-CXXOPTS_ST      = -DPTYPES_ST $(OS_CXXOPTS_ST) $(DDEBUG) -I$(INCDIR) -O2
-LDLIBS_ST       = $(OS_LDLIBS_ST)
+CXXOPTS_ST		= -DPTYPES_ST $(OS_CXXOPTS_ST) $(DDEBUG) -I$(INCDIR) -O2
+LDLIBS_ST		= $(OS_LDLIBS_ST)
 
-LIBNAME         = libptypes.a
-LIBNAME_ST      = libptypesn.a
-LIBDEST         = ../lib
+LIBNAME			= libptypes.a
+LIBNAME_ST		= libptypesn.a
+LIBDEST			= ../lib
 
-SOBASENAME      = libptypes
-SONAME          = $(SOBASENAME).$(SOEXT)
-SOVER           = 21
-SOREALNAME      = $(SOBASENAME).$(SOEXT).$(SOVER)
-SODEST          = ../so
+SOBASENAME		= libptypes
+SONAME			= $(SOBASENAME).$(SOEXT)
+SOVER			= 21
+SOREALNAME		= $(SOBASENAME).$(SOEXT).$(SOVER)
+SODEST			= ../so
 
 
-LIBOBJS       = mt/pversion.o mt/pmem.o mt/pfatal.o mt/pstring.o mt/pcset.o mt/pcsetdbg.o \
+LIBOBJS		  = mt/pversion.o mt/pmem.o mt/pfatal.o mt/pstring.o mt/pcset.o mt/pcsetdbg.o \
 		mt/pstrmanip.o mt/pstrutils.o mt/pstrconv.o mt/pstrtoi.o mt/pstrcase.o mt/ptime.o \
 		mt/punknown.o mt/pcomponent.o mt/pexcept.o mt/ppodlist.o mt/pobjlist.o mt/pstrlist.o mt/ptextmap.o \
 		mt/patomic.o mt/pasync.o mt/psemaphore.o mt/pthread.o mt/pmsgq.o mt/ptimedsem.o \
@@ -39,7 +39,7 @@ LIBOBJS       = mt/pversion.o mt/pmem.o mt/pfatal.o mt/pstring.o mt/pcset.o mt/p
 		mt/punit.o \
 		$(EXTRA_OBJS)
 
-LIBOBJS_ST    = st/pversion.o st/pmem.o st/pfatal.o st/pstring.o st/pcset.o st/pcsetdbg.o \
+LIBOBJS_ST	  = st/pversion.o st/pmem.o st/pfatal.o st/pstring.o st/pcset.o st/pcsetdbg.o \
 		st/pstrmanip.o st/pstrutils.o st/pstrconv.o st/pstrtoi.o st/pstrcase.o st/ptime.o \
 		st/punknown.o st/pcomponent.o st/pexcept.o st/ppodlist.o st/pobjlist.o st/pstrlist.o st/ptextmap.o \
 		st/patomic.o st/pvariant.o \
@@ -434,15 +434,15 @@ clean-src:
 #
 
 install: $(LIBNAME) $(SOREALNAME) ${LIBNAME_ST}
-	@echo ; echo "#####  Installing header files in ${PREFIX}/include/ptypes"
+	@echo ; echo "#####	 Installing header files in ${PREFIX}/include/ptypes"
 	mkdir -p ${PREFIX}/include/ptypes
 	install -m 444 ${INCDIR}/*.h ${PREFIX}/include/ptypes
-	@echo ; echo "#####  Installing libraries (libptypes*) in ${PREFIX}/lib"
+	@echo ; echo "#####	 Installing libraries (libptypes*) in ${PREFIX}/lib"
 	mkdir -p ${PREFIX}/lib
 	install -m 444 $(LIBDEST)/$(LIBNAME) $(LIBDEST)/$(LIBNAME_ST) ${PREFIX}/lib
 	install -m 444 $(SODEST)/$(SOREALNAME) ${PREFIX}/lib
 	cd ${PREFIX}/lib ; rm -f ${SONAME} ; ln -s ${SOREALNAME} ${SONAME}
-	@echo ; echo "#####  Installing documentation in ${PREFIX}/share/doc/ptypes/doc"
+	@echo ; echo "#####	 Installing documentation in ${PREFIX}/share/doc/ptypes/doc"
 	mkdir -p ${PREFIX}/share/doc/ptypes/doc
 	cd .. ; install -m 444 LICENSE index.html ${PREFIX}/share/doc/ptypes
 	cd ../doc ; tar cf - * | tar xf - -C ${PREFIX}/share/doc/ptypes/doc

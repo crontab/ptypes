@@ -21,80 +21,80 @@ PTYPES_BEGIN
 
 
 outfile::outfile()
-    : outstm(), filename(), syshandle(invhandle), peerhandle(invhandle),
-      umode(0644), append(false)  {}
+	: outstm(), filename(), syshandle(invhandle), peerhandle(invhandle),
+	  umode(0644), append(false)  {}
 
 
 outfile::outfile(const char* ifn, bool iappend)
-    : outstm(), filename(ifn), syshandle(invhandle), peerhandle(invhandle),
-      umode(0644), append(iappend)  {}
+	: outstm(), filename(ifn), syshandle(invhandle), peerhandle(invhandle),
+	  umode(0644), append(iappend)	{}
 
 
 outfile::outfile(string const& ifn, bool iappend)
-    : outstm(), filename(ifn), syshandle(invhandle), peerhandle(invhandle),
-      umode(0644), append(iappend)  {}
+	: outstm(), filename(ifn), syshandle(invhandle), peerhandle(invhandle),
+	  umode(0644), append(iappend)	{}
 
 
 outfile::~outfile() 
 {
-    close();
+	close();
 }
 
 
 int outfile::classid()
 {
-    return CLASS2_OUTFILE;
+	return CLASS2_OUTFILE;
 }
 
 
-string outfile::get_streamname() 
+string outfile::get_streamname()
 {
-    return filename;
+	return filename;
 }
 
 
-void outfile::doopen() 
+void outfile::doopen()
 {
-    if (syshandle != invhandle)
-        handle = syshandle;
-    else
-    {
+	if (syshandle != invhandle)
+		handle = syshandle;
+	else
+	{
 #ifdef WIN32
-        SECURITY_ATTRIBUTES sa;
-        sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-        sa.lpSecurityDescriptor = NULL;
-        sa.bInheritHandle = TRUE;
+		SECURITY_ATTRIBUTES sa;
+		sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+		sa.lpSecurityDescriptor = NULL;
+		sa.bInheritHandle = TRUE;
 
-        handle = int(CreateFile(filename, GENERIC_WRITE,
-            FILE_SHARE_READ | FILE_SHARE_WRITE, &sa, 
-            (append ? OPEN_ALWAYS : CREATE_ALWAYS), 0, 0));
+		handle = int(CreateFile(filename, GENERIC_WRITE,
+			FILE_SHARE_READ | FILE_SHARE_WRITE, &sa, 
+			(append ? OPEN_ALWAYS : CREATE_ALWAYS), 0, 0));
 #else
-        handle = ::open(filename, 
-            O_WRONLY | O_CREAT | O_LARGEFILE | (append ? 0 : O_TRUNC), umode);
+		handle = ::open(filename, 
+			O_WRONLY | O_CREAT | O_LARGEFILE | (append ? 0 : O_TRUNC), umode);
 #endif
-        if (handle == invhandle)
-            error(uerrno(), "Couldn't open");
-        if (append)
-            if (doseek(0, IO_END) == -1)
-                error(uerrno(), "Couldn't seek to end of file");
-    }
+		if (handle == invhandle)
+			error(uerrno(), "Couldn't open");
+		if (append)
+			if (doseek(0, IO_END) == -1)
+				error(uerrno(), "Couldn't seek to end of file");
+	}
 }
 
 
 void outfile::flush()
 {
-    outstm::flush();
+	outstm::flush();
 #ifdef WIN32
-    FlushFileBuffers(HANDLE(handle));
+	FlushFileBuffers(HANDLE(handle));
 #endif
 }
 
 
 void outfile::doclose()
 {
-    outstm::doclose();
-    syshandle = invhandle;
-    peerhandle = invhandle;
+	outstm::doclose();
+	syshandle = invhandle;
+	peerhandle = invhandle;
 }
 
 

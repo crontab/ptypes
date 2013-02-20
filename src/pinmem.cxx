@@ -6,88 +6,88 @@ PTYPES_BEGIN
 
 
 inmemory::inmemory(const string& imem)
-    : instm(length(imem)), mem(imem) 
+	: instm(length(imem)), mem(imem)
 {
 }
 
 
-inmemory::~inmemory() 
+inmemory::~inmemory()
 {
-    close();
+	close();
 }
 
 
 int inmemory::classid()
 {
-    return CLASS2_INMEMORY;
+	return CLASS2_INMEMORY;
 }
 
 
-void inmemory::bufalloc() 
+void inmemory::bufalloc()
 {
-    bufdata = pchar(pconst(mem));
-    abspos = bufsize = bufend = length(mem);
+	bufdata = pchar(pconst(mem));
+	abspos = bufsize = bufend = length(mem);
 }
 
 
-void inmemory::buffree() 
+void inmemory::buffree()
 {
-    bufclear();
-    bufdata = nil;
+	bufclear();
+	bufdata = nil;
 }
 
 
-void inmemory::bufvalidate() 
+void inmemory::bufvalidate()
 {
-    eof = bufpos >= bufend;
+	eof = bufpos >= bufend;
 }
 
 
-void inmemory::doopen() 
+void inmemory::doopen()
 {
 }
 
 
-void inmemory::doclose() 
+void inmemory::doclose()
 {
 }
 
 
 large inmemory::doseek(large, ioseekmode)
 {
-    // normally shouldn't reach this point, because seek is
-    // supposed to happen within the I/O buffer
-    return -1;
+	// normally shouldn't reach this point, because seek is
+	// supposed to happen within the I/O buffer
+	return -1;
 }
 
 
-int inmemory::dorawread(char*, int) 
+int inmemory::dorawread(char*, int)
 {
-    return 0;
+	return 0;
 }
 
 
-string inmemory::get_streamname() 
+string inmemory::get_streamname()
 {
-    return "mem";
+	return "mem";
 }
 
 
 large inmemory::seekx(large newpos, ioseekmode mode)
 {
-    if (mode == IO_END)
-    {
-        newpos += bufsize;
-        mode = IO_BEGIN;
-    }
-    return instm::seekx(newpos, mode);
+	if (mode == IO_END)
+	{
+		newpos += bufsize;
+		mode = IO_BEGIN;
+	}
+	return instm::seekx(newpos, mode);
 }
 
 
 void inmemory::set_strdata(const string& data)
 {
-    close();
-    mem = data;
+	close();
+	mem = data;
 }
 
 

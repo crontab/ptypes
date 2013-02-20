@@ -19,31 +19,31 @@ class client_thread;
 class thread_list
 {
 public:
-    rwlock lock;
-    int count;
-    client_thread** list;
+	rwlock lock;
+	int count;
+	client_thread** list;
 
-    thread_list();
-    virtual ~thread_list();
-    void set_capacity(int icount);
-    void add(client_thread* t);
-    void del(client_thread* t);
+	thread_list();
+	virtual ~thread_list();
+	void set_capacity(int icount);
+	void add(client_thread* t);
+	void del(client_thread* t);
 };
 
 
 class client_thread: public thread, public request_rec
 {
 protected:
-    ipstream*   client;
-    int         seq_num;    // sequential number, pseudo-id
-    virtual void execute();
-    virtual void cleanup();
+	ipstream*	client;
+	int			seq_num;	// sequential number, pseudo-id
+	virtual void execute();
+	virtual void cleanup();
 public:
 
-    client_thread(ipstream* iclient);
-    virtual ~client_thread();
+	client_thread(ipstream* iclient);
+	virtual ~client_thread();
 
-    int get_seq_num()  { return seq_num; }
+	int get_seq_num()  { return seq_num; }
 };
 
 

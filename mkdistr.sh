@@ -18,7 +18,7 @@ rm -rf $distr
 
 mkdir -p $distr/include
 for i in include/*.h ; do
-    (echo "$cxxhdr" ; cat $i) > $distr/$i
+	(echo "$cxxhdr" ; cat $i) > $distr/$i
 done
 
 #
@@ -46,11 +46,11 @@ mkdir -p $distr/so
 mkdir -p $distr/src
 
 for i in src/Makefile* ; do
-    (echo "$shhdr" ; cat $i) > $distr/$i
+	(echo "$shhdr" ; cat $i) > $distr/$i
 done
 
 for i in src/*.cxx ; do
-    (echo "$cxxhdr" ; cat $i) > $distr/$i
+	(echo "$cxxhdr" ; cat $i) > $distr/$i
 done
 
 cp src/*.s $distr/src/
@@ -62,11 +62,11 @@ cp src/*.s $distr/src/
 mkdir -p $distr/wshare
 
 for i in wshare/Makefile* wshare/*.awk ; do
-    (echo "$shhdr" ; cat $i) > $distr/$i
+	(echo "$shhdr" ; cat $i) > $distr/$i
 done
 
 for i in wshare/*.cxx wshare/*.h ; do
-    (echo "$cxxhdr" ; cat $i) > $distr/$i
+	(echo "$cxxhdr" ; cat $i) > $distr/$i
 done
 
 #
@@ -92,8 +92,8 @@ cp LICENSE $distr
 echo "Building source file listings in HTML..."
 ./mkhtsrc
 if [ "$?" != "0" ] ; then
-    rm -rf $distr
-    exit
+	rm -rf $distr
+	exit
 fi
 
 #

@@ -18,38 +18,38 @@ PTYPES_BEGIN
 
 static void sem_fail()
 {
-    fatal(CRIT_FIRST + 41, "Semaphore failed");
+	fatal(CRIT_FIRST + 41, "Semaphore failed");
 }
 
 
-semaphore::semaphore(int initvalue) 
+semaphore::semaphore(int initvalue)
 {
-    if (sem_init(&handle, 0, initvalue) != 0)
-        sem_fail();
+	if (sem_init(&handle, 0, initvalue) != 0)
+		sem_fail();
 }
 
 
-semaphore::~semaphore() 
+semaphore::~semaphore()
 {
-    sem_destroy(&handle);
+	sem_destroy(&handle);
 }
 
 
-void semaphore::wait() 
+void semaphore::wait()
 {
-    int err;
-    do {
-        err = sem_wait(&handle);
-    } while (err == -1 && errno == EINTR);
-    if (err != 0)
-        sem_fail();
+	int err;
+	do {
+		err = sem_wait(&handle);
+	} while (err == -1 && errno == EINTR);
+	if (err != 0)
+		sem_fail();
 }
 
 
-void semaphore::post() 
+void semaphore::post()
 {
-    if (sem_post(&handle) != 0)
-        sem_fail();
+	if (sem_post(&handle) != 0)
+		sem_fail();
 }
 
 

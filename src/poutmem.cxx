@@ -6,20 +6,20 @@ PTYPES_BEGIN
 
 
 outmemory::outmemory(int ilimit)
-    : outstm(false, 0), mem(), limit(ilimit)
+	: outstm(false, 0), mem(), limit(ilimit)
 {
 }
 
 
 outmemory::~outmemory()
 {
-    close();
+	close();
 }
 
 
 int outmemory::classid()
 {
-    return CLASS2_OUTMEMORY;
+	return CLASS2_OUTMEMORY;
 }
 
 
@@ -30,64 +30,64 @@ void outmemory::doopen()
 
 void outmemory::doclose()
 {
-    clear(mem);
+	clear(mem);
 }
 
 
 large outmemory::doseek(large newpos, ioseekmode mode)
 {
-    large pos;
+	large pos;
 
-    switch (mode)
-    {
-    case IO_BEGIN:
-        pos = newpos;
-        break;
-    case IO_CURRENT:
-        pos = abspos + newpos;
-        break;
-    default: // case IO_END:
-        pos = length(mem) + newpos;
-        break;
-    }
+	switch (mode)
+	{
+	case IO_BEGIN:
+		pos = newpos;
+		break;
+	case IO_CURRENT:
+		pos = abspos + newpos;
+		break;
+	default: // case IO_END:
+		pos = length(mem) + newpos;
+		break;
+	}
 
-    if (limit >= 0 && pos > limit)
-        pos = limit;
-    
-    return pos;
+	if (limit >= 0 && pos > limit)
+		pos = limit;
+	
+	return pos;
 }
 
 
 int outmemory::dorawwrite(const char* buf, int count)
 {
-    if (count <= 0)
-        return 0;
-    if (limit >= 0 && abspos + count > limit)
-    {
-        count = limit - (int)abspos;
-        if (count <= 0)
-            return 0;
-    }
+	if (count <= 0)
+		return 0;
+	if (limit >= 0 && abspos + count > limit)
+	{
+		count = limit - (int)abspos;
+		if (count <= 0)
+			return 0;
+	}
 
-    // the string reallocator takes care of efficiency
-    if ((int)abspos + count > length(mem))
-        setlength(mem, (int)abspos + count);
-    memcpy(pchar(pconst(mem)) + (int)abspos, buf, count);
-    return count;
+	// the string reallocator takes care of efficiency
+	if ((int)abspos + count > length(mem))
+		setlength(mem, (int)abspos + count);
+	memcpy(pchar(pconst(mem)) + (int)abspos, buf, count);
+	return count;
 }
 
 
-string outmemory::get_streamname() 
+string outmemory::get_streamname()
 {
-    return "mem";
+	return "mem";
 }
 
 
 string outmemory::get_strdata()
 {
-    if (!active)
-        errstminactive();
-    return mem;
+	if (!active)
+		errstminactive();
+	return mem;
 }
 
 

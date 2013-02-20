@@ -18,35 +18,35 @@ PTYPES_BEGIN
 
 
 fdxoutstm::fdxoutstm(int ibufsize, fdxstm* iin)
-    : outstm(false, ibufsize), in(iin)  {}
+	: outstm(false, ibufsize), in(iin)	{}
 
 
-fdxoutstm::~fdxoutstm()  {}
+fdxoutstm::~fdxoutstm()	 {}
 
 
 void fdxoutstm::chstat(int newstat)
 {
-    outstm::chstat(newstat);
-    if (newstat == IO_WRITING)
-        in->chstat(newstat);
+	outstm::chstat(newstat);
+	if (newstat == IO_WRITING)
+		in->chstat(newstat);
 }
 
 
 int fdxoutstm::uerrno()
 {
-    return in->uerrno();
+	return in->uerrno();
 }
 
 
 const char* fdxoutstm::uerrmsg(int code)
 {
-    return in->uerrmsg(code);
+	return in->uerrmsg(code);
 }
 
 
 string fdxoutstm::get_streamname()
 {
-    return in->get_streamname();
+	return in->get_streamname();
 }
 
 
@@ -57,22 +57,22 @@ void fdxoutstm::doopen()
 
 void fdxoutstm::doclose()
 {
-    if (in->active)
-        in->close();
+	if (in->active)
+		in->close();
 }
 
 
 int fdxoutstm::dorawwrite(const char* buf, int count)
 {
-    return in->dorawwrite(buf, count);
+	return in->dorawwrite(buf, count);
 }
 
 
 fdxstm::fdxstm(int ibufsize)
-    : instm(ibufsize), out(ibufsize, this)
+	: instm(ibufsize), out(ibufsize, this)
 {
-    out.in = this;
-    addref(&out);
+	out.in = this;
+	addref(&out);
 }
 
 
@@ -81,71 +81,71 @@ fdxstm::~fdxstm()  {}
 
 int fdxstm::classid()
 {
-    return CLASS2_FDX;
+	return CLASS2_FDX;
 }
 
 
 void fdxstm::flush()
 {
-    if (out.active)
-        out.flush();
+	if (out.active)
+		out.flush();
 }
 
 
 int fdxstm::dorawwrite(const char* buf, int count)
 {
-    if (handle == invhandle)
+	if (handle == invhandle)
 	return -1;
 #ifdef WIN32
-    unsigned long ret;
-    if (!WriteFile(HANDLE(handle), buf, count, &ret, nil)) 
-    {
-        error(uerrno(), "Couldn't write");
-        ret = uint(-1);
-    }
+	unsigned long ret;
+	if (!WriteFile(HANDLE(handle), buf, count, &ret, nil))
+	{
+		error(uerrno(), "Couldn't write");
+		ret = uint(-1);
+	}
 #else
-    int ret;
-    if ((ret = ::write(handle, buf, count)) < 0)
-        error(uerrno(), "Couldn't write");
+	int ret;
+	if ((ret = ::write(handle, buf, count)) < 0)
+		error(uerrno(), "Couldn't write");
 #endif
-    return ret;
+	return ret;
 }
 
 
 void fdxstm::set_bufsize(int newval)
 {
-    instm::set_bufsize(newval);
-    out.set_bufsize(newval);
+	instm::set_bufsize(newval);
+	out.set_bufsize(newval);
 }
 
 
 void fdxstm::open()
 {
-    instm::open();
-    out.open();
+	instm::open();
+	out.open();
 }
 
 
 void fdxstm::close()
 {
-    instm::close();
-    out.close();
+	instm::close();
+	out.close();
 }
 
 
 void fdxstm::cancel()
 {
-    instm::cancel();
-    out.cancel();
+	instm::cancel();
+	out.cancel();
 }
 
 
 large fdxstm::tellx(bool forin)
 {
-    if (forin)
-        return instm::tellx();
-    else
-        return out.tellx();
+	if (forin)
+		return instm::tellx();
+	else
+		return out.tellx();
 }
 
 

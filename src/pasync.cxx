@@ -6,7 +6,7 @@
 #  include <unistd.h>
 #  include <pthread.h>
 #  ifdef __sun__
-#    include <poll.h>
+#	 include <poll.h>
 #  endif
 #endif
 
@@ -19,21 +19,21 @@ PTYPES_BEGIN
 void ptdecl psleep(uint milliseconds)
 {
 #if defined(WIN32)
-    Sleep(milliseconds);
+	Sleep(milliseconds);
 #elif defined(__sun__)
-    poll(0, 0, milliseconds);
+	poll(0, 0, milliseconds);
 #else
-    usleep(milliseconds * 1000);
+	usleep(milliseconds * 1000);
 #endif
 }
 
 
-pthread_id_t ptdecl pthrself() 
+pthread_id_t ptdecl pthrself()
 {
 #ifdef WIN32
-    return (int)GetCurrentThreadId();
+	return (int)GetCurrentThreadId();
 #else
-    return pthread_self();
+	return pthread_self();
 #endif
 }
 
@@ -41,9 +41,9 @@ pthread_id_t ptdecl pthrself()
 bool ptdecl pthrequal(pthread_id_t id)
 {
 #ifdef WIN32
-    return GetCurrentThreadId() == (uint)id;
+	return GetCurrentThreadId() == (uint)id;
 #else
-    return pthread_equal(pthread_self(), id);
+	return pthread_equal(pthread_self(), id);
 #endif
 }
 

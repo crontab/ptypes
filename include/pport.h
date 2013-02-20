@@ -4,7 +4,7 @@
 
 
 #if defined(linux)
-#  include <stdint.h>     // for uintptr_t
+#  include <stdint.h>	  // for uintptr_t
 #endif
 
 #include <sys/types.h>
@@ -22,9 +22,9 @@
 //
 
 #ifdef PTYPES_NAMESPACE
-#  define PTYPES_BEGIN      namespace PTYPES_NAMESPACE {
-#  define PTYPES_END        }
-#  define USING_PTYPES      using namespace PTYPES_NAMESPACE;
+#  define PTYPES_BEGIN		namespace PTYPES_NAMESPACE {
+#  define PTYPES_END		}
+#  define USING_PTYPES		using namespace PTYPES_NAMESPACE;
 #else
 #  define PTYPES_NAMESPACE
 #  define PTYPES_BEGIN
@@ -39,11 +39,11 @@
 
 #ifdef WIN32
 #  if defined(PTYPES_DLL_EXPORTS)
-#    define ptpublic	 __declspec(dllexport)
+#	 define ptpublic	 __declspec(dllexport)
 #  elif defined(PTYPES_DLL)
-#    define ptpublic	__declspec(dllimport)
+#	 define ptpublic	__declspec(dllimport)
 #  else
-#    define ptpublic
+#	 define ptpublic
 #  endif
 #  define ptdecl	__stdcall
 #  define __PFASTCALL __fastcall
@@ -110,20 +110,20 @@ PTYPES_BEGIN
 // useful typedefs
 //
 
-typedef unsigned int    uint;
-typedef unsigned long   ulong;
-typedef unsigned short  ushort;
-typedef unsigned char   uchar;
-typedef signed char     schar;
-typedef char*           pchar;
-typedef const char*     pconst;
-typedef void*           ptr;
-typedef int*            pint;
+typedef unsigned int	uint;
+typedef unsigned long	ulong;
+typedef unsigned short	ushort;
+typedef unsigned char	uchar;
+typedef signed char		schar;
+typedef char*			pchar;
+typedef const char*		pconst;
+typedef void*			ptr;
+typedef int*			pint;
 
 #ifdef WIN32
-  typedef uint         pintptr;
+  typedef uint		   pintptr;
 #else
-  typedef uintptr_t    pintptr;
+  typedef uintptr_t	   pintptr;
 #endif
 
 
@@ -132,11 +132,11 @@ typedef int*            pint;
 //
 
 #if defined(_MSC_VER) || defined(__BORLANDC__)
-   typedef __int64             large;
-   typedef unsigned __int64    ularge;
+   typedef __int64			   large;
+   typedef unsigned __int64	   ularge;
 #  define LLCONST(a) (a##i64)
 #else
-   typedef long long           large;
+   typedef long long		   large;
    typedef unsigned long long  ularge;
 #  define LLCONST(a) (a##ll)
 #endif
@@ -158,10 +158,10 @@ typedef int*            pint;
 // I like Pascal's nil
 #define nil 0
 
-inline int   imax(int x, int y)       { return (x > y) ? x : y; }
-inline int   imin(int x, int y)       { return (x < y) ? x : y; }
-inline large lmax(large x, large y)   { return (x > y) ? x : y; }
-inline large lmin(large x, large y)   { return (x < y) ? x : y; }
+inline int	 imax(int x, int y)		  { return (x > y) ? x : y; }
+inline int	 imin(int x, int y)		  { return (x < y) ? x : y; }
+inline large lmax(large x, large y)	  { return (x > y) ? x : y; }
+inline large lmin(large x, large y)	  { return (x < y) ? x : y; }
 
 
 //

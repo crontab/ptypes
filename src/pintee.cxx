@@ -6,52 +6,52 @@ PTYPES_BEGIN
 
 
 intee::intee(instm* istm, const char* ifn, bool iappend)
-    : infilter(istm, -1), file(ifn, iappend)  
+	: infilter(istm, -1), file(ifn, iappend)
 {
 }
 
 
 intee::intee(instm* istm, const string& ifn, bool iappend)
-    : infilter(istm, -1), file(ifn, iappend)  
+	: infilter(istm, -1), file(ifn, iappend)
 {
 }
 
 
-intee::~intee() 
+intee::~intee()
 {
-    close();
+	close();
 }
 
 
-void intee::doopen() 
+void intee::doopen()
 {
-    infilter::doopen();
-    file.open();
+	infilter::doopen();
+	file.open();
 }
 
 
-void intee::doclose() 
+void intee::doclose()
 {
-    file.close();
-    infilter::doclose();
+	file.close();
+	infilter::doclose();
 }
 
 
-void intee::dofilter() 
+void intee::dofilter()
 {
-    int count = stm->read(savebuf, savecount);
-    if (count > 0) 
-    {
-        file.write(savebuf, count);
-        savebuf += count;
-        savecount -= count;
-    }
+	int count = stm->read(savebuf, savecount);
+	if (count > 0)
+	{
+		file.write(savebuf, count);
+		savebuf += count;
+		savecount -= count;
+	}
 }
 
 
-string intee::get_streamname() 
+string intee::get_streamname()
 {
-    return "tee: " + file.get_filename();
+	return "tee: " + file.get_filename();
 }
 
 

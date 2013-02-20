@@ -17,20 +17,20 @@ PTYPES_BEGIN
 
 string ptdecl namedpipe::realpipename(const string& pipename, const string& svrname)
 {
-    if (isempty(pipename))
-        return nullstring;
-    string realname = pipename;
-    if (*pconst(pipename) == '/')
-    {
-        int i = rpos('/', realname);
-        del(realname, 0, i + 1);
-    }
-    string s;
-    if (isempty(svrname))
-        s = '.';
-    else
-        s = svrname;
-    return "\\\\" + s + "\\pipe\\" + realname;
+	if (isempty(pipename))
+		return nullstring;
+	string realname = pipename;
+	if (*pconst(pipename) == '/')
+	{
+		int i = rpos('/', realname);
+		del(realname, 0, i + 1);
+	}
+	string s;
+	if (isempty(svrname))
+		s = '.';
+	else
+		s = svrname;
+	return "\\\\" + s + "\\pipe\\" + realname;
 }
 
 
@@ -38,62 +38,62 @@ string ptdecl namedpipe::realpipename(const string& pipename, const string& svrn
 
 string ptdecl namedpipe::realpipename(const string& pipename)
 {
-    if (isempty(pipename))
-        return nullstring;
-    if (*pconst(pipename) == '/')
-        return pipename;
-    else
-        return DEF_NAMED_PIPES_DIR + pipename;
+	if (isempty(pipename))
+		return nullstring;
+	if (*pconst(pipename) == '/')
+		return pipename;
+	else
+		return DEF_NAMED_PIPES_DIR + pipename;
 }
 
 
 bool namedpipe::setupsockaddr(const string& pipename, void* isa)
 {
-    sockaddr_un* sa = (sockaddr_un*)isa;
-    memset(sa, 0, sizeof(sockaddr_un));
-    sa->sun_family = AF_UNIX;
+	sockaddr_un* sa = (sockaddr_un*)isa;
+	memset(sa, 0, sizeof(sockaddr_un));
+	sa->sun_family = AF_UNIX;
 #ifdef __FreeBSD__
-    sa->sun_len = length(pipename);
+	sa->sun_len = length(pipename);
 #endif
 
-    // copy the path name into the sockaddr structure, 108 chars max (?)
-    if (length(pipename) + 1 > (int)sizeof(sa->sun_path))
-        return false;
-    strcpy(sa->sun_path, pipename);
-    return true;
+	// copy the path name into the sockaddr structure, 108 chars max (?)
+	if (length(pipename) + 1 > (int)sizeof(sa->sun_path))
+		return false;
+	strcpy(sa->sun_path, pipename);
+	return true;
 }
 
 #endif
 
 
 namedpipe::namedpipe()
-    : fdxstm(), pipename(), svhandle(invhandle)
+	: fdxstm(), pipename(), svhandle(invhandle)
 {
-    initovr();
+	initovr();
 }
 
 
 namedpipe::namedpipe(const string& ipipename)
-    : fdxstm(), pipename(), svhandle(invhandle)
+	: fdxstm(), pipename(), svhandle(invhandle)
 {
-    pipename = realpipename(ipipename);
-    initovr();
+	pipename = realpipename(ipipename);
+	initovr();
 }
 
 
 #ifdef WIN32
 
 namedpipe::namedpipe(const string& ipipename, const string& servername)
-    : fdxstm(), pipename(), svhandle(invhandle)
+	: fdxstm(), pipename(), svhandle(invhandle)
 {
-    pipename = realpipename(ipipename, servername);
-    initovr();
+	pipename = realpipename(ipipename, servername);
+	initovr();
 }
 
 
 void namedpipe::initovr()
 {
-    ovr.hEvent = CreateEvent(0, false, false, 0);
+	ovr.hEvent = CreateEvent(0, false, false, 0);
 }
 
 
@@ -102,42 +102,42 @@ void namedpipe::initovr()
 
 namedpipe::~namedpipe()
 {
-    cancel();
+	cancel();
 #ifdef WIN32
-    CloseHandle(ovr.hEvent);
+	CloseHandle(ovr.hEvent);
 #endif
 }
 
 
 int namedpipe::classid()
 {
-    return CLASS3_NPIPE;
+	return CLASS3_NPIPE;
 }
 
 
 string namedpipe::get_streamname()
 {
-    return pipename;
+	return pipename;
 }
 
 
 void namedpipe::set_pipename(const string& newvalue)
 {
-    close();
-    pipename = realpipename(newvalue);
+	close();
+	pipename = realpipename(newvalue);
 }
 
 
 void namedpipe::set_pipename(const char* newvalue)
 {
-    close();
-    pipename = realpipename(newvalue);
+	close();
+	pipename = realpipename(newvalue);
 }
 
 
 large namedpipe::doseek(large, ioseekmode)
 {
-    return -1;
+	return -1;
 }
 
 
@@ -146,63 +146,63 @@ void namedpipe::doopen()
 
 #ifdef WIN32
 
-    if (svhandle != invhandle)
-        handle = svhandle;
-    else
-    {
-        int tries = DEF_PIPE_OPEN_RETRY;
-        int delay = DEF_PIPE_OPEN_TIMEOUT / 2;
+	if (svhandle != invhandle)
+		handle = svhandle;
+	else
+	{
+		int tries = DEF_PIPE_OPEN_RETRY;
+		int delay = DEF_PIPE_OPEN_TIMEOUT / 2;
 retry:
-        SECURITY_ATTRIBUTES sa;
-        sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-        sa.lpSecurityDescriptor = NULL;
-        sa.bInheritHandle = TRUE;
+		SECURITY_ATTRIBUTES sa;
+		sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+		sa.lpSecurityDescriptor = NULL;
+		sa.bInheritHandle = TRUE;
 
-        handle = int(CreateFile(pipename, GENERIC_READ | GENERIC_WRITE,
-            0, &sa, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, 0));
-        if (handle == invhandle)
-        {
-            if (GetLastError() == ERROR_PIPE_BUSY)
-            {
-                if (--tries > 0)
-                {
-                    delay *= 2;
-                    Sleep(delay);
-                    goto retry;
-                }
-                else
-                    error(EIO, "Pipe busy");
-            }
-            else
-                error(uerrno(), "Couldn't open named pipe");
-        }
-    }
+		handle = int(CreateFile(pipename, GENERIC_READ | GENERIC_WRITE,
+			0, &sa, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, 0));
+		if (handle == invhandle)
+		{
+			if (GetLastError() == ERROR_PIPE_BUSY)
+			{
+				if (--tries > 0)
+				{
+					delay *= 2;
+					Sleep(delay);
+					goto retry;
+				}
+				else
+					error(EIO, "Pipe busy");
+			}
+			else
+				error(uerrno(), "Couldn't open named pipe");
+		}
+	}
 
 #else
-    if (svhandle != invhandle)
-    {
+	if (svhandle != invhandle)
+	{
 	if ((handle = ::accept(svhandle, 0, 0)) < 0)
-	    error(uerrno(), "Couldn't create local socket");
-    }
-    
-    else
-    {
-        sockaddr_un sa;
+		error(uerrno(), "Couldn't create local socket");
+	}
+	
+	else
+	{
+		sockaddr_un sa;
 	if (!setupsockaddr(pipename, &sa))
-    	    error(ERANGE, "Socket name too long");
+			error(ERANGE, "Socket name too long");
 
-        // cteate a client socket
+		// cteate a client socket
 	if ((handle = ::socket(sa.sun_family, SOCK_STREAM, 0)) < 0)
-    	    error(uerrno(), "Couldn't create local socket");
+			error(uerrno(), "Couldn't create local socket");
 
-        // ... and connect to the local socket
+		// ... and connect to the local socket
 	if (::connect(handle, (sockaddr*)&sa, sizeof(sa)) < 0)
 	{
-    	    int e = uerrno();
-            doclose();
-	    error(e, "Couldn't connect to local socket");
-        }
-    }
+			int e = uerrno();
+			doclose();
+		error(e, "Couldn't connect to local socket");
+		}
+	}
 
 #endif
 }
@@ -212,43 +212,43 @@ retry:
 
 int namedpipe::dorawread(char* buf, int count)
 {
-    unsigned long ret = uint(-1);
-    ovr.Offset = 0;
-    ovr.OffsetHigh = 0;
-    if (!ReadFile(HANDLE(handle), buf, count, &ret, &ovr)) 
-    {
-        if (GetLastError() == ERROR_IO_PENDING)
-        {
-            if (WaitForSingleObject(ovr.hEvent, DEF_PIPE_TIMEOUT) == WAIT_TIMEOUT)
-                error(EIO, "Timed out");
-            if (!GetOverlappedResult(HANDLE(handle), &ovr, &ret, false))
-                error(uerrno(), "Couldn't read");
-        }
-        else
-            error(uerrno(), "Couldn't read");
-    }
-    return ret;
+	unsigned long ret = uint(-1);
+	ovr.Offset = 0;
+	ovr.OffsetHigh = 0;
+	if (!ReadFile(HANDLE(handle), buf, count, &ret, &ovr))
+	{
+		if (GetLastError() == ERROR_IO_PENDING)
+		{
+			if (WaitForSingleObject(ovr.hEvent, DEF_PIPE_TIMEOUT) == WAIT_TIMEOUT)
+				error(EIO, "Timed out");
+			if (!GetOverlappedResult(HANDLE(handle), &ovr, &ret, false))
+				error(uerrno(), "Couldn't read");
+		}
+		else
+			error(uerrno(), "Couldn't read");
+	}
+	return ret;
 }
 
 
 int namedpipe::dorawwrite(const char* buf, int count)
 {
-    unsigned long ret = uint(-1);
-    ovr.Offset = 0;
-    ovr.OffsetHigh = 0;
-    if (!WriteFile(HANDLE(handle), buf, count, &ret, &ovr))
-    {
-        if (GetLastError() == ERROR_IO_PENDING)
-        {
-            if (WaitForSingleObject(ovr.hEvent, DEF_PIPE_TIMEOUT) == WAIT_TIMEOUT)
-                error(EIO, "Timed out");
-            if (!GetOverlappedResult(HANDLE(handle), &ovr, &ret, false))
-                error(uerrno(), "Couldn't write");
-        }
-        else
-            error(uerrno(), "Couldn't write");
-    }
-    return ret;
+	unsigned long ret = uint(-1);
+	ovr.Offset = 0;
+	ovr.OffsetHigh = 0;
+	if (!WriteFile(HANDLE(handle), buf, count, &ret, &ovr))
+	{
+		if (GetLastError() == ERROR_IO_PENDING)
+		{
+			if (WaitForSingleObject(ovr.hEvent, DEF_PIPE_TIMEOUT) == WAIT_TIMEOUT)
+				error(EIO, "Timed out");
+			if (!GetOverlappedResult(HANDLE(handle), &ovr, &ret, false))
+				error(uerrno(), "Couldn't write");
+		}
+		else
+			error(uerrno(), "Couldn't write");
+	}
+	return ret;
 }
 
 
@@ -258,21 +258,21 @@ int namedpipe::dorawwrite(const char* buf, int count)
 void namedpipe::doclose()
 {
 #ifdef WIN32
-    if (svhandle != invhandle)
-        DisconnectNamedPipe(HANDLE(handle)); 
+	if (svhandle != invhandle)
+		DisconnectNamedPipe(HANDLE(handle)); 
 #endif
-    svhandle = invhandle;
-    fdxstm::doclose();
+	svhandle = invhandle;
+	fdxstm::doclose();
 }
 
 
 void namedpipe::flush()
 {
 #ifdef WIN32
-    if (!cancelled)
-        FlushFileBuffers(HANDLE(handle));
+	if (!cancelled)
+		FlushFileBuffers(HANDLE(handle));
 #endif
-    fdxstm::flush();
+	fdxstm::flush();
 }
 
 

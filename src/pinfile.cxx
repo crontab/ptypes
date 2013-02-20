@@ -19,64 +19,64 @@ PTYPES_BEGIN
 
 
 infile::infile()
-    : instm(), filename(), syshandle(invhandle), peerhandle(invhandle)  {}
+	: instm(), filename(), syshandle(invhandle), peerhandle(invhandle)	{}
 
 
 infile::infile(const char* ifn)
-    : instm(), filename(ifn), syshandle(invhandle), peerhandle(invhandle)  {}
+	: instm(), filename(ifn), syshandle(invhandle), peerhandle(invhandle)  {}
 
 
 infile::infile(const string& ifn)
-    : instm(), filename(ifn), syshandle(invhandle), peerhandle(invhandle)  {}
+	: instm(), filename(ifn), syshandle(invhandle), peerhandle(invhandle)  {}
 
 
-infile::~infile() 
+infile::~infile()
 {
-    close(); 
+	close(); 
 }
 
 
 int infile::classid()
 {
-    return CLASS2_INFILE;
+	return CLASS2_INFILE;
 }
 
 
-string infile::get_streamname() 
+string infile::get_streamname()
 {
-    return filename;
+	return filename;
 }
 
 
-void infile::doopen() 
+void infile::doopen()
 {
-    if (syshandle != invhandle)
-        handle = syshandle;
-    else
-    {
+	if (syshandle != invhandle)
+		handle = syshandle;
+	else
+	{
 #ifdef WIN32
-        SECURITY_ATTRIBUTES sa;
-        sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-        sa.lpSecurityDescriptor = NULL;
-        sa.bInheritHandle = TRUE;
+		SECURITY_ATTRIBUTES sa;
+		sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+		sa.lpSecurityDescriptor = NULL;
+		sa.bInheritHandle = TRUE;
 
-        handle = int(CreateFile(filename, GENERIC_READ,
-            FILE_SHARE_READ | FILE_SHARE_WRITE, &sa, OPEN_EXISTING, 
-            FILE_FLAG_SEQUENTIAL_SCAN, 0));
+		handle = int(CreateFile(filename, GENERIC_READ,
+			FILE_SHARE_READ | FILE_SHARE_WRITE, &sa, OPEN_EXISTING, 
+			FILE_FLAG_SEQUENTIAL_SCAN, 0));
 #else
-        handle = ::open(filename, O_RDONLY | O_LARGEFILE);
+		handle = ::open(filename, O_RDONLY | O_LARGEFILE);
 #endif
-        if (handle == invhandle)
-            error(uerrno(), "Couldn't open");
-    }
+		if (handle == invhandle)
+			error(uerrno(), "Couldn't open");
+	}
 }
 
 
 void infile::doclose()
 {
-    instm::doclose();
-    syshandle = invhandle;
-    peerhandle = invhandle;
+	instm::doclose();
+	syshandle = invhandle;
+	peerhandle = invhandle;
 }
 
 

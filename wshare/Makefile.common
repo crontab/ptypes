@@ -5,16 +5,16 @@
 
 .SUFFIXES:	.cxx .o
 
-DDEBUG      = -DDEBUG
-INCDIR      = ../include
-CXXOPTS     = $(OS_CXXOPTS) $(DDEBUG) -I$(INCDIR) -O2 -Werror
-LDLIBS      = $(OS_LDLIBS)
+DDEBUG		= -DDEBUG
+INCDIR		= ../include
+CXXOPTS		= $(OS_CXXOPTS) $(DDEBUG) -I$(INCDIR) -O2 -Werror
+LDLIBS		= $(OS_LDLIBS)
 
-BINDEST     = ../bin
+BINDEST		= ../bin
 
-OBJS        = wshare.o request.o clients.o sysutils.o urlutils.o log.o \
-	    mimetable.o config.o utils.o modules.o \
-	    mod_file.o mod_wstat.o mod_about.o
+OBJS		= wshare.o request.o clients.o sysutils.o urlutils.o log.o \
+		mimetable.o config.o utils.o modules.o \
+		mod_file.o mod_wstat.o mod_about.o
 
 
 .cxx.o:
