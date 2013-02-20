@@ -87,7 +87,7 @@ void* _threadproc(void* arg)
 	{
 		thr->execute();
 	}
-	catch(exception*)
+	catch(const except&)
 	{
 		_threadepilog(thr);
 		throw;
@@ -103,9 +103,8 @@ void _threadepilog(thread* thr)
 	{
 		thr->cleanup();
 	}
-	catch(exception* e)
+	catch(const except&)
 	{
-		delete e;
 	}
 	pexchange(&thr->finished, 1);
 	if (thr->autofree)

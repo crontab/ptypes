@@ -45,15 +45,15 @@ PTYPES_BEGIN
 
 class iobase;
 
-class ptpublic estream: public exception 
+class ptpublic except_stm: public except
 {
 protected:
 	int code;
 	iobase* errstm;
 public:
-	estream(iobase* ierrstm, int icode, const char* imsg);
-	estream(iobase* ierrstm, int icode, const string& imsg);
-	virtual ~estream();
+	except_stm(iobase* ierrstm, int icode, const char* imsg);
+	except_stm(iobase* ierrstm, int icode, const string& imsg);
+	virtual ~except_stm();
 	int get_code()			{ return code; }
 	iobase* get_errstm()	{ return errstm; }
 };

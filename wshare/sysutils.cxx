@@ -30,7 +30,7 @@ USING_PTYPES
 
 void throw_msg(const string& msg)
 {
-	throw new exception(msg);
+	throw except(msg);
 }
 
 

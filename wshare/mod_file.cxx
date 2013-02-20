@@ -173,9 +173,8 @@ void file_req::rsp_file()
 		f.set_bufsize(0);
 		f.open();
 	}
-	catch(estream* e)
+	catch(const except_stm&)
 	{
-		delete e;
 		req->rsp_forbidden();
 	}
 

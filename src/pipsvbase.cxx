@@ -55,7 +55,7 @@ void ipsvbase::error(ippeerinfo& p, int code, const char* defmsg)
 	if (isempty(msg))
 		msg = defmsg;
 	msg += " [" + p.asstring(true) + ']';
-	throw new estream(nil, code, msg);
+	throw except_stm(nil, code, msg);
 }
 
 

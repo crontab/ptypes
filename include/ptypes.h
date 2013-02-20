@@ -362,32 +362,32 @@ public:
 
 
 // -------------------------------------------------------------------- //
-// --- exception ------------------------------------------------------ //
+// --- except --------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 
-// the basic exception class. NOTE: the library always throws dynamically
-// allocated exception objects.
+// the basic exception class
 
-class ptpublic exception: public unknown 
+class ptpublic except: public unknown
 {
 protected:
 	string message;
 public:
-	exception(const char* imsg);
-	exception(const string& imsg);
-	virtual ~exception();
-	virtual string get_message() { return message; }
+	except(const char* imsg);
+	except(const string& imsg);
+	except(const except& e);
+	virtual ~except();
+	virtual string get_message() const { return message; }
 };
 
 
-// conversion exception class for stringtoie() and stringtoue()
+// conversion except class for stringtoie() and stringtoue()
 
-class ptpublic econv: public exception
+class ptpublic except_conv: public except
 {
 public:
-	econv(const char* msg): exception(msg)	{}
-	econv(const string& msg): exception(msg)  {}
-	virtual ~econv();
+	except_conv(const char* msg): except(msg)	{}
+	except_conv(const string& msg): except(msg)  {}
+	virtual ~except_conv();
 };
 
 
@@ -1032,13 +1032,13 @@ ptpublic extern const variant nullvar;
 // is being typecast'ed to 32-bit int and the value is
 // out of range
 
-class ptpublic evariant: public exception
+class ptpublic except_var: public except
 {
 protected:
 public:
-	evariant(const char* msg): exception(msg)  {}
-	evariant(const string& msg): exception(msg)	 {}
-	virtual ~evariant();
+	except_var(const char* msg): except(msg)  {}
+	except_var(const string& msg): except(msg)	 {}
+	virtual ~except_var();
 };
 
 

@@ -103,11 +103,10 @@ void client_thread::execute()
 			reset_state();
 		}
 	}
-	catch(estream* e)
+	catch(const except_stm&)
 	{
 		htlog_write(client_ip, req_line, rsp_code, sockout->tellx() - hdr_size, referer);
 		client->close();
-		delete e;
 	}
 	
 	client->close();

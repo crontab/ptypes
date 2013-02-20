@@ -34,7 +34,7 @@ void npserver::error(int code, const char* defmsg)
 	if (isempty(msg))
 		msg = defmsg;
 	msg += " [" + pipename + ']';
-	throw new estream(nil, code, msg);
+	throw except_stm(nil, code, msg);
 }
 
 

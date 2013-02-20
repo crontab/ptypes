@@ -72,10 +72,9 @@ void run_server()
 			{
 				downgrade(cfg_user, cfg_group);
 			}
-			catch(exception* e)
+			catch(const except& e)
 			{
-				fail(e->get_message());
-				delete e;
+				fail(e.get_message());
 			}
 			syslog_write(SYSLOG_WARNING, "running as %s:%s",
 				pconst(cfg_user), pconst(cfg_group));
@@ -108,10 +107,9 @@ void run_server()
 			}
 		}
 	}
-	catch(estream* e)
+	catch(const except_stm& e)
 	{
-		fail("Server socket error: " + e->get_message());
-		delete e;
+		fail("Server socket error: " + e.get_message());
 	}
 }
 
@@ -141,10 +139,9 @@ void config_check()
 		{
 			htlog->open();
 		}
-		catch (estream* e)
+		catch (const except_stm& e)
 		{
-			fail(e->get_message());
-			delete e;
+			fail(e.get_message());
 		}
 	}
 

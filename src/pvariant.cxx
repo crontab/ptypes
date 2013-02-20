@@ -137,7 +137,7 @@ static void vfatal()
 }
 
 
-evariant::~evariant()
+except_var::~except_var()
 {
 }
 
@@ -624,7 +624,7 @@ void ptdecl ains(variant& array, int index, const variant& item)
 
 static void vconverr(large v)
 {
-	throw new evariant("Value out of range: " + itostring(v));
+	throw except_var("Value out of range: " + itostring(v));
 }
 
 

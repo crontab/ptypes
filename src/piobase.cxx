@@ -133,15 +133,15 @@ const char* ptdecl unixerrmsg(int code)
 }
 
 
-estream::estream(iobase* ierrstm, int icode, const char* imsg)
-	: exception(imsg), code(icode), errstm(ierrstm) {}
+except_stm::except_stm(iobase* ierrstm, int icode, const char* imsg)
+	: except(imsg), code(icode), errstm(ierrstm) {}
 
 
-estream::estream(iobase* ierrstm, int icode, const string& imsg)
-	: exception(imsg), code(icode), errstm(ierrstm) {}
+except_stm::except_stm(iobase* ierrstm, int icode, const string& imsg)
+	: except(imsg), code(icode), errstm(ierrstm) {}
 
 
-estream::~estream() {}
+except_stm::~except_stm() {}
 
 
 int defbufsize = 8192;
@@ -236,9 +236,8 @@ void iobase::close()
 			flush();
 		doclose();
 	}
-	catch(estream* e)
+	catch(const except_stm&)
 	{
-		delete e;
 	}
 	buffree();
 	active = false;
@@ -371,7 +370,7 @@ void iobase::error(int code, const char* defmsg)
 	eof = true;
 	stmerrno = code;
 	deferrormsg = defmsg;
-	throw new estream(this, code, get_errormsg());
+	throw except_stm(this, code, get_errormsg());
 }
 
 

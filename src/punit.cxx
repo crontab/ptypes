@@ -93,20 +93,18 @@ void unit::do_main()
 		if (uout->get_active())
 			uout->flush();
 	}
-	catch(exception* e)
+	catch(const except& e)
 	{
-		perr.putf("Error: %s\n", pconst(e->get_message()));
-		delete e;
+		perr.putf("Error: %s\n", pconst(e.get_message()));
 	}
 
 	try
 	{
 		cleanup();
 	}
-	catch(exception* e)
+	catch(const except& e)
 	{
-		perr.putf("Error: %s\n", pconst(e->get_message()));
-		delete e;
+		perr.putf("Error: %s\n", pconst(e.get_message()));
 	}
 
 	if (pipe_next != nil)

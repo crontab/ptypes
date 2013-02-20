@@ -81,10 +81,21 @@
 		365A63BD16D54B3E0045B54C /* utils.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 365A639A16D54B040045B54C /* utils.cxx */; };
 		365A63BE16D54B3E0045B54C /* wshare.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 365A639C16D54B040045B54C /* wshare.cxx */; };
 		365A63BF16D54B480045B54C /* libptypes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 360EC14C16D542D7003E4520 /* libptypes.a */; };
+		36F5DACA16D5636E00DD7D35 /* ptypes_test.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 360EC06516D53CAB003E4520 /* ptypes_test.cxx */; };
+		36F5DACB16D565F600DD7D35 /* libptypes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 360EC14C16D542D7003E4520 /* libptypes.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		365A634416D54A400045B54C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		36F5DABF16D5633D00DD7D35 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -186,6 +197,7 @@
 		365A63C816D54F6A0045B54C /* Makefile.common */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.common; sourceTree = "<group>"; };
 		365A63C916D54F6A0045B54C /* Makefile.Darwin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.Darwin; sourceTree = "<group>"; };
 		365A63CC16D54F6B0045B54C /* Makefile.Linux */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.Linux; sourceTree = "<group>"; };
+		36F5DAC116D5633D00DD7D35 /* ptypes_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ptypes_test; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +213,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				365A63BF16D54B480045B54C /* libptypes.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		36F5DABE16D5633D00DD7D35 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36F5DACB16D565F600DD7D35 /* libptypes.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +351,7 @@
 			children = (
 				360EC14C16D542D7003E4520 /* libptypes.a */,
 				365A634616D54A400045B54C /* wshare */,
+				36F5DAC116D5633D00DD7D35 /* ptypes_test */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -390,6 +411,23 @@
 			productReference = 365A634616D54A400045B54C /* wshare */;
 			productType = "com.apple.product-type.tool";
 		};
+		36F5DAC016D5633D00DD7D35 /* ptypes_test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 36F5DAC716D5633E00DD7D35 /* Build configuration list for PBXNativeTarget "ptypes_test" */;
+			buildPhases = (
+				36F5DABD16D5633D00DD7D35 /* Sources */,
+				36F5DABE16D5633D00DD7D35 /* Frameworks */,
+				36F5DABF16D5633D00DD7D35 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ptypes_test;
+			productName = ptypes_test;
+			productReference = 36F5DAC116D5633D00DD7D35 /* ptypes_test */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -413,6 +451,7 @@
 			targets = (
 				360EC14B16D542D7003E4520 /* libptypes */,
 				365A634516D54A400045B54C /* wshare */,
+				36F5DAC016D5633D00DD7D35 /* ptypes_test */,
 			);
 		};
 /* End PBXProject section */
@@ -494,6 +533,14 @@
 				365A63BC16D54B3E0045B54C /* urlutils.cxx in Sources */,
 				365A63BD16D54B3E0045B54C /* utils.cxx in Sources */,
 				365A63BE16D54B3E0045B54C /* wshare.cxx in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		36F5DABD16D5633D00DD7D35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36F5DACA16D5636E00DD7D35 /* ptypes_test.cxx in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +654,24 @@
 			};
 			name = Release;
 		};
+		36F5DAC816D5633E00DD7D35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		36F5DAC916D5633E00DD7D35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -636,6 +701,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		36F5DAC716D5633E00DD7D35 /* Build configuration list for PBXNativeTarget "ptypes_test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36F5DAC816D5633E00DD7D35 /* Debug */,
+				36F5DAC916D5633E00DD7D35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

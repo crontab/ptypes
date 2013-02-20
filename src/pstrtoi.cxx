@@ -37,7 +37,7 @@ large ptdecl stringtoi(const char* p)
 }
 
 
-econv::~econv()
+except_conv::~except_conv()
 {
 }
 
@@ -112,13 +112,13 @@ large ptdecl stringtoie(const char* str)
 
 static void throw_conv(const char* p)
 {
-	throw new econv("Invalid number: '" + string(p) + '\'');
+	throw except_conv("Invalid number: '" + string(p) + '\'');
 }
 
 
 static void throw_overflow(const char* p)
 {
-	throw new econv("Out of range: '" + string(p) + '\'');
+	throw except_conv("Out of range: '" + string(p) + '\'');
 }
 
 

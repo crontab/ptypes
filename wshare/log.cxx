@@ -105,9 +105,8 @@ void htlog_write(ipaddress ip, string request, int code, large size, string refe
 			pconst(request), code, pconst(ssize), pconst(referer));
 		htlog->flush();
 	}
-	catch (estream* e)
+	catch (const except_stm&)
 	{
-		delete e;
 		htlog = 0;
 		syslog_write(SYSLOG_ERROR, "HTTP log disabled due to failed write attempt (daemonized?)");
 	}

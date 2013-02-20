@@ -5,19 +5,19 @@
 PTYPES_BEGIN
 
 
-exception::exception(const char* imsg)
+except::except(const char* imsg)
 	: message(imsg)
 {
 }
 
 
-exception::exception(const string& imsg)
+except::except(const string& imsg)
 	: message(imsg)
 {
 }
 
 
-exception::~exception()
+except::~except()
 {
 }
 

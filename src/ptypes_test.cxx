@@ -185,10 +185,9 @@ void string_test2()
 		stringtoue("18446744073709551616", 10);
 		fatal(0xb0, "Conversion overflow not detected");
 	}
-	catch (econv* e)
+	catch (const except_conv& e)
 	{
-		showstr("Out of range: '18446744073709551616'", e->get_message());
-		delete e;
+		showstr("Out of range: '18446744073709551616'", e.get_message());
 	}
 
 	showint(large(123), stringtoie("123"));
@@ -202,10 +201,9 @@ void string_test2()
 		stringtoie("9223372036854775808");
 		fatal(0xb0, "Conversion overflow not detected");
 	}
-	catch (econv* e)
+	catch (const except_conv& e)
 	{
-		showstr("Out of range: '9223372036854775808'", e->get_message());
-		delete e;
+		showstr("Out of range: '9223372036854775808'", e.get_message());
 	}
 
 	showstr("abcabc", lowercase(s1 = "aBCAbc"));
@@ -1076,10 +1074,9 @@ void inet_test1()
 		
 		s.close();
 	}
-	catch(estream* e)
+	catch(const except_stm& e)
 	{
-		perr.putf("Socket error: %s\n", pconst(e->get_message()));
-		delete e;
+		perr.putf("Socket error: %s\n", pconst(e.get_message()));
 	}
 }
 
@@ -1140,10 +1137,9 @@ void svthread::execute()
 			client.close();
 		}
 	}
-	catch(estream* e)
+	catch(const except_stm& e)
 	{
-		perr.putf("Server error: %s\n", pconst(e->get_message()));
-		delete e;
+		perr.putf("Server error: %s\n", pconst(e.get_message()));
 	}
 	
 	// a real server could enter an infinite loop serving requests
@@ -1186,10 +1182,9 @@ void inet_test2()
 
 		client.close();
 	}
-	catch(estream* e)
+	catch(const except_stm& e)
 	{
-		perr.putf("Error: %s\n", pconst(e->get_message()));
-		delete e;
+		perr.putf("Error: %s\n", pconst(e.get_message()));
 	}
 
 }
@@ -1221,10 +1216,9 @@ void msgsvthread::execute()
 		string rsp = "gotcha";
 		s.send(rsp);
 	}
-	catch(estream* e)
+	catch(const except_stm& e)
 	{
-		perr.putf("Server error: %s\n", pconst(e->get_message()));
-		delete e;
+		perr.putf("Server error: %s\n", pconst(e.get_message()));
 	}
 }
 
@@ -1245,10 +1239,9 @@ void inet_test3()
 		string rsp = m.receive(1024);
 		pout.putf("Client received: %s\n", pconst(rsp));
 	}
-	catch(estream* e)
+	catch(const except_stm& e)
 	{
-		perr.putf("Client error: %s\n", pconst(e->get_message()));
-		delete e;
+		perr.putf("Client error: %s\n", pconst(e.get_message()));
 	}
 }
 
@@ -1298,10 +1291,9 @@ void npthread::execute()
 			client.close();
 		}
 	}
-	catch(estream* e)
+	catch(const except_stm& e)
 	{
-		perr.putf("Pipe server error: %s\n", pconst(e->get_message()));
-		delete e;
+		perr.putf("Pipe server error: %s\n", pconst(e.get_message()));
 	}
 }
 
@@ -1335,10 +1327,9 @@ void pipe_test()
 
 		client.close();
 	}
-	catch(estream* e)
+	catch(const except_stm& e)
 	{
-		perr.putf("Error: %s\n", pconst(e->get_message()));
-		delete e;
+		perr.putf("Error: %s\n", pconst(e.get_message()));
 	}
 }
 
@@ -1452,10 +1443,9 @@ void doc_example()
 
 	}
 
-	catch (estream* e)
+	catch (const except_stm& e)
 	{
-		pout.putf("Error: %s\n", pconst(e->get_message()));
-		delete e;
+		pout.putf("Error: %s\n", pconst(e.get_message()));
 	}
 
 	// now print the dictionary
@@ -1551,11 +1541,10 @@ int main()
 
 	}
 
-	catch (estream* e)
+	catch (const except& e)
 	{
-		perr.putf("\nError: %s\n", pconst(e->get_message()));
+		perr.putf("\nError: %s\n", pconst(e.get_message()));
 		exit(1);
-		delete e;
 	}
 
 #ifdef DEBUG

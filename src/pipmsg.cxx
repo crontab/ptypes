@@ -186,7 +186,7 @@ void ipmessage::error(int code, const char* msg)
 	string s = usockerrmsg(code);
 	if (isempty(s))
 		s = msg;
-	throw new estream(nil, code, s + " [" + ippeerinfo::asstring(true) + ']');
+	throw except_stm(nil, code, s + " [" + ippeerinfo::asstring(true) + ']');
 }
 
 

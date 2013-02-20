@@ -399,7 +399,7 @@ bool ptdecl psockname(int handle, ippeerinfo& p)
 void ippeerinfo::notfound()
 {
 	string t = usockerrmsg(ENOENT);
-	throw new estream(nil, ENOENT, t + " [" + asstring(false) + ']');
+	throw except_stm(nil, ENOENT, t + " [" + asstring(false) + ']');
 }
 
 

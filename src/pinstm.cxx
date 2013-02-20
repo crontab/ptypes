@@ -72,7 +72,7 @@ int instm::rawread(char* buf, int count)
 		}
 		return ret;
 	}
-	catch (estream*)
+	catch (const except_stm&)
 	{
 		eof = true;
 		chstat(IO_EOF);
