@@ -1004,47 +1004,6 @@ int trigger_test()
 
 
 //
-// md5 test
-//
-
-static md5_digest digest;
-
-char* md5str(string data)
-{
-	outmd5 m;
-	m.open();
-	m.put(data);
-	memcpy(digest, m.get_bindigest(), sizeof(md5_digest));
-	return (char*)digest;
-}
-
-string cryptpw(string username, string password)
-{
-	outmd5 m;
-	m.open();
-	m.put(username);
-	m.put(password);
-	m.close();
-	return m.get_digest();
-}
-
-void md5_test()
-{
-	pout.put("\n--- MD5 OUTPUT STREAM\n");
-	// MD5 test suite from RFC1321
-	showhex("d41d8cd98f00b204e9800998ecf8427e", md5str(""), md5_digsize);
-	showhex("0cc175b9c0f1b6a831c399e269772661", md5str("a"), md5_digsize);
-	showhex("900150983cd24fb0d6963f7d28e17f72", md5str("abc"), md5_digsize);
-	showhex("f96b697d7cb7938d525a2f31aaf161d0", md5str("message digest"), md5_digsize);
-	showhex("c3fcd3d76192e4007dfb496cca67e13b", md5str("abcdefghijklmnopqrstuvwxyz"), md5_digsize);
-	showhex("d174ab98d277d9f5a5611c2c9f419d9f", md5str("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"), md5_digsize);
-	showhex("57edf4a22be3c955ac49da2e2107b67a", md5str("12345678901234567890123456789012345678901234567890123456789012345678901234567890"), md5_digsize);
-	
-	showstr("t0htL.C9vunX8SPPsJjDmk", cryptpw("hovik", "myfavoritelonglonglongpassword"));
-}
-
-
-//
 // outstm::putf() test
 //
 
@@ -1571,7 +1530,6 @@ int main()
 		outfile_test();
 		infile_test();
 		mem_test();
-		md5_test();
 		putf_test();
 
 		time_test();

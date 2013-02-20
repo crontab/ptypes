@@ -661,52 +661,8 @@ public:
 
 
 // -------------------------------------------------------------------- //
-// ---	utility streams ----------------------------------------------- //
+// --- utility streams ------------------------------------------------ //
 // -------------------------------------------------------------------- //
-
-//
-// MD5 -- message digest algorithm
-// Derived from L. Peter Deutsch's work, please see src/pmd5.cxx
-//
-
-
-const int md5_digsize = 16;
-typedef uchar md5_digest[md5_digsize];
-
-// from md5.h
-
-typedef unsigned char md5_byte_t; /* 8-bit byte */
-typedef unsigned int md5_word_t; /* 32-bit word */
-
-
-typedef struct md5_state_s
-{
-	md5_word_t count[2];	/* message length in bits, lsw first */
-	md5_word_t abcd[4];		/* digest buffer */
-	md5_byte_t buf[64];		/* accumulate block */
-} md5_state_t;
-
-
-class ptpublic outmd5: public outfilter
-{
-protected:
-	md5_state_s ctx;
-	md5_digest digest;
-
-	virtual void doopen();
-	virtual void doclose();
-	virtual int dorawwrite(const char* buf, int count);
-
-public:
-	outmd5(outstm* istm = nil);
-	virtual ~outmd5();
-	
-	virtual string get_streamname();
-
-	const unsigned char* get_bindigest()  { close(); return digest; }
-	string get_digest();
-};
-
 
 //
 // null output stream
