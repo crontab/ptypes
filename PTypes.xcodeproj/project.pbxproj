@@ -27,7 +27,6 @@
 		360EC16116D544A8003E4520 /* pipstm.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 360EC04416D53CAB003E4520 /* pipstm.cxx */; };
 		360EC16216D544A8003E4520 /* pipstmsv.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 360EC04516D53CAB003E4520 /* pipstmsv.cxx */; };
 		360EC16316D544A8003E4520 /* pipsvbase.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 360EC04616D53CAB003E4520 /* pipsvbase.cxx */; };
-		360EC16416D544A8003E4520 /* pmd5.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 360EC04716D53CAB003E4520 /* pmd5.cxx */; };
 		360EC16516D544A8003E4520 /* pmem.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 360EC04816D53CAB003E4520 /* pmem.cxx */; };
 		360EC16616D544A8003E4520 /* pmsgq.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 360EC04916D53CAB003E4520 /* pmsgq.cxx */; };
 		360EC16716D544A8003E4520 /* pmtxtable.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 360EC04A16D53CAB003E4520 /* pmtxtable.cxx */; };
@@ -123,7 +122,6 @@
 		360EC04416D53CAB003E4520 /* pipstm.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pipstm.cxx; sourceTree = "<group>"; };
 		360EC04516D53CAB003E4520 /* pipstmsv.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pipstmsv.cxx; sourceTree = "<group>"; };
 		360EC04616D53CAB003E4520 /* pipsvbase.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pipsvbase.cxx; sourceTree = "<group>"; };
-		360EC04716D53CAB003E4520 /* pmd5.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pmd5.cxx; sourceTree = "<group>"; };
 		360EC04816D53CAB003E4520 /* pmem.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pmem.cxx; sourceTree = "<group>"; };
 		360EC04916D53CAB003E4520 /* pmsgq.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pmsgq.cxx; sourceTree = "<group>"; };
 		360EC04A16D53CAB003E4520 /* pmtxtable.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pmtxtable.cxx; sourceTree = "<group>"; };
@@ -182,19 +180,12 @@
 		365A639C16D54B040045B54C /* wshare.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wshare.cxx; sourceTree = "<group>"; };
 		365A63C016D54F510045B54C /* Makefile.common */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.common; sourceTree = "<group>"; };
 		365A63C116D54F510045B54C /* Makefile.Darwin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.Darwin; sourceTree = "<group>"; };
-		365A63C216D54F510045B54C /* Makefile.FreeBSD */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.FreeBSD; sourceTree = "<group>"; };
-		365A63C316D54F510045B54C /* Makefile.HP-UX */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Makefile.HP-UX"; sourceTree = "<group>"; };
 		365A63C416D54F510045B54C /* Makefile.Linux */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.Linux; sourceTree = "<group>"; };
-		365A63C516D54F510045B54C /* Makefile.SunOS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.SunOS; sourceTree = "<group>"; };
 		365A63C616D54F510045B54C /* mimetable.awk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mimetable.awk; sourceTree = "<group>"; };
 		365A63C716D54F6A0045B54C /* fatal-codes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "fatal-codes.txt"; sourceTree = "<group>"; };
 		365A63C816D54F6A0045B54C /* Makefile.common */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.common; sourceTree = "<group>"; };
 		365A63C916D54F6A0045B54C /* Makefile.Darwin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.Darwin; sourceTree = "<group>"; };
-		365A63CA16D54F6A0045B54C /* Makefile.FreeBSD */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.FreeBSD; sourceTree = "<group>"; };
-		365A63CB16D54F6B0045B54C /* Makefile.HP-UX */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Makefile.HP-UX"; sourceTree = "<group>"; };
 		365A63CC16D54F6B0045B54C /* Makefile.Linux */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.Linux; sourceTree = "<group>"; };
-		365A63CD16D54F6B0045B54C /* Makefile.SunOS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.SunOS; sourceTree = "<group>"; };
-		365A63CE16D54F6B0045B54C /* patomic.sparc.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = patomic.sparc.s; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,11 +226,7 @@
 				365A63C716D54F6A0045B54C /* fatal-codes.txt */,
 				365A63C816D54F6A0045B54C /* Makefile.common */,
 				365A63C916D54F6A0045B54C /* Makefile.Darwin */,
-				365A63CA16D54F6A0045B54C /* Makefile.FreeBSD */,
-				365A63CB16D54F6B0045B54C /* Makefile.HP-UX */,
 				365A63CC16D54F6B0045B54C /* Makefile.Linux */,
-				365A63CD16D54F6B0045B54C /* Makefile.SunOS */,
-				365A63CE16D54F6B0045B54C /* patomic.sparc.s */,
 				360EC03216D53CAB003E4520 /* pasync.cxx */,
 				360EC03316D53CAB003E4520 /* patomic.cxx */,
 				360EC03516D53CAB003E4520 /* pcomponent.cxx */,
@@ -260,7 +247,6 @@
 				360EC04416D53CAB003E4520 /* pipstm.cxx */,
 				360EC04516D53CAB003E4520 /* pipstmsv.cxx */,
 				360EC04616D53CAB003E4520 /* pipsvbase.cxx */,
-				360EC04716D53CAB003E4520 /* pmd5.cxx */,
 				360EC04816D53CAB003E4520 /* pmem.cxx */,
 				360EC04916D53CAB003E4520 /* pmsgq.cxx */,
 				360EC04A16D53CAB003E4520 /* pmtxtable.cxx */,
@@ -303,10 +289,7 @@
 			children = (
 				365A63C016D54F510045B54C /* Makefile.common */,
 				365A63C116D54F510045B54C /* Makefile.Darwin */,
-				365A63C216D54F510045B54C /* Makefile.FreeBSD */,
-				365A63C316D54F510045B54C /* Makefile.HP-UX */,
 				365A63C416D54F510045B54C /* Makefile.Linux */,
-				365A63C516D54F510045B54C /* Makefile.SunOS */,
 				365A63C616D54F510045B54C /* mimetable.awk */,
 				365A638116D54B040045B54C /* clients.cxx */,
 				365A638316D54B040045B54C /* config.cxx */,
@@ -459,7 +442,6 @@
 				360EC16116D544A8003E4520 /* pipstm.cxx in Sources */,
 				360EC16216D544A8003E4520 /* pipstmsv.cxx in Sources */,
 				360EC16316D544A8003E4520 /* pipsvbase.cxx in Sources */,
-				360EC16416D544A8003E4520 /* pmd5.cxx in Sources */,
 				360EC16516D544A8003E4520 /* pmem.cxx in Sources */,
 				360EC16616D544A8003E4520 /* pmsgq.cxx in Sources */,
 				360EC16716D544A8003E4520 /* pmtxtable.cxx in Sources */,
@@ -644,6 +626,7 @@
 				365A634D16D54A400045B54C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		36EABC6D16D53B47008290A8 /* Build configuration list for PBXProject "PTypes" */ = {
 			isa = XCConfigurationList;

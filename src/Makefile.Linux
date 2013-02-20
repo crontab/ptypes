@@ -4,7 +4,7 @@
 
 CXX = g++
 
-OS_CXXOPTS_ST = -Wall -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
+OS_CXXOPTS_ST = -Wall -Werror -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
 OS_CXXOPTS = $(OS_CXXOPTS_ST) -pthread -fPIC
 
 LIBTOOL = $(CXX) -shared -pthread

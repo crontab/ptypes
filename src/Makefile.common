@@ -10,7 +10,7 @@ RANLIB			= ranlib
 
 DDEBUG			= -DDEBUG
 INCDIR			= ../include
-CXXOPTS			= $(OS_CXXOPTS) $(DDEBUG) -I$(INCDIR) -O2 -Werror
+CXXOPTS			= $(OS_CXXOPTS) $(DDEBUG) -I$(INCDIR) -O2
 LDLIBS			= $(OS_LDLIBS)
 
 CXXOPTS_ST		= -DPTYPES_ST $(OS_CXXOPTS_ST) $(DDEBUG) -I$(INCDIR) -O2
@@ -33,7 +33,7 @@ LIBOBJS		  = mt/pversion.o mt/pmem.o mt/pfatal.o mt/pstring.o mt/pcset.o mt/pcse
 		mt/patomic.o mt/pasync.o mt/psemaphore.o mt/pthread.o mt/pmsgq.o mt/ptimedsem.o \
 		mt/prwlock.o mt/ptrigger.o mt/pmtxtable.o mt/pvariant.o \
 		mt/piobase.o mt/pinstm.o mt/pinfile.o mt/ppipe.o mt/pinmem.o mt/poutmem.o \
-		mt/pintee.o mt/poutstm.o mt/poutfile.o mt/pinfilter.o mt/poutfilter.o mt/pmd5.o \
+		mt/pintee.o mt/poutstm.o mt/poutfile.o mt/pinfilter.o mt/poutfilter.o \
 		mt/pputf.o mt/pstdio.o mt/pfdxstm.o mt/pnpipe.o mt/pnpserver.o \
 		mt/pipbase.o mt/pipsvbase.o mt/pipstm.o mt/pipstmsv.o mt/pipmsg.o mt/pipmsgsv.o \
 		mt/punit.o \
@@ -44,7 +44,7 @@ LIBOBJS_ST	  = st/pversion.o st/pmem.o st/pfatal.o st/pstring.o st/pcset.o st/pc
 		st/punknown.o st/pcomponent.o st/pexcept.o st/ppodlist.o st/pobjlist.o st/pstrlist.o st/ptextmap.o \
 		st/patomic.o st/pvariant.o \
 		st/piobase.o st/pinstm.o st/pinfile.o st/ppipe.o st/pinmem.o st/poutmem.o \
-		st/pintee.o st/poutstm.o st/poutfile.o st/pinfilter.o st/poutfilter.o st/pmd5.o \
+		st/pintee.o st/poutstm.o st/poutfile.o st/pinfilter.o st/poutfilter.o \
 		st/pputf.o st/pstdio.o st/pfdxstm.o st/pnpipe.o st/pnpserver.o \
 		st/pipbase.o st/pipsvbase.o st/pipstm.o st/pipstmsv.o st/pipmsg.o st/pipmsgsv.o \
 		$(EXTRA_OBJS_ST)
@@ -219,9 +219,6 @@ mt/pinfilter.o: pinfilter.cxx $(HLEVEL3)
 mt/poutfilter.o: poutfilter.cxx $(HLEVEL3)
 	$(CXX) -c $(CXXOPTS) -o $@ poutfilter.cxx
 
-mt/pmd5.o: pmd5.cxx $(HLEVEL3)
-	$(CXX) -c $(CXXOPTS) -o $@ pmd5.cxx
-
 mt/pputf.o: pputf.cxx $(HLEVEL3)
 	$(CXX) -c $(CXXOPTS) -o $@ pputf.cxx
 
@@ -358,9 +355,6 @@ st/pinfilter.o: pinfilter.cxx $(HLEVEL3)
 
 st/poutfilter.o: poutfilter.cxx $(HLEVEL3)
 	$(CXX) -c $(CXXOPTS_ST) -o $@ poutfilter.cxx
-
-st/pmd5.o: pmd5.cxx $(HLEVEL3)
-	$(CXX) -c $(CXXOPTS_ST) -o $@ pmd5.cxx
 
 st/pputf.o: pputf.cxx $(HLEVEL3)
 	$(CXX) -c $(CXXOPTS_ST) -o $@ pputf.cxx
