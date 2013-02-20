@@ -55,7 +55,7 @@ extern string  cfg_user;				// user name to run as on Unix
 extern string  cfg_group;				// group name to run as on Unix
 extern bool	   cfg_daemonize;			// daemonize on Unix
 
-extern char*   myname;					// "wshare", for syslog
+extern const char* myname;				// "wshare", for syslog
 
 
 void config_init(int argc, char* argv[]);

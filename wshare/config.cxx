@@ -58,7 +58,7 @@ string	cfg_log_file;
 int		cfg_max_clients = DEF_MAX_CLIENTS;
 int		cfg_max_keep_alive = (DEF_MAX_CLIENTS * 2) / 3;
 
-char* myname = "wshare";
+const char* myname = "wshare";
 
 
 static void usage()

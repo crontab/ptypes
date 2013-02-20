@@ -10,9 +10,9 @@
 USING_PTYPES
 
 
-char* opt_anonymous_username = "ftp";
-char* opt_anonymous_password = "unknown@";
-char* opt_default_urlscheme = "http";
+const char* opt_anonymous_username = "ftp";
+const char* opt_anonymous_password = "unknown@";
+const char* opt_default_urlscheme = "http";
 
 
 static cset schemechars("0-9A-Za-z~-.");

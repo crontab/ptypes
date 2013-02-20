@@ -167,10 +167,12 @@ string get_mimetype(const string& path)
 {
 	string ext = get_file_ext(path);
 	if (isempty(ext))
+	{
 		if (is_executable(path))
 			return "application/octet-stream";
 		else
 			return DEF_MIME_TYPE;
+	}
 
 	const char** p = mimetypes;
 	while (*p != 0)

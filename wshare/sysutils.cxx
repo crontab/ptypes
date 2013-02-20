@@ -212,13 +212,14 @@ datetime get_file_mtime(const char* name)
 }
 
 
-#if defined(__sun__) || defined(__hpux)
+#if defined(__sun__) || defined(__hpux) || defined(__APPLE__)
 
 
-int daemon(int nochdir, int noclose) {
+int os_daemon(int nochdir, int noclose)
+{
 	int fd;
 	
-	switch (fork()) 
+	switch (fork())
 	{
 	case -1:
 		return -1;
@@ -234,7 +235,7 @@ int daemon(int nochdir, int noclose) {
 	if (!nochdir)
 		chdir("/");
 	
-	if (!noclose && (fd = open("/dev/null", O_RDWR, 0)) != -1) 
+	if (!noclose && (fd = open("/dev/null", O_RDWR, 0)) != -1)
 	{
 		dup2(fd, STDIN_FILENO);
 		dup2(fd, STDOUT_FILENO);
@@ -249,7 +250,7 @@ int daemon(int nochdir, int noclose) {
 #elif defined WIN32
 
 
-int daemon(int nochdir, int)
+int os_daemon(int nochdir, int)
 {
 	if (!nochdir)
 		chdir("/");

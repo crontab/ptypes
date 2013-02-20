@@ -36,9 +36,9 @@ struct urlrec {
 };
 
 
-extern char* opt_anonymous_username;
-extern char* opt_anonymous_password;
-extern char* opt_default_urlscheme;
+extern const char* opt_anonymous_username;
+extern const char* opt_anonymous_password;
+extern const char* opt_default_urlscheme;
 
 bool   isurl(const string& s);
 void   urlclear(urlrec& u);

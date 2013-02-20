@@ -58,8 +58,10 @@ inline bool is_directory(const char* name)	{ return get_file_type(name) == FT_DI
 inline bool is_file(const char* name)		{ return get_file_type(name) == FT_FILE; }
 
 
-#if defined(__sun__) || defined(__hpux) || defined(WIN32)
-int daemon(int nochdir, int noclose);
+#if defined(__sun__) || defined(__hpux) || defined(__APPLE__) || defined(WIN32)
+int os_daemon(int nochdir, int noclose);
+#else
+#  define os_daemon daemon
 #endif
 
 void downgrade(const string& user, string& group);

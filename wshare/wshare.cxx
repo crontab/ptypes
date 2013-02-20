@@ -62,7 +62,7 @@ void run_server()
 		if (cfg_daemonize)
 		{
 			errlog = 0;
-			daemon(0, 0);
+			os_daemon(0, 0);
 		}
 
 		// run-as (downgrade process priveleges)
