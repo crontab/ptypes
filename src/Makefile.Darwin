@@ -1,0 +1,19 @@
+#
+# Makefile for MacOS X (Darwin), called from ../Makefile
+#
+
+CXX = c++
+
+OS_CXXOPTS_ST = -Wall -Wno-long-double -fno-common
+OS_CXXOPTS = $(OS_CXXOPTS_ST) -fPIC
+
+LIBTOOL = $(CXX) -dynamiclib
+SOSTRIP = test
+
+SOEXT = dylib
+SOINSTOPT = -install_name /usr/lib/$(SOREALNAME)
+
+PREFIX = /usr
+
+include Makefile.common
+
