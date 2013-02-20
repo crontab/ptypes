@@ -1,0 +1,34 @@
+# Compiled stuff #
+###################
+*.dll
+*.exe
+*.o
+*.so
+*.a
+*.dylib
+*.dylib.??
+bin/
+lib/
+so/
+src/ptypes_test
+src/ptypesn_test
+wshare/wshare
+
+# OS generated waste #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# Packages #
+############
+*.dmg
+*.gz
+*.iso
+*.tar
+*.zip
