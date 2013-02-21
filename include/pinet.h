@@ -159,7 +159,7 @@ protected:
 	string	  host;		  // target host name; either IP or hostname must be specified
 	int		  port;		  // target port number
 
-	void	  notfound(); // throws a (estream*) exception
+	void	  notfound(); // throws except_stm
 
 	ptpublic friend bool ptdecl psockname(int, ippeerinfo&);
 
@@ -169,6 +169,7 @@ public:
 
 	ipaddress get_ip();		// resolves the host name if necessary (only once)
 	string	  get_host();	// performs reverse-lookup if necessary (only once)
+	string	  get_ip_str(bool revlook = true); // full ip string for diag output "host (ip)"
 	int		  get_port()	{ return port; }
 	void	  clear();
 	string	  asstring(bool showport) const;

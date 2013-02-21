@@ -307,31 +307,31 @@
 		365A638016D54B040045B54C /* wshare */ = {
 			isa = PBXGroup;
 			children = (
+				365A638116D54B040045B54C /* clients.cxx */,
+				365A638216D54B040045B54C /* clients.h */,
+				365A638316D54B040045B54C /* config.cxx */,
+				365A638416D54B040045B54C /* config.h */,
+				365A638516D54B040045B54C /* log.cxx */,
+				365A638616D54B040045B54C /* log.h */,
 				365A63C016D54F510045B54C /* Makefile.common */,
 				365A63C116D54F510045B54C /* Makefile.Darwin */,
 				365A63C416D54F510045B54C /* Makefile.Linux */,
 				365A63C616D54F510045B54C /* mimetable.awk */,
-				365A638116D54B040045B54C /* clients.cxx */,
-				365A638316D54B040045B54C /* config.cxx */,
-				365A638516D54B040045B54C /* log.cxx */,
 				365A638E16D54B040045B54C /* mimetable.cxx */,
 				365A638F16D54B040045B54C /* mod_about.cxx */,
 				365A639016D54B040045B54C /* mod_file.cxx */,
 				365A639116D54B040045B54C /* mod_wstat.cxx */,
 				365A639216D54B040045B54C /* modules.cxx */,
-				365A639416D54B040045B54C /* request.cxx */,
-				365A639616D54B040045B54C /* sysutils.cxx */,
-				365A639816D54B040045B54C /* urlutils.cxx */,
-				365A639A16D54B040045B54C /* utils.cxx */,
-				365A639C16D54B040045B54C /* wshare.cxx */,
-				365A638216D54B040045B54C /* clients.h */,
-				365A638416D54B040045B54C /* config.h */,
-				365A638616D54B040045B54C /* log.h */,
 				365A639316D54B040045B54C /* modules.h */,
+				365A639416D54B040045B54C /* request.cxx */,
 				365A639516D54B040045B54C /* request.h */,
+				365A639616D54B040045B54C /* sysutils.cxx */,
 				365A639716D54B040045B54C /* sysutils.h */,
+				365A639816D54B040045B54C /* urlutils.cxx */,
 				365A639916D54B040045B54C /* urlutils.h */,
+				365A639A16D54B040045B54C /* utils.cxx */,
 				365A639B16D54B040045B54C /* utils.h */,
+				365A639C16D54B040045B54C /* wshare.cxx */,
 			);
 			path = wshare;
 			sourceTree = "<group>";
@@ -550,6 +550,7 @@
 		360EC14E16D542D7003E4520 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				EXECUTABLE_PREFIX = "";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
@@ -561,6 +562,7 @@
 		360EC14F16D542D7003E4520 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				EXECUTABLE_PREFIX = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -571,6 +573,7 @@
 		365A634C16D54A400045B54C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "${SRCROOT}/include";
@@ -581,6 +584,7 @@
 		365A634D16D54A400045B54C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				HEADER_SEARCH_PATHS = "${SRCROOT}/include";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -657,6 +661,7 @@
 		36F5DAC816D5633E00DD7D35 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -668,6 +673,7 @@
 		36F5DAC916D5633E00DD7D35 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -709,6 +715,7 @@
 				36F5DAC916D5633E00DD7D35 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

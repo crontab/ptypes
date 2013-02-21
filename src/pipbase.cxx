@@ -148,9 +148,22 @@ string ippeerinfo::get_host()
 
 	host = phostbyaddr(ip);
 	if (isempty(host))
-		notfound();
+		host = iptostring(ip);
 
 	return host;
+}
+
+
+string ippeerinfo::get_ip_str(bool revlook)
+{
+	string s = iptostring(ip);
+	if (revlook)
+	{
+		get_host();
+		if (!isempty(host) && host != s)
+			s = host + " (" + s + ")";
+	}
+	return s;
 }
 
 
