@@ -777,6 +777,10 @@ protected:
 	tobjlist<component>* freelist;	   // list of components to notify about destruction, safer alternative to ref-counting
 
 	virtual void freenotify(component* sender);
+	bool release();
+
+	friend class variant;
+	template <class T> friend class compref;
 
 public:
 	component();
@@ -786,7 +790,6 @@ public:
 
 	component* addref();
 	template<class T> T* taddref() { return (T*)addref(); }
-	ptpublic friend bool ptdecl release(component*);
 
 	virtual int classid();
 };
@@ -803,11 +806,11 @@ public:
 	compref()									{ ref = 0; }
 	compref(const compref<T>& r)				{ ref = ((compref<T>&)r).addref(); }
 	compref(T* c)								{ ref = c->template taddref<T>(); }
-	~compref()									{ release(ref); }
+	~compref()									{ ref->release(); }
 
 	compref<T>& operator =(T* c)
 	{
-		release(tpexchange<T>(&ref, c->template taddref<T>()));
+		tpexchange<T>(&ref, c->template taddref<T>())->release();
 		return *this;
 	}
 

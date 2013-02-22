@@ -73,16 +73,16 @@ component* component::addref()
 }
 
 
-bool ptdecl release(component* c)
+bool ptdecl component::release()
 {
-	if (c != nil)
+	if (this)
 	{
 #ifdef PTYPES_ST
-		if (--c->refcount == 0)
+		if (--refcount == 0)
 #else
-		if (pdecrement(&c->refcount) == 0)
+		if (pdecrement(&refcount) == 0)
 #endif
-			delete c;
+			delete this;
 		else
 			return false;
 	}

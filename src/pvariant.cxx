@@ -207,7 +207,7 @@ void variant::finalize()
 				delete value.a;
 			break;
 		case VAR_OBJECT:
-			release(value.o);
+			value.o->release();
 			break;
 		default:
 			vfatal();
@@ -251,7 +251,7 @@ void variant::assign(component* o)
 		if (value.o == o)
 			return;
 		else
-			release(value.o);
+			value.o->release();
 	}
 	else
 		finalize();
