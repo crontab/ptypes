@@ -6,7 +6,7 @@ PTYPES_BEGIN
 
 
 component::component()
-	: unknown(), refcount(0), freelist(nil), typeinfo(nil)	{}
+	: unknown(), refcount(0), freelist(nil) {}
 
 
 component::~component()

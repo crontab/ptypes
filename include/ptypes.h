@@ -775,7 +775,6 @@ class ptpublic component: public unknown
 protected:
 	int					 refcount;	   // reference counting, used by addref() and release()
 	tobjlist<component>* freelist;	   // list of components to notify about destruction, safer alternative to ref-counting
-	void*				 typeinfo;	   // reserved for future use
 
 	virtual void freenotify(component* sender);
 
@@ -784,15 +783,12 @@ public:
 	virtual ~component();
 	void addnotification(component* obj);
 	void delnotification(component* obj);
-	
+
 	ptpublic friend component* ptdecl addref(component*);
 	ptpublic friend bool ptdecl release(component*);
 	friend int refcount(component* c);
 
 	virtual int classid();
-
-	void  set_typeinfo(void* t) { typeinfo = t; }
-	void* get_typeinfo()		{ return typeinfo; }
 };
 
 typedef component* pcomponent;
