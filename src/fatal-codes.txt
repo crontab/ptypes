@@ -12,7 +12,7 @@ CRIT_FIRST + ...
 30	list index out of bounds
 32	operation not allowed on sorted string lists
 33	can not search on unsorted string lists
-34	duplicate item in a sorted no-dup string list
+# removed: 34 duplicate item in a sorted no-dup string list
 35	incompatible podlist
 36	list capacity can't be smaller than count
 37	podlist item size too big

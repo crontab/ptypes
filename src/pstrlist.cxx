@@ -8,6 +8,11 @@ PTYPES_BEGIN
 typedef _stritem* pstritem;
 
 
+except_dup::~except_dup()
+{
+}
+
+
 void _strlist::sortederror()
 {
 	fatal(CRIT_FIRST + 32, "Operation not allowed on sorted string lists");
@@ -22,7 +27,7 @@ void _strlist::notsortederror()
 
 void _strlist::duperror()
 {
-	fatal(CRIT_FIRST + 34, "Duplicate items not allowed in this string list");
+	throw except_dup("Duplicate key");
 }
 
 

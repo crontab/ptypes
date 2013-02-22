@@ -588,6 +588,15 @@ typedef int slflags; // left for compatibility
 #define SL_OWNOBJECTS  8
 
 
+class except_dup: public except
+{
+public:
+	except_dup(const char* msg): except(msg)	{}
+	except_dup(const string& msg): except(msg)  {}
+	virtual ~except_dup();
+};
+
+
 struct _stritem
 {
 	string key;
