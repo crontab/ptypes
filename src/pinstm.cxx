@@ -25,12 +25,6 @@ instm::~instm()
 }
 
 
-int instm::classid()
-{
-	return CLASS_INSTM;
-}
-
-
 int instm::dorawread(char* buf, int count)
 {
 	if (handle == invhandle)

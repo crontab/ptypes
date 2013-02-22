@@ -232,7 +232,6 @@ public:
 	ipstream(const char* host, int port);
 	ipstream(const string& host, int port);
 	virtual ~ipstream();
-	virtual int classid();
 
 	virtual string get_streamname();
 

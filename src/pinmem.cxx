@@ -17,12 +17,6 @@ inmemory::~inmemory()
 }
 
 
-int inmemory::classid()
-{
-	return CLASS2_INMEMORY;
-}
-
-
 void inmemory::bufalloc()
 {
 	bufdata = pchar(pconst(mem));

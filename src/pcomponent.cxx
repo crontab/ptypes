@@ -55,12 +55,6 @@ void component::delnotification(component* obj)
 }
 
 
-int component::classid()
-{
-	return CLASS_UNDEFINED;
-}
-
-
 component* component::addref()
 {
 	if (this)

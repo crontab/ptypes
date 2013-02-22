@@ -17,12 +17,6 @@ outmemory::~outmemory()
 }
 
 
-int outmemory::classid()
-{
-	return CLASS2_OUTMEMORY;
-}
-
-
 void outmemory::doopen()
 {
 }

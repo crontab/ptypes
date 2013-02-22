@@ -79,12 +79,6 @@ fdxstm::fdxstm(int ibufsize)
 fdxstm::~fdxstm()  {}
 
 
-int fdxstm::classid()
-{
-	return CLASS2_FDX;
-}
-
-
 void fdxstm::flush()
 {
 	if (out.active)

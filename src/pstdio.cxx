@@ -135,11 +135,5 @@ logfile::~logfile()
 }
 
 
-int logfile::classid()
-{
-	return CLASS3_LOGFILE;
-}
-
-
 PTYPES_END
 

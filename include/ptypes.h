@@ -742,34 +742,6 @@ public:
 // counting and delete notification mechanisms. all stream classes
 // in ptypes are derived from component.
 
-// class ID's for all basic types: the first byte (least significant)
-// contains the base ID, the next is for the second level of inheritance,
-// etc. total of 4 levels allowed for basic types. call classid() for an
-// object, mask out first N bytes of interest and compare with a CLASS_XXX
-// value. f.ex. to determine whether an object is of type infile or any
-// derivative: (o->classid() & 0xffff) == CLASS2_INFILE. this scheme is for
-// internal use by PTypes and Objection; partly replaces the costly C++ RTTI
-// system.
-
-// first level of inheritance
-const int CLASS_UNDEFINED = 0x00000000;
-const int CLASS_INSTM	  = 0x00000001;
-const int CLASS_OUTSTM	  = 0x00000002;
-const int CLASS_UNIT	  = 0x00000003;
-
-// second level of inheritance
-const int CLASS2_INFILE	   = 0x00000100 | CLASS_INSTM;
-const int CLASS2_INMEMORY  = 0x00000200 | CLASS_INSTM;
-const int CLASS2_FDX	   = 0x00000300 | CLASS_INSTM;
-const int CLASS2_OUTFILE   = 0x00000100 | CLASS_OUTSTM;
-const int CLASS2_OUTMEMORY = 0x00000200 | CLASS_OUTSTM;
-
-// third level of inheritance
-const int CLASS3_LOGFILE   = 0x00010000 | CLASS2_OUTFILE;
-const int CLASS3_IPSTM	   = 0x00020000 | CLASS2_FDX;
-const int CLASS3_NPIPE	   = 0x00030000 | CLASS2_FDX;
-
-
 class ptpublic component: public unknown 
 {
 protected:
@@ -790,8 +762,6 @@ public:
 
 	component* addref();
 	template<class T> T* taddref() { return (T*)addref(); }
-
-	virtual int classid();
 };
 
 typedef component* pcomponent;

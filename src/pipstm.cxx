@@ -46,12 +46,6 @@ ipstream::~ipstream()
 }
 
 
-int ipstream::classid()
-{
-	return CLASS3_IPSTM;
-}
-
-
 int ipstream::uerrno()
 {
 	return usockerrno();

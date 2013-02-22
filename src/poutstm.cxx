@@ -22,12 +22,6 @@ outstm::~outstm()
 }
 
 
-int outstm::classid()
-{
-	return CLASS_OUTSTM;
-}
-
-
 int outstm::dorawwrite(const char* buf, int count)
 {
 	if (handle == invhandle)

@@ -36,12 +36,6 @@ infile::~infile()
 }
 
 
-int infile::classid()
-{
-	return CLASS2_INFILE;
-}
-
-
 string infile::get_streamname()
 {
 	return filename;

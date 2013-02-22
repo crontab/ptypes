@@ -109,12 +109,6 @@ namedpipe::~namedpipe()
 }
 
 
-int namedpipe::classid()
-{
-	return CLASS3_NPIPE;
-}
-
-
 string namedpipe::get_streamname()
 {
 	return pipename;

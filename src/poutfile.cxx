@@ -41,12 +41,6 @@ outfile::~outfile()
 }
 
 
-int outfile::classid()
-{
-	return CLASS2_OUTFILE;
-}
-
-
 string outfile::get_streamname()
 {
 	return filename;

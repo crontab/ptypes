@@ -183,7 +183,6 @@ protected:
 public:
 	instm(int ibufsize = -1);
 	virtual ~instm();
-	virtual int classid();
 
 	bool get_eof();
 	void set_eof(bool ieof)		{ eof = ieof; }
@@ -229,7 +228,6 @@ protected:
 public:
 	outstm(bool iflusheol = false, int ibufsize = -1);
 	virtual ~outstm();
-	virtual int classid();
 
 	bool get_flusheol()				{ return flusheol; }
 	void set_flusheol(bool newval)	{ flusheol = newval; }
@@ -303,7 +301,6 @@ public:
 
 	fdxstm(int ibufsize = -1);
 	virtual ~fdxstm();
-	virtual int classid();
 
 	void set_bufsize(int newval);		// sets both input and output buffer sizes
 
@@ -412,7 +409,6 @@ protected:
 public:
 	inmemory(const string& imem);
 	virtual ~inmemory();
-	virtual int classid();
 	virtual string get_streamname();
 	large seekx(large newpos, ioseekmode mode = IO_BEGIN);
 	int seek(int newpos, ioseekmode mode = IO_BEGIN)  { return convertoffset(seekx(newpos, mode)); }
@@ -439,7 +435,6 @@ protected:
 public:
 	outmemory(int limit = -1);
 	virtual ~outmemory();
-	virtual int classid();
 	virtual string get_streamname();
 	large tellx()				{ return abspos; }
 	int tell()					{ return (int)abspos; }
@@ -473,7 +468,6 @@ public:
 	infile(const char* ifn);
 	infile(const string& ifn);
 	virtual ~infile();
-	virtual int classid();
 
 	void pipe(outfile&);
 	virtual string get_streamname();
@@ -509,7 +503,6 @@ public:
 	outfile(const char* ifn, bool iappend = false);
 	outfile(const string& ifn, bool iappend = false);
 	virtual ~outfile();
-	virtual int classid();
 
 	virtual void flush();
 	virtual string get_streamname();
@@ -542,7 +535,6 @@ public:
 	logfile(const char* ifn, bool iappend = true);
 	logfile(const string& ifn, bool iappend = true);
 	virtual ~logfile();
-	virtual int classid();
 
 	void vputf(const char* fmt, va_list);
 	void putf(const char* fmt, ...);
@@ -627,7 +619,6 @@ public:
 	namedpipe(const string& ipipename, const string& servername);
 #endif
 	virtual ~namedpipe();
-	virtual int classid();
 
 	virtual void flush();
 	virtual string get_streamname();
