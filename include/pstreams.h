@@ -682,56 +682,6 @@ public:
 };
 
 
-// -------------------------------------------------------------------- //
-// ---	unit ---------------------------------------------------------- //
-// -------------------------------------------------------------------- //
-
-
-#ifdef _MSC_VER
-// disable "type name first seen using 'struct' now seen using 'class'" warning
-#  pragma warning (disable: 4099)
-// disable "class '...' needs to have dll-interface to be used by clients of class 
-// '...'" warning, since the compiler may sometimes give this warning incorrectly.
-#  pragma warning (disable: 4251)
-#endif
-
-class unit_thread;
-
-class ptpublic unit: public component
-{
-protected:
-	friend class unit_thread;
-
-	unit*		  pipe_next;	// next unit in the pipe chain, assigned by connect()
-	unit_thread*  main_thread;	// async execution thread, started by run() if necessary
-	int			  running;		// running status, to protect from recursive calls to run() and waitfor()
-
-	void do_main();
-
-public:
-	compref<instm> uin;
-	compref<outstm> uout;
-
-	unit();
-	virtual ~unit();
-	virtual int classid();
-
-	// things that may be overridden in descendant classes
-	virtual void main();		// main code, called from run()
-	virtual void cleanup();		// main code cleanup, called from run()
-
-	// service methods
-	void connect(unit* next);
-	void run(bool async = false);
-	void waitfor();
-};
-typedef unit* punit;
-
-
-typedef unit CUnit;			// send me a $10 check if you use this alias (not obligatory though,
-							// because the library is free, after all)
-
-
 //
 // standard input, output and error devices
 //

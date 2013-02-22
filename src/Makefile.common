@@ -36,7 +36,6 @@ LIBOBJS		  = mt/pversion.o mt/pmem.o mt/pfatal.o mt/pstring.o mt/pcset.o mt/pcse
 		mt/pintee.o mt/poutstm.o mt/poutfile.o mt/pinfilter.o mt/poutfilter.o \
 		mt/pputf.o mt/pstdio.o mt/pfdxstm.o mt/pnpipe.o mt/pnpserver.o \
 		mt/pipbase.o mt/pipsvbase.o mt/pipstm.o mt/pipstmsv.o mt/pipmsg.o mt/pipmsgsv.o \
-		mt/punit.o \
 		$(EXTRA_OBJS)
 
 LIBOBJS_ST	  = st/pversion.o st/pmem.o st/pfatal.o st/pstring.o st/pcset.o st/pcsetdbg.o \
@@ -251,9 +250,6 @@ mt/pipmsg.o: pipmsg.cxx $(HLEVEL4)
 
 mt/pipmsgsv.o: pipmsgsv.cxx $(HLEVEL4)
 	$(CXX) -c $(CXXOPTS) -o $@ pipmsgsv.cxx
-
-mt/punit.o: punit.cxx $(HLEVEL3)
-	$(CXX) -c $(CXXOPTS) -o $@ punit.cxx
 
 
 #
