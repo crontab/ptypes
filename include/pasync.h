@@ -200,7 +200,7 @@ public:
 // -------------------------------------------------------------------- //
 
 
-#if defined(WIN32) || defined(__DARWIN__) || defined(__bsdi__)
+#if defined(WIN32) || defined(__bsdi__)
 #  define __PTYPES_RWLOCK__
 #elif defined(linux)
    // on Linux rwlocks are included only with -D_GNU_SOURCE.

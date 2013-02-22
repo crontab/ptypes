@@ -212,7 +212,7 @@ datetime get_file_mtime(const char* name)
 }
 
 
-#if defined(__sun__) || defined(__hpux) || defined(__APPLE__)
+#if defined(__sun__) || defined(__hpux) || defined(__DARWIN__)
 
 
 int os_daemon(int nochdir, int noclose)
