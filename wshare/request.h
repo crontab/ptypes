@@ -75,7 +75,7 @@ public:
 
 	// requested object info
 	urlrec			url;			// req: the request-URI parsed and split into components
-	strlist			path_parts;		// request-URI path split into components
+	tstrlist<ptr>	path_parts;		// request-URI path split into components
 
 	unknown*		user;			// user data for custom handlers, freed automatically by ~request_rec()
 

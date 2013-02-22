@@ -22,7 +22,7 @@ void	  html_encode(outstm& s, const char* p);
 void	  std_html_header(outstm& s, const string& title);
 void	  std_html_footer(outstm& s);
 void	  html_show_file_list(outstm& s, const filist& list);
-void	  split_path(const char* path, strlist& list);
+void	  split_path(const char* path, tstrlist<ptr>& list);
 string	  get_mimetype(const string& path);
 datetime  parse_http_date(const string& d);
 string	  http_time_stamp(datetime t);

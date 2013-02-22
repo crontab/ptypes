@@ -130,7 +130,7 @@ void html_show_file_list(outstm& s, const filist& list)
 // a list of directory names. also resolves './'
 // and '../' references
 //
-void split_path(const char* path, strlist& list)
+void split_path(const char* path, tstrlist<ptr>& list)
 {
 	list.clear();
 	const char* e = path;

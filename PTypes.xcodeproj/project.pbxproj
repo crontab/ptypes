@@ -304,16 +304,16 @@
 		365A638016D54B040045B54C /* wshare */ = {
 			isa = PBXGroup;
 			children = (
+				365A63C016D54F510045B54C /* Makefile.common */,
+				365A63C116D54F510045B54C /* Makefile.Darwin */,
+				365A63C416D54F510045B54C /* Makefile.Linux */,
+				365A63C616D54F510045B54C /* mimetable.awk */,
 				365A638116D54B040045B54C /* clients.cxx */,
 				365A638216D54B040045B54C /* clients.h */,
 				365A638316D54B040045B54C /* config.cxx */,
 				365A638416D54B040045B54C /* config.h */,
 				365A638516D54B040045B54C /* log.cxx */,
 				365A638616D54B040045B54C /* log.h */,
-				365A63C016D54F510045B54C /* Makefile.common */,
-				365A63C116D54F510045B54C /* Makefile.Darwin */,
-				365A63C416D54F510045B54C /* Makefile.Linux */,
-				365A63C616D54F510045B54C /* mimetable.awk */,
 				365A638E16D54B040045B54C /* mimetable.cxx */,
 				365A638F16D54B040045B54C /* mod_about.cxx */,
 				365A639016D54B040045B54C /* mod_file.cxx */,

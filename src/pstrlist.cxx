@@ -169,26 +169,4 @@ int _strlist::indexof(void* obj) const
 }
 
 
-//
-// strmap
-//
-
-#ifdef PTYPES19_COMPAT
-
-strlist::strlist(int flags): tstrlist<unknown>(flags)  {}
-
-strlist::~strlist()	 {}
-
-strmap::strmap(int flags)
-	: tstrlist<unknown>((flags | SL_SORTED) & ~SL_DUPLICATES)
-{
-}
-
-strmap::~strmap()
-{
-}
-
-#endif
-
-
 PTYPES_END

@@ -455,10 +455,6 @@ public:
 	bool posturgent(message* msg, int timeout = -1);
 	bool posturgent(int id, pintptr param = 0, int timeout = -1);
 	message* getmessage(int timeout = -1);
-
-#ifdef PTYPES19_COMPAT
-	int	 msgsavail() const	{ return get_count(); }
-#endif
 };
 
 
@@ -509,10 +505,6 @@ public:
 	bool posturgent(int id, pintptr param = 0, int timeout = -1)  { return jobqueue::posturgent(id, param, timeout); }
 	pintptr send(message* msg);
 	pintptr send(int id, pintptr param = 0);
-
-#ifdef PTYPES19_COMPAT
-	int	 msgsavail() const	{ return get_count(); }
-#endif
 };
 
 

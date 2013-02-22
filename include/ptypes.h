@@ -558,17 +558,6 @@ public:
 	X*	  top() const						{ return (X*)_objlist::top(); }
 	X*	  pop()								{ return (X*)_objlist::pop(); }
 	int	  indexof(X* obj) const				{ return _objlist::indexof(obj); }
-
-#ifdef PTYPES19_COMPAT
-	friend inline void ins(tobjlist& s, int i, X* obj)			{ s.ins(i, obj); }
-	friend inline int  add(tobjlist& s, X* obj)					{ s.add(obj); return s.get_count() - 1; }
-	friend inline void put(tobjlist& s, int i, X* obj)			{ s.put(i, obj); }
-	friend inline int  indexof(const tobjlist& s, X* obj)		{ return s.indexof(obj); }
-	friend inline int  push(tobjlist& s, X* obj)				{ s.add(obj); return s.get_count() - 1; }
-	friend inline X*   pop(tobjlist& s)							{ return (X*)s.pop(); }
-	friend inline X*   top(const tobjlist& s)					{ return (X*)s.top(); }
-	friend inline X*   get(const tobjlist& s, int i)			{ return (X*)s[i]; }
-#endif
 };
 
 
@@ -679,16 +668,6 @@ public:
 	X*	  operator [](const char* key) const			{ return (X*)_strlist::operator [](key); }
 	int	  indexof(X* obj) const							{ return _strlist::indexof(obj); }
 	int	  indexof(const char* key) const				{ return _strlist::indexof(key); }
-
-#ifdef PTYPES19_COMPAT
-	// pre-2.0 interface for backwards compatibility
-	friend inline void ins(tstrlist& s, int i, const string& str, X* obj)  { s.ins(i, str, obj); }
-	friend inline int  add(tstrlist& s, const string& str, X* obj)		   { return s.add(str, obj); }
-	friend inline void put(tstrlist& s, int i, const string& str, X* obj)  { s.put(i, str, obj); }
-	friend inline void put(tstrlist& s, int i, X* obj)					   { s.put(i, obj); }
-	friend inline int indexof(const tstrlist& s, X* obj)				   { return s.indexof(obj); }
-	friend inline X* get(const tstrlist& s, int i)						   { return (X*)s[i]; }
-#endif
 };
 
 
@@ -1040,97 +1019,6 @@ public:
 	except_var(const string& msg): except(msg)	 {}
 	virtual ~except_var();
 };
-
-
-
-// -------------------------------------------------------------------- //
-// --- pre-2.0 compatibility declarations ----------------------------- //
-// -------------------------------------------------------------------- //
-
-
-#ifdef PTYPES19_COMPAT
-
-// ptypes-1.9 objlist and strlist: accept only 'unknown' and
-// derivatives as a base type
-
-class ptpublic objlist: public tobjlist<unknown>
-{
-public:
-	objlist(bool ownobjects = false);
-	virtual ~objlist();
-};
-
-inline int	length(const _objlist& s)				 { return s.get_count(); }
-inline void setlength(_objlist& s, int newcount)	 { s.set_count(newcount); }
-inline void pack(_objlist& s)						 { s.pack(); }
-inline void clear(_objlist& s)						 { s.clear(); }
-inline int	push(_objlist& s, unknown* obj)			 { s.add(obj); return length(s) - 1; }
-inline unknown* top(const _objlist& s)				 { return (unknown*)s.top(); }
-inline void ins(_objlist& s, int i, unknown* obj)	 { s.ins(i, obj); }
-inline int	add(_objlist& s, unknown* obj)			 { s.add(obj); return length(s) - 1; }
-inline void put(_objlist& s, int i, unknown* obj)	 { s.put(i, obj); }
-inline unknown* get(const _objlist& s, int i)		 { return (unknown*)s[i]; }
-inline unknown* pop(_objlist& s)					 { return (unknown*)s.pop(); }
-inline void del(_objlist& s, int i)					 { s.del(i); }
-inline int	indexof(const _objlist& s, unknown* obj) { return s.indexof(obj); }
-
-
-class ptpublic strlist: public tstrlist<unknown>
-{
-public:
-	strlist(int flags = 0);
-	virtual ~strlist();
-};
-
-inline int	length(const _strlist& s)								 { return s.get_count(); }
-inline void clear(_strlist& s)										 { s.clear(); }
-inline void pack(_strlist& s)										 { s.pack(); }
-inline bool search(const _strlist& s, const char* key, int& i)		 { return s.search(key, i); }
-inline void ins(_strlist& s, int i, const string& key, unknown* obj) { s.ins(i, key, obj); }
-inline int	add(_strlist& s, const string& key, unknown* obj)		 { return s.add(key, obj); }
-inline void put(_strlist& s, int i, const string& key, unknown* obj) { s.put(i, key, obj); }
-inline void put(_strlist& s, int i, unknown* obj)					 { s.put(i, obj); }
-inline unknown* get(const _strlist& s, int i)						 { return (unknown*)s[i]; }
-inline const string& getstr(const _strlist& s, int i)				 { return s.getkey(i); }
-inline void del(_strlist& s, int i)									 { s.del(i); }
-inline int	find(const _strlist& s, const char* key)				 { return s.indexof(key); }
-inline int	indexof(const _strlist& s, unknown* obj)				 { return s.indexof(obj); }
-
-
-// ptypes-1.9 strmap: now replaced with _strlist(SL_SORTED)
-
-class ptpublic strmap: public tstrlist<unknown>
-{
-public:
-	strmap(int flags = 0);
-	virtual ~strmap();
-};
-
-inline void		put(strmap& m, const string& key, unknown* obj)		{ m.put(key, obj); }
-inline unknown* get(const strmap& m, const char* key)				{ return m[key]; }
-inline void		del(strmap& m, const char* key)						{ m.del(key); }
-
-template <class X> class tstrmap: public strmap
-{
-public:
-	tstrmap(): strmap()	 {}
-	tstrmap(int iflags): strmap(iflags)	 {}
-	friend inline X* get(const tstrmap& m, const char* str)			{ return (X*)PTYPES_NAMESPACE::get((const strmap&)m, str); }
-	friend inline void put(tstrmap& m, const string& str, X* obj)	{ unknown* t = obj; PTYPES_NAMESPACE::put(m, str, t); }
-	X* operator[] (const char* str) const							{ return (X*)PTYPES_NAMESPACE::get(*this, str); }
-};
-
-
-// ptypes-1.9 textmap interface
-
-inline int	 length(const textmap& m)							{ return m.get_count(); }
-inline void	 clear(textmap& m)									{ m.clear(); }
-inline const string& get(const textmap& m, const string& k)		{ return m.get(k); }
-inline void	 put(textmap& m, const string& k, const string& v)	{ m.put(k, v); }
-inline void	 del(textmap& m, const string& k)					{ m.del(k); }
-
-
-#endif // PTYPES19_COMPAT
 
 
 #ifdef _MSC_VER

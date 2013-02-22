@@ -61,12 +61,6 @@
 
 extern "C" ptpublic unsigned long __ptypes_version;
 
-// this enables old algebraic list interfaces; NO_PTYPES19_COMPAT
-// can be defined at command line
-#if !defined(NO_PTYPES19_COMPAT)
-#  define PTYPES19_COMPAT
-#endif
-
 
 PTYPES_BEGIN
 

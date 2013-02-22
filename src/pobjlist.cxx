@@ -133,14 +133,5 @@ int _objlist::indexof(void* obj) const
 }
 
 
-#ifdef PTYPES19_COMPAT
-
-objlist::objlist(bool ownobjects): tobjlist<unknown>(ownobjects)  {}
-
-objlist::~objlist()	 {}
-
-#endif
-
-
 PTYPES_END
 
