@@ -61,15 +61,15 @@ int component::classid()
 }
 
 
-component* ptdecl addref(component* c)
+component* component::addref()
 {
-	if (c != nil)
+	if (this)
 #ifdef PTYPES_ST
-		c->refcount++;
+		refcount++;
 #else
-		pincrement(&c->refcount);
+		pincrement(&refcount);
 #endif
-	return c;
+	return this;
 }
 
 

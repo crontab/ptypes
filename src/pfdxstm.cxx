@@ -72,7 +72,7 @@ fdxstm::fdxstm(int ibufsize)
 	: instm(ibufsize), out(ibufsize, this)
 {
 	out.in = this;
-	addref(&out);
+	out.addref();
 }
 
 

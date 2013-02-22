@@ -157,7 +157,7 @@ void variant::initialize(_varray* a)
 void variant::initialize(component* o)
 {
 	tag = VAR_OBJECT;
-	value.o = addref(o);
+	value.o = o->addref();
 }
 
 

@@ -784,9 +784,9 @@ public:
 	void addnotification(component* obj);
 	void delnotification(component* obj);
 
-	ptpublic friend component* ptdecl addref(component*);
+	component* addref();
+	template<class T> T* taddref() { return (T*)addref(); }
 	ptpublic friend bool ptdecl release(component*);
-	friend int refcount(component* c);
 
 	virtual int classid();
 };
@@ -794,23 +794,25 @@ public:
 typedef component* pcomponent;
 
 
-inline int refcount(component* c)  { return c->refcount; }
-
-
-template <class T> inline T* taddref(T* c)
-	{ return (T*)addref((component*)c); }
-
-
 template <class T> class compref
 {
 protected:
 	T* ref;
+
 public:
 	compref()									{ ref = 0; }
-	compref(const compref<T>& r)				{ ref = taddref<T>(r.ref); }
-	compref(T* c)								{ ref = taddref<T>(c); }
+	compref(const compref<T>& r)				{ ref = ((compref<T>&)r).addref(); }
+	compref(T* c)								{ ref = c->template taddref<T>(); }
 	~compref()									{ release(ref); }
-	compref<T>& operator =(T* c);
+
+	compref<T>& operator =(T* c)
+	{
+		release(tpexchange<T>(&ref, c->template taddref<T>()));
+		return *this;
+	}
+
+	T* addref()									{ return ref->template taddref<T>(); }
+
 	compref<T>& operator =(const compref<T>& r) { return operator =(r.ref); }
 	T&	 operator *() const						{ return *ref; }
 	T*	 operator ->() const					{ return ref; }
@@ -820,13 +822,6 @@ public:
 	bool operator !=(T* c) const				{ return ref != c; }
 		 operator T*() const					{ return ref; }
 };
-
-
-template <class T> compref<T>& compref<T>::operator =(T* c)
-{
-	release(tpexchange<T>(&ref, taddref<T>(c)));
-	return *this;
-}
 
 
 // -------------------------------------------------------------------- //

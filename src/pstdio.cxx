@@ -59,10 +59,10 @@ _stdio_init::_stdio_init()
 
 	// prevent others from freeing these objects, if assigned to a variant.
 	// will need to handle reference counting for static objects better. any ideas?
-	addref(&pin);
-	addref(&pout);
-	addref(&perr);
-	addref(&pnull);
+	pin.addref();
+	pout.addref();
+	perr.addref();
+	pnull.addref();
 
 	// this is to show objalloc = 0 at program exit
 	objalloc -= 4;
