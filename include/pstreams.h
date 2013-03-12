@@ -241,6 +241,7 @@ public:
 	void putf(const char* fmt, ...);
 	void putline(const char* str);
 	void putline(const string& str);
+	void putline()					{ puteol(); }
 	void puteol();
 	int write(const void* buf, int count);
 	large tellx()					{ return abspos + bufpos; }
