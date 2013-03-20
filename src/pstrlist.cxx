@@ -13,6 +13,11 @@ except_dup::~except_dup()
 }
 
 
+except_key::~except_key()
+{
+}
+
+
 void _strlist::sortederror()
 {
 	fatal(CRIT_FIRST + 32, "Operation not allowed on sorted string lists");

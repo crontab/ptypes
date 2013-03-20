@@ -476,6 +476,8 @@ public:
 	X&	 operator [](int index)				{ idx(index); return doget(index); }
 	const X& operator [](int index) const	{ idx(index); return doget(index); }
 	X&	 top()								{ idx(0); return doget(count - 1); }
+	X*   begin() const						{ return (X*)list; }
+	X*   end() const						{ return begin() + count; }
 };
 
 
@@ -558,6 +560,8 @@ public:
 	X*	  top() const						{ return (X*)_objlist::top(); }
 	X*	  pop()								{ return (X*)_objlist::pop(); }
 	int	  indexof(X* obj) const				{ return _objlist::indexof(obj); }
+	X**   begin() const						{ return (X**)_objlist::begin(); }
+	X**   end() const						{ return (X**)_objlist::end(); }
 };
 
 
@@ -574,6 +578,112 @@ template <class X> tobjlist<X>::~tobjlist()
 
 
 // -------------------------------------------------------------------- //
+// --- tobjmap -------------------------------------------------------- //
+// -------------------------------------------------------------------- //
+
+// sorted list of pointers to objects, where elements can be quickly found
+// by either an object or a key. the key class should be the base of element
+// class.
+
+
+class except_dup: public except
+{
+public:
+	except_dup(const char* msg): except(msg)	{}
+	except_dup(const string& msg): except(msg)  {}
+	virtual ~except_dup();
+};
+
+
+class except_key: public except
+{
+public:
+	except_key(const char* msg): except(msg)	{}
+	except_key(const string& msg): except(msg)  {}
+	virtual ~except_key();
+};
+
+
+template <class X>
+	struct comparator
+		{ int operator() (const X& a, const X& b) { return int(a - b); } };
+
+
+template <class Key, class X>
+class tobjmap: protected tobjlist<X>
+{
+	typedef tobjlist<X> parent;
+
+	static void duperror()
+		{ throw except_dup("Duplicate key"); }
+
+	static void keyerror()
+		{ throw except_dup("Key not found"); }
+
+protected:
+
+	bool bsearch(const Key* key, int& idx) const
+	{
+		comparator<Key> comp;
+		idx = 0;
+		int low = 0;
+		int high = parent::get_count() - 1;
+		while (low <= high) 
+		{
+			idx = (low + high) / 2;
+			int c = comp(*parent::operator[](idx), *key);
+			if (c < 0)
+				low = idx + 1;
+			else if (c > 0)
+				high = idx - 1;
+			else
+				return true;
+		}
+		idx = low;
+		return false;
+	}
+
+public:
+
+	tobjmap(bool ownobjects): parent(ownobjects) { }
+
+	void add(X* obj) throw(except_dup)
+	{
+        int index;
+        if (bsearch(obj, index))
+			duperror();
+		parent::ins(index, obj);
+	}
+
+	void del(Key* key) throw(except_key)
+	{
+        int index;
+        if (!bsearch(key, index))
+			keyerror();
+		parent::del(index);
+	}
+
+	X* operator[](const Key* key) const throw(except_key)
+	{
+		int index;
+        if (!bsearch(key, index))
+			keyerror();
+		return parent::operator[](index);
+	}
+
+	X* find(const Key* key) const
+	{
+		int index;
+		return bsearch(key, index) ? parent::operator[](index) : NULL;
+	}
+
+	X** begin() const { return parent::begin(); }
+	X** end() const { return parent::end(); }
+};
+
+
+
+// -------------------------------------------------------------------- //
 // --- tstrlist ------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 
@@ -586,15 +696,6 @@ typedef int slflags; // left for compatibility
 #define SL_DUPLICATES  2
 #define SL_CASESENS	   4
 #define SL_OWNOBJECTS  8
-
-
-class except_dup: public except
-{
-public:
-	except_dup(const char* msg): except(msg)	{}
-	except_dup(const string& msg): except(msg)  {}
-	virtual ~except_dup();
-};
 
 
 struct _stritem
