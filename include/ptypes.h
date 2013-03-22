@@ -605,8 +605,22 @@ public:
 
 
 template <class X>
-	struct comparator
-		{ int operator() (const X& a, const X& b) { return int(a - b); } };
+struct comparator
+	{ int operator() (const X& a, const X& b) { return int(a - b); } };
+
+
+class string_key
+{
+public:
+	const string key;
+	string_key(const string& _key): key(_key) { }
+};
+
+
+template <>
+struct comparator<string_key>
+	{ int operator() (const string_key& a, const string_key& b)
+		{ return strcmp(a.key, b.key); } };
 
 
 template <class Key, class X>
