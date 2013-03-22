@@ -636,7 +636,7 @@ class tobjmap: protected tobjlist<X>
 
 protected:
 
-	bool bsearch(const Key* key, int& idx) const
+	bool bsearch(const Key& key, int& idx) const
 	{
 		comparator<Key> comp;
 		idx = 0;
@@ -645,7 +645,7 @@ protected:
 		while (low <= high) 
 		{
 			idx = (low + high) / 2;
-			int c = comp(*parent::operator[](idx), *key);
+			int c = comp(*parent::operator[](idx), key);
 			if (c < 0)
 				low = idx + 1;
 			else if (c > 0)
@@ -664,12 +664,12 @@ public:
 	void add(X* obj) throw(except_dup)
 	{
         int index;
-        if (bsearch(obj, index))
+        if (bsearch(*obj, index))
 			duperror();
 		parent::ins(index, obj);
 	}
 
-	void del(Key* key) throw(except_key)
+	void del(const Key& key) throw(except_key)
 	{
         int index;
         if (!bsearch(key, index))
@@ -677,7 +677,12 @@ public:
 		parent::del(index);
 	}
 
-	X* operator[](const Key* key) const throw(except_key)
+	void del(X* obj) throw(except_key)
+	{
+		del(*obj);
+	}
+
+	X* operator[](const Key& key) const throw(except_key)
 	{
 		int index;
         if (!bsearch(key, index))
@@ -685,7 +690,7 @@ public:
 		return parent::operator[](index);
 	}
 
-	X* find(const Key* key) const
+	X* find(const Key& key) const
 	{
 		int index;
 		return bsearch(key, index) ? parent::operator[](index) : NULL;
