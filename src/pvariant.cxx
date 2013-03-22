@@ -13,16 +13,6 @@ PTYPES_BEGIN
 const variant nullvar;
 
 
-struct _varitem
-{
-	string key;
-	variant var;
-
-	_varitem(const string& ikey, const variant& ivar): key(ikey), var(ivar) {}
-};
-typedef _varitem* pvaritem;
-
-
 class ptpublic _varray: protected tobjlist<_varitem>
 {
 protected:
@@ -614,6 +604,18 @@ void ptdecl ains(variant& array, int index, const variant& item)
 {
 	if (array.tag == VAR_ARRAY)
 		array.value.a->ins(index, item);
+}
+
+
+variant::const_iterator variant::begin() const
+{
+	return tag == VAR_ARRAY ? value.a->begin() : nil;
+}
+
+
+variant::const_iterator variant::end() const
+{
+	return tag == VAR_ARRAY ? value.a->end() : nil;
 }
 
 

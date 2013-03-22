@@ -682,6 +682,11 @@ public:
 		del(*obj);
 	}
 
+	void clear()
+	{
+		parent::clear();
+	}
+
 	X* operator[](const Key& key) const throw(except_key)
 	{
 		int index;
@@ -781,22 +786,40 @@ public:
 
 template <class X> class tstrlist: public _strlist
 {
+	typedef _strlist parent;
+
 protected:
 	virtual void dofreeobj(void* obj);
 
 public:
-	tstrlist(int flags = 0): _strlist(flags)  {}
+	tstrlist(int flags = 0): parent(flags)  {}
 	virtual ~tstrlist();
 
-	void  ins(int index, const string& key, X* obj)		{ _strlist::ins(index, key, obj); }
-	void  put(int index, const string& key, X* obj)		{ _strlist::put(index, key, obj); }
-	void  put(int index, X* obj)						{ _strlist::put(index, obj); }
-	int	  put(const string& key, X* obj)				{ return _strlist::put(key, obj); }
-	int	  add(const string& key, X* obj)				{ return _strlist::add(key, obj); }
-	X*	  operator [](int index) const					{ return (X*)_strlist::operator [](index); }
-	X*	  operator [](const char* key) const			{ return (X*)_strlist::operator [](key); }
-	int	  indexof(X* obj) const							{ return _strlist::indexof(obj); }
-	int	  indexof(const char* key) const				{ return _strlist::indexof(key); }
+	void  ins(int index, const string& key, X* obj)		{ parent::ins(index, key, obj); }
+	void  put(int index, const string& key, X* obj)		{ parent::put(index, key, obj); }
+	void  put(int index, X* obj)						{ parent::put(index, obj); }
+	int	  put(const string& key, X* obj)				{ return parent::put(key, obj); }
+	int	  add(const string& key, X* obj)				{ return parent::add(key, obj); }
+	X*	  operator [](int index) const					{ return (X*)parent::operator [](index); }
+	X*	  operator [](const char* key) const			{ return (X*)parent::operator [](key); }
+	int	  indexof(X* obj) const							{ return parent::indexof(obj); }
+	int	  indexof(const char* key) const				{ return parent::indexof(key); }
+
+	class const_iterator
+	{
+		_stritem** p;
+	public:
+		const_iterator(_stritem** _p)		: p(_p) { }
+		const_iterator operator++ ()		{ const_iterator i = *this; p++; return i; }
+		const_iterator operator++ (int)		{ p++; return *this; }
+		const X* operator* () const			{ return (X*)(*p)->obj; }
+		const X** operator-> () const		{ return (X*)(*p)->obj; }
+		bool operator== (const const_iterator& i) const	{ return p == i.p; }
+		bool operator!= (const const_iterator& i) const	{ return p != i.p; }
+	};
+
+	const_iterator begin() const			{ return parent::begin(); }
+	const_iterator end() const				{ return parent::end(); }
 };
 
 
@@ -935,6 +958,7 @@ enum {
 };
 
 
+struct _varitem;
 class ptpublic _varray;
 
 
@@ -1068,7 +1092,37 @@ public:
 	friend void initialize(variant& v, component* i);
 	friend void initialize(variant& v, const variant& i);
 	friend void finalize(variant& v);
+
+	class const_iterator
+	{
+		_varitem** p;
+	public:
+		const_iterator(_varitem** _p)		: p(_p) { }
+		const_iterator operator++ ()		{ const_iterator i = *this; p++; return i; }
+		const_iterator operator++ (int)		{ p++; return *this; }
+		const variant operator* () const;
+		bool operator== (const const_iterator& i) const	{ return p == i.p; }
+		bool operator!= (const const_iterator& i) const	{ return p != i.p; }
+	};
+
+	const_iterator begin() const;
+	const_iterator end() const;
 };
+
+
+struct _varitem
+{
+	string key;
+	variant var;
+
+	_varitem(const string& ikey, const variant& ivar): key(ikey), var(ivar) {}
+};
+typedef _varitem* pvaritem;
+
+
+inline const variant variant::const_iterator::operator* () const
+	{ return (*p)->var; }
+
 
 
 typedef variant* pvariant;
