@@ -461,7 +461,7 @@ public:
 template <class T> class tjobqueue: protected jobqueue
 {
 public:
-	tjobqueue(int ilimit = DEF_QUEUE_LIMIT);
+	tjobqueue(int ilimit = DEF_QUEUE_LIMIT)		: jobqueue(ilimit) { }
 
 	int	 get_count() const						{ return jobqueue::get_count(); }
 	int	 get_limit() const						{ return jobqueue::get_limit(); }
