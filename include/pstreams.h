@@ -205,6 +205,7 @@ public:
 	int tell()	{ return convertoffset(tellx()); }
 	large seekx(large newpos, ioseekmode mode = IO_BEGIN);
 	int seek(int newpos, ioseekmode mode = IO_BEGIN)   { return convertoffset(seekx(newpos, mode)); }
+	virtual bool waitfor(int timeout);
 };
 typedef instm* pinstm;
 

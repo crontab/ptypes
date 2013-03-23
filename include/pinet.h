@@ -235,7 +235,7 @@ public:
 
 	virtual string get_streamname();
 
-	bool	  waitfor(int timeout);
+	virtual bool waitfor(int timeout) override;
 	ipaddress get_myip();
 	int		  get_myport();
 	void	  set_ip(ipaddress);

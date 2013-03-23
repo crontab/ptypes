@@ -129,6 +129,14 @@ int instm::get_dataavail()
 }
 
 
+bool instm::waitfor(int)
+{
+	if (!get_dataavail())
+		error(EIO, "Stream empty");
+	return true;
+}
+
+
 char instm::preview()
 {
 	if (!eof && bufpos >= bufend)
