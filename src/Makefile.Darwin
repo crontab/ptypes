@@ -4,7 +4,7 @@
 
 CXX = c++
 
-OS_CXXOPTS_ST = -Wall -Werror
+OS_CXXOPTS_ST = -Wall -Werror -std=c++11
 OS_CXXOPTS = $(OS_CXXOPTS_ST) -fPIC
 
 LIBTOOL = $(CXX) -dynamiclib
