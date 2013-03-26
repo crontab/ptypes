@@ -508,6 +508,78 @@ public:
 };
 
 
+// ------------------------------------------------------------------------- //
+// --- thread-safe map ----------------------------------------------------- //
+// ------------------------------------------------------------------------- //
+
+
+template <class Key, class X>
+class tsafemap: protected tobjmap<Key, X>
+{
+	typedef tobjmap<Key, X> parent;
+protected:
+	mutable rwlock lock;
+
+public:
+	tsafemap(bool own_objects): parent(own_objects)  { }
+
+
+	class reader: public scoperead
+	{
+		typedef tsafemap<Key, X> dict_t;
+		dict_t& dict;
+	public:
+		reader(dict_t& _dict)
+			: scoperead(_dict.lock), dict(_dict) { }
+
+		X* operator[](const Key& key) const
+			{ return dict.operator[](key); }
+
+		X* find(const Key& key) const
+			{ return dict.find(key); }
+
+		X** begin() const
+			{ return dict.begin(); }
+
+		X** end() const
+			{ return dict.end(); }
+	};
+
+
+	class writer: public scopewrite
+	{
+		typedef tsafemap<Key, X> dict_t;
+		dict_t& dict;
+	public:
+		writer(dict_t& _dict)
+			: scopewrite(_dict.lock), dict(_dict) { }
+
+		void add(X* obj) const
+			{ dict.add(obj); }
+
+		void del(const Key& key) const
+			{ dict.del(key); }
+
+		X* operator[](const Key& key) const
+			{ return dict.operator[](key); }
+
+		X* find(const Key& key) const
+			{ return dict.find(key); }
+
+		X** begin() const
+			{ return dict.begin(); }
+
+		X** end() const
+			{ return dict.end(); }
+
+		void clear()
+			{ dict.clear(); }
+	};
+
+};
+
+
+
 #ifdef _MSC_VER
 #pragma pack(pop)
 #endif
