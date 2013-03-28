@@ -43,7 +43,6 @@ PTYPES_BEGIN
 //
 //	rwlock:
 //	  Win32: internal, Event/mutex
-//	  MacOS: internal, POSIX condvar/mutex
 //	  Other: POSIX rwlock
 //
 //	semaphore:
@@ -527,9 +526,9 @@ public:
 	class reader: public scoperead
 	{
 		typedef tsafemap<Key, X> dict_t;
-		dict_t& dict;
+		const dict_t& dict;
 	public:
-		reader(dict_t& _dict)
+		reader(const dict_t& _dict)
 			: scoperead(_dict.lock), dict(_dict) { }
 
 		X* operator[](const Key& key) const
