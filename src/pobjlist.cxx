@@ -5,6 +5,54 @@
 PTYPES_BEGIN
 
 
+strings::strings(): unknown(), parent() { }
+
+
+strings::~strings()
+{
+	clear();
+}
+
+
+void strings::finalize(int index, int num)
+{
+	string* p = (string*)list + index;
+	while (--num >= 0)
+		(*p++).finalize();
+}
+
+
+void strings::clear()
+{
+	finalize(0, count);
+	parent::clear();
+}
+
+
+void strings::ins(const string& s, int index)
+{
+	parent::ins(index).initialize(s);
+}
+
+
+void strings::add(const string& s)
+{
+	parent::add().initialize(s);
+}
+
+
+void strings::del(int index)
+{
+	idx(index);
+	parent::doget(index).finalize();
+	parent::dodel(index);
+}
+
+
+
+// --- objlist ------------------------------------------------------------- //
+
+
 _objlist::_objlist()
 	: tpodlist<void*,true>()
 {

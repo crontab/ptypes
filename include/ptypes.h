@@ -67,6 +67,7 @@ class ptpublic variant;
 class ptpublic string 
 {
 	friend class variant;
+	friend class strings;
 
 protected:
 	char* data;
@@ -432,6 +433,7 @@ public:
 	~_podlist();
 
 	int	  get_count() const					{ return count; }
+	bool  empty() const						{ return !count; }
 	void  set_count(int newcount, bool zero = false);
 	int	  get_capacity() const				{ return capacity; }
 	void  set_capacity(int newcap);
@@ -455,6 +457,7 @@ template <class X, bool initzero = false> class tpodlist: public _podlist
 {
 protected:
 	X&	 dozero(X& t)						{ if (initzero) memset(&t, 0, sizeof(X)); return t; }
+	X&	 doget(int index)					{ return ((X*)list)[index]; }
 	X&	 doget(int index) const				{ return ((X*)list)[index]; }
 	X&	 doins(int index)					{ X& t = *(X*)_podlist::doins(index); return dozero(t); }
 	void doins(int index, const X& item)	{ *(X*)_podlist::doins(index) = item; }
@@ -476,8 +479,41 @@ public:
 	X&	 operator [](int index)				{ idx(index); return doget(index); }
 	const X& operator [](int index) const	{ idx(index); return doget(index); }
 	X&	 top()								{ idx(0); return doget(count - 1); }
+	const X& top() const					{ idx(0); return doget(count - 1); }
 	X*   begin() const						{ return (X*)list; }
 	X*   end() const						{ return begin() + count; }
+};
+
+
+
+// -------------------------------------------------------------------- //
+// --- strings -------------------------------------------------------- //
+// -------------------------------------------------------------------- //
+
+
+class strings: public unknown, protected tpodlist<string, false>
+{
+	typedef tpodlist<string, false> parent;
+protected:
+	void  finalize(int index)				{ parent::doget(index).finalize(); }
+	void  finalize(int index, int count);
+public:
+	strings();
+	~strings();
+
+	int  get_count() const					{ return count; }
+	bool empty() const						{ return !count; }
+	void clear();
+	void pack()								{ parent::pack(); }
+	void ins(const string& s, int index);
+	void add(const string& s);
+	void del(int index);
+	string&	 operator [](int index)				{ return parent::operator[](index); }
+	const string& operator [](int index) const	{ return parent::operator[](index); }
+	string&	 top()								{ return parent::top(); }
+	const string& top() const							{ return parent::top(); }
+	string* begin() const						{ return parent::begin(); }
+	string* end() const							{ return parent::end(); }
 };
 
 
@@ -490,6 +526,7 @@ public:
 
 class ptpublic _objlist: public unknown, protected tpodlist<void*, true>
 {
+	typedef tpodlist<void*, true> parent;
 protected:
 	struct
 	{
@@ -518,13 +555,14 @@ public:
 	virtual ~_objlist();
 
 	int	  get_count() const					{ return count; }
+	bool  empty() const						{ return !count; }
 	void  set_count(int newcount);
 	int	  get_capacity() const				{ return capacity; }
-	void  set_capacity(int newcap)			{ tpodlist<void*,true>::set_capacity(newcap); }
+	void  set_capacity(int newcap)			{ parent::set_capacity(newcap); }
 	void  clear()							{ set_count(0); }
-	void  pack()							{ tpodlist<void*,true>::pack(); }
-	void  ins(int index, void* obj)			{ tpodlist<void*,true>::ins(index, obj); }
-	void  add(void* obj)					{ tpodlist<void*,true>::add(obj); }
+	void  pack()							{ parent::pack(); }
+	void  ins(int index, void* obj)			{ parent::ins(index, obj); }
+	void  add(void* obj)					{ parent::add(obj); }
 	void  put(int index, void* obj)			{ idx(index); doput(index, obj); }
 	void* operator [](int index) const		{ idx(index); return doget(index); }
 	void* top() const						{ idx(0); return doget(count - 1); }
@@ -754,6 +792,7 @@ public:
 	virtual ~_strlist();
 
 	int	  get_count() const								{ return count; }
+	bool  empty() const									{ return !count; }
 	void  set_count(int newcount)						{ tobjlist<_stritem>::set_count(newcount); }
 	int	  get_capacity() const							{ return capacity; }
 	void  set_capacity(int newcap)						{ tobjlist<_stritem>::set_capacity(newcap); }
@@ -863,6 +902,7 @@ public:
 	virtual ~textmap();
 
 	int	  get_count() const								{ return tobjlist<_textitem>::get_count(); }
+	bool  empty() const									{ return !count; }
 	void  pack()										{ tobjlist<_textitem>::pack(); }
 	void  clear()										{ tobjlist<_textitem>::clear(); }
 	int	  put(const string& key, const string& value);
@@ -1079,6 +1119,7 @@ public:
 	const variant& operator[](const char* key) const	{ return get(*this, string(key)); }
 	const variant& operator[](const string& key) const	{ return get(*this, key); }
 	const variant& operator[](large key) const			{ return get(*this, key); }
+	const variant& operator[](int key) const			{ return get(*this, (large)key); }
 
 	// 'manual' initialization/finalization, undocumented. use with care!
 	friend void initialize(variant& v);
