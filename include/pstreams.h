@@ -322,6 +322,7 @@ public:
 	void put(const char* str)				{ out.put(str); }
 	void put(const string& str)				{ out.put(str); }
 	void putline(const char* str)			{ out.putline(str); }
+	void putline()							{ out.putline(); }
 	void putline(const string& str)			{ out.putline(str); }
 	void puteol()							{ out.puteol(); }
 	int	 write(const void* buf, int count)	{ return out.write(buf, count); }
