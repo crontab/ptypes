@@ -516,6 +516,7 @@ template <class Key, class X>
 class tsafemap: protected tobjmap<Key, X>
 {
 	typedef tobjmap<Key, X> parent;
+
 protected:
 	mutable rwlock lock;
 
@@ -530,6 +531,12 @@ public:
 	public:
 		reader(const dict_t& _dict)
 			: scoperead(_dict.lock), dict(_dict) { }
+
+		bool bsearch(const Key& key, int& idx) const
+			{ return dict.bsearch(key, idx); }
+
+		X* operator[](int index) const
+			{ return dict.operator[](index); }
 
 		X* operator[](const Key& key) const
 			{ return dict.operator[](key); }
@@ -552,6 +559,12 @@ public:
 	public:
 		writer(dict_t& _dict)
 			: scopewrite(_dict.lock), dict(_dict) { }
+
+		bool bsearch(const Key& key, int& idx) const
+			{ return dict.bsearch(key, idx); }
+
+		X* operator[](int index) const
+			{ return dict.operator[](index); }
 
 		void add(X* obj) const
 			{ dict.add(obj); }

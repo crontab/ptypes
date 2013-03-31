@@ -672,7 +672,9 @@ class tobjmap: protected tobjlist<X>
 	static void keyerror()
 		{ throw except_dup("Key not found"); }
 
-protected:
+public:
+
+	tobjmap(bool ownobjects): parent(ownobjects) { }
 
 	bool bsearch(const Key& key, int& idx) const
 	{
@@ -695,9 +697,10 @@ protected:
 		return false;
 	}
 
-public:
-
-	tobjmap(bool ownobjects): parent(ownobjects) { }
+	X* operator[](int index) const
+	{
+		return parent::operator[](index);
+	}
 
 	void add(X* obj) throw(except_dup)
 	{
