@@ -538,6 +538,9 @@ public:
 		X* operator[](int index) const
 			{ return dict.operator[](index); }
 
+		int get_count() const
+			{ return dict.get_count(); }
+
 		X* operator[](const Key& key) const
 			{ return dict.operator[](key); }
 
@@ -565,6 +568,9 @@ public:
 
 		X* operator[](int index) const
 			{ return dict.operator[](index); }
+
+		int get_count() const
+			{ return dict.get_count(); }
 
 		void add(X* obj) const
 			{ dict.add(obj); }
