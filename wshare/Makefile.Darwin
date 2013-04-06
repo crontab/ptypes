@@ -4,7 +4,7 @@
 
 CXX = c++
 
-OS_CXXOPTS = -Wall -Werror
+OS_CXXOPTS = -Wall -Werror -std=gnu++11
 
 include Makefile.common
 
