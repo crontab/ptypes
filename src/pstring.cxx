@@ -91,7 +91,7 @@ void string::_free()
 
 void string::initialize(const char* sc, int initlen)
 {
-	if (initlen <= 0 || sc == nil)
+	if (initlen <= 0 || !sc)
 		data = emptystr; 
 	else 
 	{
@@ -163,7 +163,7 @@ char* ptdecl unique(string& s)
 char* ptdecl setlength(string& s, int newlen)
 {
 	if (newlen < 0)
-		return nil;
+		return NULL;
 
 	int curlen = STR_LENGTH(s.data);
 

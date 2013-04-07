@@ -36,11 +36,11 @@ void ptdecl memerror()
 void* ptdecl memalloc(uint a)
 {
 	if (a == 0)
-		return nil;
+		return NULL;
 	else
 	{
 		void* p = malloc(a);
-		if (p == nil)
+		if (!p)
 			memerror();
 		return p;
 	}
@@ -52,14 +52,14 @@ void* ptdecl memrealloc(void* p, uint a)
 	if (a == 0)
 	{
 		memfree(p);
-		return nil;
+		return NULL;
 	}
-	else if (p == nil)
+	else if (!p)
 		return memalloc(a);
 	else
 	{
 		p = realloc(p, a);
-		if (p == nil)
+		if (!p)
 			memerror();
 		return p;
 	}
@@ -68,7 +68,7 @@ void* ptdecl memrealloc(void* p, uint a)
 
 void ptdecl memfree(void* p)
 {
-	if (p != nil)
+	if (p)
 		free(p);
 }
 

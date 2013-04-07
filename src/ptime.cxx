@@ -192,7 +192,7 @@ tm* ptdecl dttotm(datetime dt, tm& t)
 	memset(&t, 0, sizeof(tm));
 	if (!decodedate(dt, t.tm_year, t.tm_mon, t.tm_mday)
 		|| !decodetime(dt, t.tm_hour, t.tm_min, t.tm_sec))
-			return nil;
+			return NULL;
 	t.tm_mon--;
 	t.tm_yday = daysinyear(t.tm_year, t.tm_mon) + t.tm_mday - 1;
 	t.tm_wday = dayofweek(dt);
@@ -236,7 +236,7 @@ datetime ptdecl now(bool utc)
 
 	// always rely on UTC time inside your application whenever possible.
 	timeval tv;
-	gettimeofday(&tv, nil);
+	gettimeofday(&tv, NULL);
 	int edays = tv.tv_sec / 86400  // days since Unix "Epoch", i.e. 01/01/1970
 		+ 719162;				   // plus days between 01/01/0001 and Unix Epoch
 	int esecs = tv.tv_sec % 86400; // the remainder, i.e. seconds since midnight

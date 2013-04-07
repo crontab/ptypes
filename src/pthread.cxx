@@ -61,7 +61,7 @@ void thread::waitfor()
 	WaitForSingleObject(handle, INFINITE);
 	CloseHandle(handle);
 #else
-	pthread_join(handle, nil);
+	pthread_join(handle, NULL);
 //	detaching after 'join' is not required (or even do harm on some systems)
 //	except for HPUX. we don't support HPUX yet.
 //	  pthread_detach(handle);
@@ -117,7 +117,7 @@ void thread::start()
 	if (pexchange(&running, 1) == 0)
 	{
 #ifdef WIN32
-		handle = (HANDLE)_beginthreadex(nil, 0, _threadproc, this, 0, &id);
+		handle = (HANDLE)_beginthreadex(NULL, 0, _threadproc, this, 0, &id);
 		if (handle == 0)
 			fatal(CRIT_FIRST + 40, "CreateThread() failed");
 #else

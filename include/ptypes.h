@@ -236,7 +236,7 @@ inline char upcase(char c)
 	{ if (c >= 'a' && c <= 'z') return char(c - 32); return c; }
 
 inline int hstrlen(const char* p) // some Unix systems do not accept NULL
-	{ return p == nil ? 0 : (int)strlen(p); }
+	{ return !p ? 0 : (int)strlen(p); }
 
 
 
@@ -817,7 +817,7 @@ public:
 	bool  search(const char* key, int& index) const		{ return _objlist::search(key, index); }
 	void  del(int index)								{ idx(index); dodel(index); }
 	void  del(int index, int delcount)					{ idx(index); dodel(index, delcount); }
-	void  del(const char* key)							{ put(key, nil); }
+	void  del(const char* key)							{ put(key, NULL); }
 	int	  indexof(const char* key) const;
 	int	  indexof(void* obj) const;
 };

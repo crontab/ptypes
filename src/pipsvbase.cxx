@@ -55,7 +55,7 @@ void ipsvbase::error(ippeerinfo& p, int code, const char* defmsg)
 	if (isempty(msg))
 		msg = defmsg;
 	msg += " [" + p.asstring(true) + ']';
-	throw except_stm(nil, code, msg);
+	throw except_stm(NULL, code, msg);
 }
 
 
@@ -119,7 +119,7 @@ bool ipsvbase::dopoll(int* i, int timeout)
 	timeval t;
 	t.tv_sec = timeout / 1000;
 	t.tv_usec = (timeout % 1000) * 1000;
-	if (::select(FD_SETSIZE, &set, nil, nil, (timeout < 0) ? nil : &t) > 0)
+	if (::select(FD_SETSIZE, &set, NULL, NULL, (timeout < 0) ? NULL : &t) > 0)
 	{
 		if (*i >= 0)
 			return true;

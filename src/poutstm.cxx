@@ -28,7 +28,7 @@ int outstm::dorawwrite(const char* buf, int count)
 	return -1;
 #ifdef WIN32
 	unsigned long ret;
-	if (!WriteFile(HANDLE(handle), buf, count, &ret, nil))
+	if (!WriteFile(HANDLE(handle), buf, count, &ret, NULL))
 	{
 		error(uerrno(), "Couldn't write");
 		ret = uint(-1);
@@ -162,7 +162,7 @@ int outstm::write(const void* buf, int count)
 
 void outstm::put(const char* str)
 {
-	if (str != nil)
+	if (str)
 		write(str, hstrlen(str));
 }
 

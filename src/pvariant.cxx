@@ -360,7 +360,7 @@ variant::operator bool() const
 	case VAR_FLOAT: return value.f != 0;
 	case VAR_STRING: return !isempty((PTR_TO_STRING(value.s)));
 	case VAR_ARRAY: return value.a->count != 0;
-	case VAR_OBJECT: return value.o != nil;
+	case VAR_OBJECT: return value.o != NULL;
 	default: vfatal();
 	}
 	return false;
@@ -436,7 +436,7 @@ variant::operator component*() const
 	if (tag == VAR_OBJECT)
 		return value.o;
 	else
-		return nil;
+		return NULL;
 }
 
 
@@ -609,13 +609,13 @@ void ptdecl ains(variant& array, int index, const variant& item)
 
 variant::const_iterator variant::begin() const
 {
-	return tag == VAR_ARRAY ? value.a->begin() : nil;
+	return tag == VAR_ARRAY ? value.a->begin() : NULL;
 }
 
 
 variant::const_iterator variant::end() const
 {
-	return tag == VAR_ARRAY ? value.a->end() : nil;
+	return tag == VAR_ARRAY ? value.a->end() : NULL;
 }
 
 

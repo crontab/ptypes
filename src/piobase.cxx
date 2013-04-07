@@ -128,7 +128,7 @@ const char* ptdecl unixerrmsg(int code)
 	case ENOSPC: return "Disk full";
 	case EPIPE:	 return "Broken pipe";
 	case EFBIG:	 return "File too large";
-	default: return nil;
+	default: return NULL;
 	}
 }
 
@@ -149,8 +149,8 @@ int stmbalance = 0;
 
 iobase::iobase(int ibufsize)
 	: component(), active(false), cancelled(false), eof(true), 
-	  handle(invhandle), abspos(0), bufsize(0), bufdata(nil), bufpos(0), bufend(0),
-	  stmerrno(0), deferrormsg(), status(IO_CREATED), onstatus(nil)
+	  handle(invhandle), abspos(0), bufsize(0), bufdata(NULL), bufpos(0), bufend(0),
+	  stmerrno(0), deferrormsg(), status(IO_CREATED), onstatus(NULL)
 {
 	if (ibufsize < 0)
 		bufsize = defbufsize;
@@ -166,7 +166,7 @@ iobase::~iobase()
 
 void iobase::bufalloc()
 {
-	if (bufdata != nil)
+	if (bufdata)
 		fatal(CRIT_FIRST + 13, "(ptypes internal) invalid buffer allocation");
 	bufdata = (char*)memalloc(bufsize);
 }
@@ -183,7 +183,7 @@ void iobase::buffree()
 void iobase::chstat(int newstat)
 {
 	status = newstat;
-	if (onstatus != nil)
+	if (onstatus)
 		(*onstatus)(this, newstat);
 }
 

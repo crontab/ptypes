@@ -261,13 +261,13 @@ ipaddress ptdecl phostbyname(const char* name)
 	else
 	{
 #if defined(USE_GETHOSTBY)
-		if ((hp = ::gethostbyname(name)) != nil)
+		if ((hp = ::gethostbyname(name)) != NULL)
 #elif defined(USE_LOCKED_GETHOSTBY)
 		hplock.enter();
-		if ((hp = ::gethostbyname(name)) != nil)
+		if ((hp = ::gethostbyname(name)) != NULL)
 #elif defined(USE_GETIPNODEBY)
 		int herrno;
-		if ((hp = ::getipnodebyname(name, AF_INET, 0, &herrno)) != nil)
+		if ((hp = ::getipnodebyname(name, AF_INET, 0, &herrno)) != NULL)
 #elif defined(USE_GETHOSTBY_R6)
 		int herrno;
 		hostent result;
@@ -277,7 +277,7 @@ ipaddress ptdecl phostbyname(const char* name)
 		int herrno;
 		hostent result;
 		char buf[GETHOSTBY_BUF_SIZE];
-		if ((hp = ::gethostbyname_r(name, &result, buf, sizeof(buf), &herrno)) != nil)
+		if ((hp = ::gethostbyname_r(name, &result, buf, sizeof(buf), &herrno)) != NULL)
 #endif
 		{
 			if (hp->h_addrtype == AF_INET)
@@ -301,13 +301,13 @@ string ptdecl phostbyaddr(ipaddress ip)
 	string r;
 
 #if defined(USE_GETHOSTBY)
-	if ((hp = ::gethostbyaddr(pconst(ip.data), sizeof(ip.data), AF_INET)) != nil)
+	if ((hp = ::gethostbyaddr(pconst(ip.data), sizeof(ip.data), AF_INET)) != NULL)
 #elif defined(USE_LOCKED_GETHOSTBY)
 	hplock.enter();
-	if ((hp = ::gethostbyaddr(pconst(ip.data), sizeof(ip.data), AF_INET)) != nil)
+	if ((hp = ::gethostbyaddr(pconst(ip.data), sizeof(ip.data), AF_INET)) != NULL)
 #elif defined(USE_GETIPNODEBY)
 	int herrno;
-	if ((hp = ::getipnodebyaddr(pconst(ip.data), sizeof(ip.data), AF_INET, &herrno)) != nil)
+	if ((hp = ::getipnodebyaddr(pconst(ip.data), sizeof(ip.data), AF_INET, &herrno)) != NULL)
 #elif defined(USE_GETHOSTBY_R6)
 	int herrno;
 	hostent result;
@@ -317,7 +317,7 @@ string ptdecl phostbyaddr(ipaddress ip)
 	int herrno;
 	hostent result;
 	char buf[GETHOSTBY_BUF_SIZE];
-	if ((hp = ::gethostbyaddr_r(pconst(ip.data), sizeof(ip.data), AF_INET, &result, buf, sizeof(buf), &herrno)) != nil)
+	if ((hp = ::gethostbyaddr_r(pconst(ip.data), sizeof(ip.data), AF_INET, &result, buf, sizeof(buf), &herrno)) != NULL)
 #endif
 	{
 		r = hp->h_name;
@@ -339,13 +339,13 @@ string ptdecl phostcname(const char* name)
 	string r;
 
 #if defined(USE_GETHOSTBY)
-	if ((hp = ::gethostbyname(name)) != nil)
+	if ((hp = ::gethostbyname(name)) != NULL)
 #elif defined(USE_LOCKED_GETHOSTBY)
 	hplock.enter();
-	if ((hp = ::gethostbyname(name)) != nil)
+	if ((hp = ::gethostbyname(name)) != NULL)
 #elif defined(USE_GETIPNODEBY)
 	int herrno;
-	if ((hp = ::getipnodebyname(name, AF_INET, 0, &herrno)) != nil)
+	if ((hp = ::getipnodebyname(name, AF_INET, 0, &herrno)) != NULL)
 #elif defined(USE_GETHOSTBY_R6)
 	int herrno;
 	hostent result;
@@ -355,7 +355,7 @@ string ptdecl phostcname(const char* name)
 	int herrno;
 	hostent result;
 	char buf[GETHOSTBY_BUF_SIZE];
-	if ((hp = ::gethostbyname_r(name, &result, buf, sizeof(buf), &herrno)) != nil)
+	if ((hp = ::gethostbyname_r(name, &result, buf, sizeof(buf), &herrno)) != NULL)
 #endif
 	{
 		r = hp->h_name;
@@ -385,7 +385,7 @@ bool ptdecl psockwait(int handle, int timeout)
 	timeval t;
 	t.tv_sec = timeout / 1000;
 	t.tv_usec = (timeout % 1000) * 1000;
-	return ::select(FD_SETSIZE, &readfds, nil, nil, (timeout < 0) ? nil : &t) > 0;
+	return ::select(FD_SETSIZE, &readfds, NULL, NULL, (timeout < 0) ? NULL : &t) > 0;
 }
 
 
@@ -412,7 +412,7 @@ bool ptdecl psockname(int handle, ippeerinfo& p)
 void ippeerinfo::notfound()
 {
 	string t = usockerrmsg(ENOENT);
-	throw except_stm(nil, ENOENT, t + " [" + asstring(false) + ']');
+	throw except_stm(NULL, ENOENT, t + " [" + asstring(false) + ']');
 }
 
 

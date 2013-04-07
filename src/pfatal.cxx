@@ -44,7 +44,7 @@ _pcrithandler ptdecl setcrithandler(_pcrithandler newh)
 
 void ptdecl fatal(int code, const char* msg)
 {
-	if (crith != nil)
+	if (crith)
 		(*crith)(code, msg);
 	exit(code);
 }

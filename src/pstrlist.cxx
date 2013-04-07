@@ -114,12 +114,12 @@ int _strlist::put(const string& key, void* obj)
 	int index;
 	if (search(key, index))
 	{
-		if (obj == nil)
+		if (!obj)
 			dodel(index);
 		else
 			doput(index, obj);
 	}
-	else if (obj != nil)
+	else if (obj)
 		doins(index, key, obj);
 	return index;
 }
@@ -148,7 +148,7 @@ void* _strlist::operator [](const char* key) const
 	if (search(key, index))
 		return dogetobj(index);
 	else
-		return nil;
+		return NULL;
 }
 
 

@@ -6,17 +6,17 @@ PTYPES_BEGIN
 
 
 component::component()
-	: unknown(), refcount(0), freelist(nil) {}
+	: unknown(), refcount(0), freelist(NULL) {}
 
 
 component::~component()
 {
-	if (freelist != nil)
+	if (freelist)
 	{
 		for (int i = 0; i < freelist->get_count(); i++)
 			(*freelist)[i]->freenotify(this);
 		delete freelist;
-		freelist = nil;
+		freelist = NULL;
 	}
 }
 
@@ -28,7 +28,7 @@ void component::freenotify(component*)
 
 void component::addnotification(component* obj)
 {
-	if (freelist == nil)
+	if (!freelist)
 		freelist = new tobjlist<component>(false);
 	freelist->add(obj);
 }
@@ -37,7 +37,7 @@ void component::addnotification(component* obj)
 void component::delnotification(component* obj)
 {
 	int i = -1;
-	if (freelist != nil)
+	if (freelist)
 	{
 		i = freelist->indexof(obj);
 		if (i >= 0)
@@ -46,7 +46,7 @@ void component::delnotification(component* obj)
 			if (freelist->get_count() == 0)
 			{
 				delete freelist;
-				freelist = nil;
+				freelist = NULL;
 			}
 		}
 	}

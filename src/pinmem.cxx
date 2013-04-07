@@ -27,7 +27,7 @@ void inmemory::bufalloc()
 void inmemory::buffree()
 {
 	bufclear();
-	bufdata = nil;
+	bufdata = NULL;
 }
 
 

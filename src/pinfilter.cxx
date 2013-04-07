@@ -9,7 +9,7 @@ PTYPES_BEGIN
 
 string infilter::get_errstmname()
 {
-	if (stm == nil)
+	if (!stm)
 		return get_streamname();
 	else
 		return get_streamname() + ": " + stm->get_errstmname();
@@ -61,16 +61,16 @@ bool infilter::copytobuf(char c)
 
 
 infilter::infilter(instm* istm, int ibufsize)
-	: instm(ibufsize), stm(istm), savebuf(nil), savecount(0)
+	: instm(ibufsize), stm(istm), savebuf(NULL), savecount(0)
 {
-	if (stm != nil)
+	if (stm)
 		stm->addnotification(this);
 }
 
 
 infilter::~infilter()
 {
-	if (stm != nil)
+	if (stm)
 		stm->delnotification(this);
 }
 
@@ -79,7 +79,7 @@ void infilter::freenotify(component* sender)
 {
 	if (sender == stm)
 	{
-		stm = nil;
+		stm = NULL;
 		close();
 	}
 }
@@ -87,14 +87,14 @@ void infilter::freenotify(component* sender)
 
 void infilter::doopen()
 {
-	if (stm != nil && !stm->get_active())
+	if (stm && !stm->get_active())
 		stm->open();
 }
 
 
 void infilter::doclose()
 {
-	savebuf = nil;
+	savebuf = NULL;
 	savecount = 0;
 	clear(postponed);
 }
@@ -103,10 +103,10 @@ void infilter::doclose()
 void infilter::set_stm(instm* istm)
 {
 	close();
-	if (stm != nil)
+	if (stm)
 		stm->delnotification(this);
 	stm = istm;
-	if (stm != nil)
+	if (stm)
 		stm->addnotification(this);
 }
 
@@ -117,7 +117,7 @@ int infilter::dorawread(char* buf, int count)
 	savecount = count;
 	if (!isempty(postponed))
 		copytobuf(postponed);
-	if (savecount > 0 && stm != nil)
+	if (savecount > 0 && stm)
 		dofilter();
 	return count - savecount;
 }

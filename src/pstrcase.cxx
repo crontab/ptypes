@@ -11,7 +11,7 @@ string ptdecl lowercase(const char* p)
 	// character to lower case. all locale specific things can be
 	// settled down in the future releases.
 	string r;
-	if (p != nil)
+	if (p)
 	{
 		char* d = setlength(r, strlen(p));
 		while (*p != 0)

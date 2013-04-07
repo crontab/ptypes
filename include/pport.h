@@ -150,7 +150,7 @@ typedef int*			pint;
 //
 
 // I like Pascal's nil
-#define nil 0
+// #define nil 0
 
 inline int	 imax(int x, int y)		  { return (x > y) ? x : y; }
 inline int	 imin(int x, int y)		  { return (x < y) ? x : y; }

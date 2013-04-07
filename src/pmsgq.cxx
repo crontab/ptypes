@@ -12,7 +12,7 @@ static void msgerror()
 
 
 message::message(int iid, pintptr iparam)
-	: next(nil), sync(nil), id(iid), param(iparam), result(0)
+	: next(NULL), sync(NULL), id(iid), param(iparam), result(0)
 {
 }
 
@@ -23,7 +23,7 @@ message::~message()
 
 
 jobqueue::jobqueue(int ilimit)
-	: limit(ilimit), head(nil), tail(nil), qcount(0), sem(0), ovrsem(ilimit), qlock()
+	: limit(ilimit), head(NULL), tail(NULL), qcount(0), sem(0), ovrsem(ilimit), qlock()
 {
 }
 
@@ -36,17 +36,17 @@ jobqueue::~jobqueue()
 
 bool jobqueue::enqueue(message* msg, int timeout)
 {
-	if (msg == nil)
+	if (!msg)
 		msgerror();
 
 	if (!ovrsem.wait(timeout))
 		return false;
 	qlock.enter();
-	msg->next = nil;
-	if (head != nil)
+	msg->next = NULL;
+	if (head)
 		head->next = msg;
 	head = msg;
-	if (tail == nil)
+	if (!tail)
 		tail = msg;
 	qcount++;
 	qlock.leave();
@@ -57,7 +57,7 @@ bool jobqueue::enqueue(message* msg, int timeout)
 
 bool jobqueue::push(message* msg, int timeout)
 {
-	if (msg == nil)
+	if (!msg)
 		msgerror();
 
 	if (!ovrsem.wait(timeout))
@@ -65,7 +65,7 @@ bool jobqueue::push(message* msg, int timeout)
 	qlock.enter();
 	msg->next = tail;
 	tail = msg;
-	if (head == nil)
+	if (!head)
 		head = msg;
 	qcount++;
 	qlock.leave();
@@ -77,14 +77,14 @@ bool jobqueue::push(message* msg, int timeout)
 message* jobqueue::dequeue(bool safe, int timeout)
 {
 	if (!sem.wait(timeout))
-		return nil;
+		return NULL;
 	if (safe)
 		qlock.enter();
 	message* msg = tail;
 	tail = msg->next;
 	qcount--;
-	if (tail == nil)
-		head = nil;
+	if (!tail)
+		head = NULL;
 	if (safe)
 		qlock.leave();
 	ovrsem.post();
@@ -156,13 +156,13 @@ void msgqueue::takeownership()
 
 pintptr msgqueue::finishmsg(message* msg)
 {
-	if (msg != nil)
+	if (msg)
 	{
 		pintptr result = msg->result;
 
 		// if the message was sent by send(), 
 		// just signale the semaphore
-		if (msg->sync != nil)
+		if (msg->sync)
 			msg->sync->post();
 
 		// otherwise finish it
@@ -178,7 +178,7 @@ pintptr msgqueue::finishmsg(message* msg)
 
 pintptr msgqueue::send(message* msg)
 {
-	if (msg == nil)
+	if (!msg)
 		msgerror();
 
 	try 
@@ -192,7 +192,7 @@ pintptr msgqueue::send(message* msg)
 		// sync through a semaphore
 		else 
 		{
-			if (msg->sync != nil)
+			if (msg->sync)
 				msgerror();
 			semaphore sync(0);
 			msg->sync = &sync;
