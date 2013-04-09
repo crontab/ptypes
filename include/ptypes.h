@@ -895,6 +895,8 @@ struct _textitem
 
 class ptpublic textmap: protected tobjlist<_textitem>
 {
+	typedef tobjlist<_textitem> parent;
+
 protected:
 	virtual int compare(const void* key, const void* item) const;
 	const string& dogetvalue(int index) const			{ return doget(index)->value; }
@@ -917,6 +919,9 @@ public:
 	const string& operator [](int index) const			{ return get(index); }
 	const string& operator [](const char* key) const	{ return get(key); }
 	int	  indexof(const char* key) const;
+
+	_textitem** begin() const { return parent::begin(); }
+	_textitem** end() const { return parent::end(); }
 };
 
 
