@@ -67,7 +67,7 @@ component* component::addref()
 }
 
 
-bool ptdecl component::release()
+bool component::release()
 {
 	if (this)
 	{

@@ -24,7 +24,7 @@ static void tsem_fail()
 
 timedsem::timedsem(int initvalue)
 {
-	handle = CreateSemaphore(nil, initvalue, 65535, nil);
+	handle = CreateSemaphore(NULL, initvalue, 65535, NULL);
 	if (handle == 0)
 		tsem_fail();
 }
@@ -47,7 +47,7 @@ bool timedsem::wait(int timeout)
 
 void timedsem::post()
 {
-	if (ReleaseSemaphore(handle, 1, nil) == 0)
+	if (ReleaseSemaphore(handle, 1, NULL) == 0)
 		tsem_fail();
 }
 

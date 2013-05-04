@@ -92,7 +92,7 @@ int fdxstm::dorawwrite(const char* buf, int count)
 	return -1;
 #ifdef WIN32
 	unsigned long ret;
-	if (!WriteFile(HANDLE(handle), buf, count, &ret, nil))
+	if (!WriteFile(HANDLE(handle), buf, count, &ret, NULL))
 	{
 		error(uerrno(), "Couldn't write");
 		ret = uint(-1);

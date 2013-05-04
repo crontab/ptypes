@@ -15,6 +15,8 @@ PTYPES_BEGIN
 
 #ifdef _MSC_VER
 #pragma pack(push, 4)
+// disable "C++ exception specification ignored..." warning
+#pragma warning(disable : 4290)
 // disable "non dll-interface class '...' used as base for dll-interface class '...'" warning
 #pragma warning(disable : 4275)
 // disable "conditional expression constant" warning
@@ -368,14 +370,14 @@ public:
 
 // the basic exception class
 
-class ptpublic except: public unknown
+class ptpublic except
 {
 protected:
 	string message;
 public:
 	except(const char* imsg);
 	except(const string& imsg);
-	except(const except& e);
+	except(const except& e): message(e.message) { }
 	virtual ~except();
 	virtual string get_message() const { return message; }
 };
