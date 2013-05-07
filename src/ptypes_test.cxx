@@ -421,14 +421,14 @@ void strlist_test()
 
 	tstrlist<known> s3(SL_OWNOBJECTS | SL_SORTED | SL_DUPLICATES);
 
-	s3.add("a", nil);
-	s3.add("b", nil);
-	s3.add("b", nil);
-	s3.add("b", nil);
-	s3.add("b", nil);
-	s3.add("b", nil);
-	s3.add("b", nil);
-	s3.add("c", nil);
+	s3.add("a", NULL);
+	s3.add("b", NULL);
+	s3.add("b", NULL);
+	s3.add("b", NULL);
+	s3.add("b", NULL);
+	s3.add("b", NULL);
+	s3.add("b", NULL);
+	s3.add("c", NULL);
 
 	showint(1, s3.indexof("b"));
 	s3.del(1, 2);
@@ -444,7 +444,7 @@ void strlist_test()
 	showint(20, s["twenty"]->value);
 	showint(0, pintptr(s["hovik"]));
 	showint(5, s.get_count());
-	s.put("twenty", nil);
+	s.put("twenty", NULL);
 	showint(4, s.get_count());
 }
 

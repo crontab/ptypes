@@ -91,7 +91,7 @@ void file_req::analyze_uri()
 		if (cfg_def_index_files)
 		{
 			const char** idx = cfg_index_files;
-			while (*idx != nil)
+			while (*idx != NULL)
 			{
 				string t = abs_path + *idx;
 				if (is_file(t))

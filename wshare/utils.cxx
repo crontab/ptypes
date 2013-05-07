@@ -140,7 +140,7 @@ void split_path(const char* path, tstrlist<ptr>& list)
 	while (*b != 0)
 	{
 		e = strchr(e, '/');
-		if (e == nil)
+		if (e == NULL)
 			e = path + strlen(path);
 		if (e > b)
 		{
@@ -153,7 +153,7 @@ void split_path(const char* path, tstrlist<ptr>& list)
 						list.del(list.get_count() - 1);
 				}
 				else
-					list.add(s, nil);
+					list.add(s, NULL);
 			}
 		}
 		if (*e == '/')
